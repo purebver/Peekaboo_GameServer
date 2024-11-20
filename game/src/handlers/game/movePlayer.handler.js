@@ -19,6 +19,7 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
 
     //이전 값 저장
     user.character.lastPosition.updatePosition(user.character.position);
+    user.character.lastRotation.updateRotation(user.character.rotation);
 
     //수정 해야함
     user.character.position.updatePosition(
@@ -26,11 +27,13 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
       position.position_y,
       position.position_z,
     );
-    user.character.position.updateRocation(
+    user.character.position.updateRotation(
       rotation.rotation_x,
       rotation.rotation_y,
       rotation.rotation_z,
     );
+    console.error(characterState);
+    user.character.state = characterState;
 
     //시간 저장
     user.character.lastUpdateTime = Date.now();

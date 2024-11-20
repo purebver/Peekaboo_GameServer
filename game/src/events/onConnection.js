@@ -9,6 +9,7 @@ import { getUUID } from '../utils/temp/uuid.temp.js';
 export const onConnection = (socket) => {
   console.log(
     `Client connected from: ${socket.remoteAddress}:${socket.remotePort}`,
+    `socket.id: ${socket.id}`,
   );
   socket.buffer = Buffer.alloc(0);
 

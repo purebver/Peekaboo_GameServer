@@ -27,7 +27,7 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
         position.position_y,
         position.position_z,
       );
-      ghost.rotation.updateRocation(
+      ghost.rotation.updateRotation(
         rotation.rotation_x,
         rotation.rotation_y,
         rotation.rotation_z,
