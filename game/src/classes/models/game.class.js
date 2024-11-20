@@ -1,4 +1,4 @@
-import intervalManager from '../managers/interval.manager.js';
+import IntervalManager from '../managers/interval.manager.js';
 import { ghostsLoacationNotification } from '../../notifications/game.notification.js';
 import { usersLocationNotification } from '../../notifications/game.notification.js';
 import { startGameNotification } from '../../notifications/game.notification.js';
@@ -20,12 +20,12 @@ class Game {
     // 게임 상태 변경
     this.state = G;
 
-    intervalManager.instance.addPlayersInterval(
+    IntervalManager.getInstance().addPlayersInterval(
       this.id,
       usersLocationNotification(this),
       1000 / 60,
     );
-    intervalManager.instance.addGhostsInterval(
+    IntervalManager.getInstance().addGhostsInterval(
       this.id,
       ghostsLoacationNotification(this),
       1000 / 60,
@@ -43,7 +43,7 @@ class Game {
     this.users.push(user);
 
     // 핑 인터벌 추가
-    intervalManager.instance.addPingInterval(
+    IntervalManager.getInstance().addPingInterval(
       user.id,
       user.ping.bind(user),
       1000,

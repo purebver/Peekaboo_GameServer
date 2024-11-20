@@ -4,6 +4,7 @@ import {
   GAME_SESSION_STATE,
 } from '../constants/state.js';
 import { serializer } from '../utils/packet/create.packet.js';
+import { PACKET_TYPE } from '../constants/header.js';
 
 /**
  * 토큰이 유효하지 않을때 실패 응답 보내주는 함수입니다.
@@ -32,7 +33,7 @@ export const sendConnectGameResponse = (socket, gameSession) => {
   const data = {
     gameId: gameSession.id,
     hostId: gameSession.hostId,
-    ghostTypeIds: [1, 1, 1, 1, 1], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
+    ghostTypeIds: [1, 2, 3, 4, 5], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
     gloalFailCode: GLOBAL_FAIL_CODE.NONE,
     userState: USER_STATE.INGAME,
     gameSessionState: gameSession.state,
