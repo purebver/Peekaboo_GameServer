@@ -46,9 +46,9 @@ message S2C_StartGameNotification {
 }
 
 message S2C_PingRequest {
-  int64 timestamp = 1;
+  uint64 timestamp = 1;
 }
 
 message C2S_PingResponse {
-  int64 timestamp = 1;
+  uint64 timestamp = 1;
 }

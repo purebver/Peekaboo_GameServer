@@ -13,7 +13,7 @@ export const invalidTokenResponse = (socket) => {
   const data = {
     gameId: null,
     hostId: null,
-    ghostTypeId: null, // 임시 고스트 타입
+    ghostTypeIds: null, // 임시 고스트 타입
     gloalFailCode: GLOBAL_FAIL_CODE.INVALID_REQUEST,
     userState: USER_STATE.STAY,
     gameSessionState: GAME_SESSION_STATE.PREPARE,
@@ -32,7 +32,7 @@ export const sendConnectGameResponse = (socket, gameSession) => {
   const data = {
     gameId: gameSession.id,
     hostId: gameSession.hostId,
-    ghostTypeId: [1, 1, 1, 1, 1], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
+    ghostTypeIds: [1, 1, 1, 1, 1], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
     gloalFailCode: GLOBAL_FAIL_CODE.NONE,
     userState: USER_STATE.INGAME,
     gameSessionState: gameSession.state,

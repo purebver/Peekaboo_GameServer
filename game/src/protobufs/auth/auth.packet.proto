@@ -5,6 +5,7 @@ package auth;
 import '../global/enum.global.proto';
 
 message S2C_ConnectResponse {
-  string token = 1;
-  GlobalFailCode globalFailCode = 2;
+  uint32 userId = 1;
+  string token = 2;
+  GlobalFailCode globalFailCode = 3;
 }

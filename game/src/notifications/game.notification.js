@@ -1,9 +1,94 @@
-import { getProtoMessages } from '../init/load.protos.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { serializer } from '../utils/packet/create.packet.js';
-import { GAME_SESSION_STATE } from '../constants/state.js';
 
 // 게임에 관련된 알림을 제공하는 함수
+/**
+ * 유저의 움직임 값을 보내주는 함수
+ */
+export const usersLocationNotification = (gameSession) => {
+  const userLocations = gameSession.users.map((user) => {
+    const lastPosition = user.character.lastPosition; // 움직이기 전 좌표
+    const position = user.character.position; //현 좌표
+    const lastRotation = user.character.lastRotation;
+    const rotation = user.character.rotation;
+
+    if (
+      position.x === lastPosition.x &&
+      position.y === lastPosition.y &&
+      position.z === lastPosition.z
+    ) {
+      return {
+        userId: user.id,
+        moveInfo: {
+          position: position.getPosition(),
+          rotation: rotation.getRotation(),
+          characterState: user.character.state,
+        },
+      };
+    }
+
+    const timeDiff = Math.floor(
+      (Date.now() -
+        user.character.lastUpdateTime +
+        gameSession.getAvgLatency()) /
+        1000,
+    );
+    const distance = user.character.speed * timeDiff;
+
+    const directionX = position.x - lastPosition.x;
+    const directionY = position.y - lastPosition.y;
+    const directionZ = position.z - lastPosition.z;
+
+    const vectorSize = Math.sqrt(
+      Math.pow(directionX, 2) +
+        Math.pow(directionY, 2) +
+        Math.pow(directionZ, 2),
+    );
+
+    const unitVectorX = directionX / vectorSize;
+    const unitVectorY = directionY / vectorSize;
+    const unitVectorZ = directionZ / vectorSize;
+
+    // 데드레커닝으로 구한 미래의 좌표
+    const predictionPosition = {
+      x: position.x + unitVectorX * distance,
+      y: position.y + unitVectorY * distance,
+      z: position.z + unitVectorZ * distance,
+    };
+
+    const changingRotation = {
+      x: (rotation.x - lastRotation.x) / timeDiff,
+      y: (rotation.y - lastRotation.y) / timeDiff,
+      z: (rotation.z - lastRotation.z) / timeDiff,
+    };
+
+    const predictionRotation = {
+      x: (rotation.x + changingRotation.x * timeDiff) % 360,
+      y: (rotation.y + changingRotation.y * timeDiff) % 360,
+      z: (rotation.z + changingRotation.z * timeDiff) % 360,
+    };
+
+    const locationData = {
+      userId: user.id,
+      moveInfo: {
+        position: predictionPosition,
+        rotation: predictionRotation,
+        characterState: user.character.state,
+      },
+    };
+
+    return locationData;
+  });
+
+  const userLocationPayload = serializer(
+    PACKET_TYPE.PlayerMoveNotification,
+    userLocations,
+    0,
+  );
+  gameSession.users.forEach((user) => {
+    user.socket.write(userLocationPayload);
+  });
+};
 
 /**
  * 귀신의 움직임값을 보내주는 함수입니다.
@@ -14,8 +99,8 @@ export const ghostsLoacationNotification = (gameSession) => {
     const ghostMoveinfo = {
       ghostId: ghost.id,
       moveInfo: {
-        position: ghost.position,
-        rotation: ghost.rotation,
+        position: ghost.position.getPosition(),
+        rotation: ghost.rotation.getRotation(),
         characterState: ghost.state,
       },
     };
@@ -39,27 +124,8 @@ export const ghostsLoacationNotification = (gameSession) => {
 };
 
 /**
- * 유저의 움직임 값을 보내주는 함수 // 본인제외 보내기 (avgLatency)
+ * 게임 시작을 알리는 함수
  */
-export const usersLocationNotification = (gameSession) => {
-  const userLocations = gameSession.users.map((user) => {
-    const locationData = {
-      userId: user.id,
-      position: user.position.getPosition(),
-    };
-    return locationData;
-  });
-
-  const userLocationPayload = serializer(
-    PACKET_TYPE.PlayerMoveNotification,
-    userLocations,
-    0,
-  );
-  gameSession.users.forEach((user) => {
-    user.socket.write(userLocationPayload);
-  });
-};
-
 export const startGameNotification = (gameSeesion) => {
   const payload = {
     mapId: 1,

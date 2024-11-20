@@ -18,7 +18,7 @@ class Game {
     // 귀신 5마리 정도 세팅
 
     // 게임 상태 변경
-    this.state = 'playing';
+    this.state = G;
 
     intervalManager.instance.addPlayersInterval(
       this.id,
@@ -41,7 +41,14 @@ class Game {
     const character = new Character();
     user.attachCharacter(character);
     this.users.push(user);
-    //intervalManager.instance.addPingInterval(user.id);
+
+    // 핑 인터벌 추가
+    intervalManager.instance.addPingInterval(
+      user.id,
+      user.ping.bind(user),
+      1000,
+      'user',
+    );
   }
 
   getUser(userId) {
@@ -49,12 +56,21 @@ class Game {
   }
 
   addGhost(ghost) {
-    // 이렇게 매개변수를 받아 넣어줘도 되고 여기서 랜덤으로 인스턴스를 생성해서 바로 넣어줘도 될 것 같습니다.
     this.ghosts.push(ghost);
   }
 
   getGhost(ghostId) {
     return this.ghosts.find((ghost) => ghost.id === ghostId);
+  }
+
+  // 평균 레이턴시 구하기
+  getAvgLatency() {
+    const totalLatency = this.users.reduce((total, user) => {
+      return total + user.character.latency;
+    }, 0);
+
+    const avgLatency = totalLatency / this.users.length;
+    return avgLatency;
   }
 }
 

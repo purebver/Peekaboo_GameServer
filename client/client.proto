@@ -66,6 +66,13 @@ message GhostMoveInfo {
   MoveInfo moveInfo = 2;
 }
 
+message S2C_ConnectResponse {
+  uint32 userId = 1;
+  string token = 2;
+  GlobalFailCode globalFailCode = 3;
+}
+
+
 message C2S_PlayerMoveRequest {
   PlayerMoveInfo playerMoveInfo = 1;
 }
@@ -107,11 +114,11 @@ message S2C_StartGameNotification {
 }
 
 message S2C_PingRequest {
-  int64 timestamp = 1;
+  uint64 timestamp = 1;
 }
 
 message C2S_PingResponse {
-  int64 timestamp = 1;
+  uint64 timestamp = 1;
 }
 
 message GamePacket {
