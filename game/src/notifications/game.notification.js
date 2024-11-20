@@ -39,7 +39,7 @@ export const ghostsLoacationNotification = (gameSession) => {
 };
 
 /**
- * 유저의 움직임 값을 보내주는 함수
+ * 유저의 움직임 값을 보내주는 함수 // 본인제외 보내기 (avgLatency)
  */
 export const usersLocationNotification = (gameSession) => {
   const userLocations = gameSession.users.map((user) => {

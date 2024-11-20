@@ -1,3 +1,6 @@
+import CustomError from '../../Error/custom.error.js';
+import { ErrorCodesMaps } from '../../Error/error.codes.js';
+import { handleError } from '../../Error/error.handler.js';
 import { getGameSession } from '../../sessions/game.session.js';
 
 // 호스트 유저만 요청을 보냅니다.
@@ -7,7 +10,7 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
 
     const gameSession = getGameSession();
     if (gameSession) {
-      console.error('해당 게임 세션이 존재하지 않습니다.');
+      throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
     // 해당 게임 세션에 고스트들의 정보 저장
@@ -25,6 +28,6 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
       ghost.state = characterState;
     });
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 };

@@ -1,5 +1,8 @@
 import Ghost from '../../classes/models/ghost.class.js';
 import { config } from '../../config/config.js';
+import CustomError from '../../Error/custom.error.js';
+import { ErrorCodesMaps } from '../../Error/error.codes.js';
+import { handleError } from '../../Error/error.handler.js';
 import { invalidTokenResponse } from '../../response/auth.response.js';
 import { sendConnectGameResponse } from '../../response/auth.response.js';
 import { getGameSession } from '../../sessions/game.session.js';
@@ -13,9 +16,8 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
     console.log('-----------token---------', token); // 확인용
 
     if (config.test.test_token !== token) {
-      console.error('해당 토큰이 일치하지 않습니다.');
       invalidTokenResponse(socket);
-      return;
+      throw new CustomError(ErrorCodesMaps.AUTHENTICATION_ERROR);
     }
 
     // 유저 생성 및 세션 저장
@@ -28,26 +30,33 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
 
     sendConnectGameResponse(socket, gameSession);
   } catch (e) {
-    console.error(e);
+    handleError(e);
   }
 };
 
 export const spawnInitialGhostRequestHandler = ({ socket, payload }) => {
-  const { ghosts } = payload;
+  try {
+    const { ghosts } = payload;
 
-  const gameSession = getGameSession();
+    const gameSession = getGameSession();
+    if (!gameSession) {
+      throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
+    }
 
-  ghosts.forEach((ghostInfo) => {
-    const ghost = new Ghost(
-      ghostInfo.ghostId,
-      ghostInfo.ghostTypeId,
-      ghostInfo.moveInfo.position,
-      ghostInfo.moveInfo.rotation,
-      ghostInfo.moveInfo.state,
-    );
+    ghosts.forEach((ghostInfo) => {
+      const ghost = new Ghost(
+        ghostInfo.ghostId,
+        ghostInfo.ghostTypeId,
+        ghostInfo.moveInfo.position,
+        ghostInfo.moveInfo.rotation,
+        ghostInfo.moveInfo.state,
+      );
 
-    gameSession.addGhost(ghost);
-  });
+      gameSession.addGhost(ghost);
+    });
 
-  gameSession.startGame();
+    gameSession.startGame();
+  } catch (e) {
+    handleError(e);
+  }
 };
