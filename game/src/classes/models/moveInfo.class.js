@@ -11,11 +11,17 @@ export class Position {
     this.z = z;
   }
 
+  updatePosition(position) {
+    this.x = position.x;
+    this.y = position.y;
+    this.z = position.z;
+  }
+
   getPosition() {
     return {
-      x: this.x,
-      y: this.y,
-      z: this.z,
+      position_x: this.position_x,
+      position_y: this.position_y,
+      position_z: this.position_z,
     };
   }
 }
@@ -33,11 +39,17 @@ export class Rotation {
     this.z = z;
   }
 
+  updatePosition(rotation) {
+    this.x = rotation.x;
+    this.y = rotation.y;
+    this.z = rotation.z;
+  }
+
   getRotation() {
     return {
-      x: this.x,
-      y: this.y,
-      z: this.z,
+      rotation_x: this.rotation_x,
+      rotation_y: this.rotation_y,
+      rotation_z: this.rotation_z,
     };
   }
 }

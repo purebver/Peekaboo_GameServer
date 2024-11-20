@@ -1,4 +1,4 @@
-import { ErrorCodesMaps } from './error.codes';
+import { ErrorCodesMaps } from './error.codes.js';
 
 export const handleError = (error) => {
   let responseCode;

@@ -4,6 +4,7 @@ import { serializer } from '../utils/packet/create.packet.js';
 import { onData } from './onData.js';
 import { onEnd } from './onEnd.js';
 import { onError } from './onError.js';
+import { getUUID } from '../utils/temp/uuid.temp.js';
 
 export const onConnection = (socket) => {
   console.log(
@@ -16,7 +17,11 @@ export const onConnection = (socket) => {
 
   // 현재는 테스트용도 연결된 클라이언트에게 토큰 넘겨주고 나중엔 로그인 시에 jwt토큰을 생성하여 클라에게 넘겨주고 서버 및 세션에 참가할떄 인증검증으로 사용할 예정
   const testToken = config.test.test_token;
-  const data = serializer(PACKET_TYPE.ConnectResponse, { testToken }, 0); // sequence는 임시로 0
+  const data = serializer(
+    PACKET_TYPE.ConnectResponse,
+    { userId: getUUID(), token: testToken },
+    0,
+  ); // sequence는 임시로 0
   socket.write(data);
 
   socket.on('data', onData(socket));
