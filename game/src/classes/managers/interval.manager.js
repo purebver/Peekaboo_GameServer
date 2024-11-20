@@ -1,13 +1,18 @@
 import BaseManager from './base.manager.js';
 
 class IntervalManager extends BaseManager {
+  static instance = null;
+
   constructor() {
-    if (IntervalManager.instance) {
-      return IntervalManager.instance;
-    }
     super();
     this.intervals = new Map();
-    IntervalManager.instance = this;
+  }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new IntervalManager();
+    }
+    return this.instance;
   }
 
   // 플레이어 핑 전용 Interval
@@ -77,6 +82,4 @@ class IntervalManager extends BaseManager {
   }
 }
 
-const intervalManager = new IntervalManager();
-
-export default intervalManager;
+export default IntervalManager;
