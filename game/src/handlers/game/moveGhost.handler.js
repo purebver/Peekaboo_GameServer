@@ -6,20 +6,20 @@ import { getGameSession } from '../../sessions/game.session.js';
 // 호스트 유저만 요청을 보냅니다.
 export const moveGhostRequestHandler = ({ socket, payload }) => {
   try {
-    const { ghostMoveinfos } = payload;
+    const { ghostMoveInfos } = payload;
 
     const gameSession = getGameSession();
-    if (gameSession) {
+    if (!gameSession) {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
     // 해당 게임 세션에 고스트들의 정보 저장
-    ghostMoveinfos.forEach((ghostMoveinfo) => {
+    ghostMoveInfos.forEach((ghostMoveinfo) => {
       const { ghostId, moveInfo } = ghostMoveinfo;
       const { position, rotation, characterState } = moveInfo;
 
       const ghost = gameSession.getGhost(ghostId);
-      if (ghost) {
+      if (!ghost) {
         console.error('해당 귀신 정보가 존재하지 않습니다.');
       }
       ghost.position.updatePosition(position.x, position.y, position.z);
