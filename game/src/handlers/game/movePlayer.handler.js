@@ -14,25 +14,16 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
     // 게임 세션에서 유저 찾기
     const user = gameSession.getUser(userId);
     if (!user) {
-      console.error(e.message);
+      console.error('user가 존재하지 않습니다.');
     }
 
     //이전 값 저장
-    user.character.lastPosition.updatePosition(user.character.position);
-    user.character.lastRotation.updateRotation(user.character.rotation);
+    user.character.lastPosition.updateClassPosition(user.character.position);
+    user.character.lastRotation.updateClassRotation(user.character.rotation);
 
     //수정 해야함
-    user.character.position.updatePosition(
-      position.positionX,
-      position.positionY,
-      position.positionZ,
-    );
-    user.character.position.updateRotation(
-      rotation.rotationX,
-      rotation.rotationY,
-      rotation.rotationZ,
-    );
-    console.error(characterState);
+    user.character.position.updatePosition(position.x, position.y, position.z);
+    user.character.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
     user.character.state = characterState;
 
     //시간 저장

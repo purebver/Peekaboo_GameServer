@@ -12,9 +12,6 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
   try {
     const { userId, token } = payload;
 
-    //  테스트 토큰 검증 원래는 jwt토큰 검증
-    console.log('-----------token---------', token); // 확인용
-
     if (config.test.test_token !== token) {
       invalidTokenResponse(socket);
       throw new CustomError(ErrorCodesMaps.AUTHENTICATION_ERROR);
@@ -22,6 +19,8 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
 
     // 유저 생성 및 세션 저장
     const user = addUser(userId, socket);
+
+    socket.userId = user.id;
 
     // 게임 세션 참가 로직 (임시 로직)
     // 현재 init/index.js에서 게임 세션 하나를 임시로 생성해 두었습니다.

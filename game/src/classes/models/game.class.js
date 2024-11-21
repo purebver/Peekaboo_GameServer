@@ -18,18 +18,20 @@ class Game {
     // 귀신 5마리 정도 세팅
 
     // 게임 상태 변경
-    this.state = G;
+    this.state = GAME_SESSION_STATE.INPROGRESS;
 
     IntervalManager.getInstance().addPlayersInterval(
       this.id,
-      usersLocationNotification(this),
+      () => usersLocationNotification(this),
       1000 / 60,
     );
-    IntervalManager.getInstance().addGhostsInterval(
-      this.id,
-      ghostsLoacationNotification(this),
-      1000 / 60,
-    );
+
+    // 임시로 주석 설정
+    // IntervalManager.getInstance().addGhostsInterval(
+    //   this.id,
+    //   () => ghostsLoacationNotification(this),
+    //   1000 / 60,
+    // );
 
     startGameNotification(this);
   }
@@ -49,6 +51,13 @@ class Game {
       1000,
       'user',
     );
+  }
+
+  removeUser(userId) {
+    const removeUserIndex = this.users.findIndex((user) => user.id === userId);
+    this.users.splice(removeUserIndex, 1);
+
+    IntervalManager.getInstance().removeUserInterval(userId);
   }
 
   getUser(userId) {

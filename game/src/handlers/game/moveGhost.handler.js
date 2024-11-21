@@ -22,16 +22,8 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
       if (ghost) {
         console.error('해당 귀신 정보가 존재하지 않습니다.');
       }
-      ghost.position.updatePosition(
-        position.positionX,
-        position.positionY,
-        position.positionZ,
-      );
-      ghost.rotation.updateRotation(
-        rotation.rotationX,
-        rotation.rotationY,
-        rotation.rotationZ,
-      );
+      ghost.position.updatePosition(position.x, position.y, position.z);
+      ghost.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
       ghost.state = characterState;
     });
   } catch (e) {

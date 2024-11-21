@@ -33,6 +33,7 @@ export const usersLocationNotification = (gameSession) => {
         gameSession.getAvgLatency()) /
         1000,
     );
+
     const distance = user.character.speed * timeDiff;
 
     const directionX = position.x - lastPosition.x;
@@ -51,28 +52,16 @@ export const usersLocationNotification = (gameSession) => {
 
     // 데드레커닝으로 구한 미래의 좌표
     const predictionPosition = {
-      positionX: position.x + unitVectorX * distance,
-      positionY: position.y + unitVectorY * distance,
-      positionZ: position.z + unitVectorZ * distance,
-    };
-
-    const changingRotation = {
-      x: (rotation.x - lastRotation.x) / timeDiff,
-      y: (rotation.y - lastRotation.y) / timeDiff,
-      z: (rotation.z - lastRotation.z) / timeDiff,
-    };
-
-    const predictionRotation = {
-      rotationX: (rotation.x + changingRotation.x * timeDiff) % 360,
-      rotationY: (rotation.y + changingRotation.y * timeDiff) % 360,
-      rotationZ: (rotation.z + changingRotation.z * timeDiff) % 360,
+      x: position.x + unitVectorX * distance,
+      y: position.y + unitVectorY * distance,
+      z: position.z + unitVectorZ * distance,
     };
 
     const locationData = {
       userId: user.id,
       moveInfo: {
         position: predictionPosition,
-        rotation: predictionRotation,
+        rotation: rotation.getRotation(),
         characterState: user.character.state,
       },
     };
@@ -82,9 +71,10 @@ export const usersLocationNotification = (gameSession) => {
 
   const userLocationPayload = serializer(
     PACKET_TYPE.PlayerMoveNotification,
-    userLocations,
+    { playerMoveInfos: userLocations },
     0,
   );
+
   gameSession.users.forEach((user) => {
     user.socket.write(userLocationPayload);
   });
@@ -116,7 +106,7 @@ export const ghostsLoacationNotification = (gameSession) => {
     }
     const responseData = serializer(
       PACKET_TYPE.GhostMoveNotification,
-      ghostMoveinfos,
+      { ghostMoveinfos },
       0,
     );
     user.socket.write(responseData);

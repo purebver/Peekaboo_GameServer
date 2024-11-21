@@ -11,7 +11,7 @@ export class Position {
     this.z = z;
   }
 
-  updatePosition(position) {
+  updateClassPosition(position) {
     this.x = position.x;
     this.y = position.y;
     this.z = position.z;
@@ -19,9 +19,9 @@ export class Position {
 
   getPosition() {
     return {
-      positionX: this.x,
-      positionY: this.y,
-      positionZ: this.z,
+      x: this.x,
+      y: this.y,
+      z: this.z,
     };
   }
 }
@@ -39,7 +39,7 @@ export class Rotation {
     this.z = z;
   }
 
-  updateRotation(rotation) {
+  updateClassRotation(rotation) {
     this.x = rotation.x;
     this.y = rotation.y;
     this.z = rotation.z;
@@ -47,9 +47,9 @@ export class Rotation {
 
   getRotation() {
     return {
-      rotationX: this.x,
-      rotationY: this.y,
-      rotationZ: this.z,
+      x: this.x,
+      y: this.y,
+      z: this.z,
     };
   }
 }
