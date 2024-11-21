@@ -85,6 +85,7 @@ export const usersLocationNotification = (gameSession) => {
     userLocations,
     0,
   );
+
   gameSession.users.forEach((user) => {
     user.socket.write(userLocationPayload);
   });

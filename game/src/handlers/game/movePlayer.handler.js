@@ -27,7 +27,7 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
       position.positionY,
       position.positionZ,
     );
-    user.character.position.updateRotation(
+    user.character.rotation.updateRotation(
       rotation.rotationX,
       rotation.rotationY,
       rotation.rotationZ,

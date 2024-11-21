@@ -18,7 +18,7 @@ class Game {
     // 귀신 5마리 정도 세팅
 
     // 게임 상태 변경
-    this.state = G;
+    this.state = GAME_SESSION_STATE.INPROGRESS;
 
     IntervalManager.getInstance().addPlayersInterval(
       this.id,
