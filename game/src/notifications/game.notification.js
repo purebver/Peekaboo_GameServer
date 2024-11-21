@@ -85,8 +85,8 @@ export const usersLocationNotification = (gameSession) => {
  */
 export const ghostsLoacationNotification = (gameSession) => {
   // 보내줄 데이터 추출하여 정리
-  const ghostMoveinfos = gameSession.ghosts.map((ghost) => {
-    const ghostMoveinfo = {
+  const ghostMoveInfos = gameSession.ghosts.map((ghost) => {
+    const ghostMoveInfo = {
       ghostId: ghost.id,
       moveInfo: {
         position: ghost.position.getPosition(),
@@ -95,7 +95,7 @@ export const ghostsLoacationNotification = (gameSession) => {
       },
     };
 
-    return ghostMoveinfo;
+    return ghostMoveInfo;
   });
 
   // 해당 게임 세션에 참여한 유저들에게 notification 보내주기
@@ -106,7 +106,7 @@ export const ghostsLoacationNotification = (gameSession) => {
     }
     const responseData = serializer(
       PACKET_TYPE.GhostMoveNotification,
-      { ghostMoveinfos },
+      { ghostMoveInfos },
       0,
     );
     user.socket.write(responseData);
