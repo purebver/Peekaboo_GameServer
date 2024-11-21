@@ -43,13 +43,13 @@ class IntervalManager extends BaseManager {
     this.intervals.get(gameId).set(type, setInterval(callback, interval));
   }
 
-  removePingInterval(playerId) {
-    if (this.intervals.has(playerId)) {
-      const userIntervals = this.intervals.get(playerId);
+  removeUserInterval(userId) {
+    if (this.intervals.has(userId)) {
+      const userIntervals = this.intervals.get(userId);
       userIntervals.forEach((intervalId) => {
         clearInterval(intervalId);
       });
-      this.intervals.delete(playerId);
+      this.intervals.delete(userId);
     }
   }
 

@@ -15,4 +15,8 @@ export class Character {
     this.latency = null;
     this.lastUpdateTime = Date.now();
   }
+
+  getLastPosition() {
+    return this.lastPosition;
+  }
 }
