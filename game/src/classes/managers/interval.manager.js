@@ -16,7 +16,7 @@ class IntervalManager extends BaseManager {
   }
 
   // 플레이어 핑 전용 Interval
-  addPingInterval(playerId, callback, interval, type = 'user') {
+  addPingInterval(playerId, callback, interval, type = 'users') {
     if (!this.intervals.has(playerId)) this.intervals.set(playerId, new Map());
 
     this.intervals.get(playerId).set(type, setInterval(callback, interval));
