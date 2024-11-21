@@ -51,9 +51,9 @@ export const usersLocationNotification = (gameSession) => {
 
     // 데드레커닝으로 구한 미래의 좌표
     const predictionPosition = {
-      position_x: position.x + unitVectorX * distance,
-      position_y: position.y + unitVectorY * distance,
-      position_z: position.z + unitVectorZ * distance,
+      positionX: position.x + unitVectorX * distance,
+      positionY: position.y + unitVectorY * distance,
+      positionZ: position.z + unitVectorZ * distance,
     };
 
     const changingRotation = {
@@ -63,9 +63,9 @@ export const usersLocationNotification = (gameSession) => {
     };
 
     const predictionRotation = {
-      rotation_x: (rotation.x + changingRotation.x * timeDiff) % 360,
-      rotation_y: (rotation.y + changingRotation.y * timeDiff) % 360,
-      rotation_z: (rotation.z + changingRotation.z * timeDiff) % 360,
+      rotationX: (rotation.x + changingRotation.x * timeDiff) % 360,
+      rotationY: (rotation.y + changingRotation.y * timeDiff) % 360,
+      rotationZ: (rotation.z + changingRotation.z * timeDiff) % 360,
     };
 
     const locationData = {

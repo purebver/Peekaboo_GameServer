@@ -5,14 +5,14 @@ class Ghost {
     this.id = id;
     this.ghostTypeId = ghostTypeId;
     this.position = new Position(
-      position.position_x,
-      position.position_y,
-      position.position_z,
+      position.positionX,
+      position.positionY,
+      position.positionZ,
     );
     this.rotation = new Rotation(
-      rotation.rotation_x,
-      rotation.rotation_y,
-      rotation.rotation_z,
+      rotation.rotationX,
+      rotation.rotationY,
+      rotation.rotationZ,
     );
     this.state = state;
   }

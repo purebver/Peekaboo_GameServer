@@ -23,14 +23,14 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
 
     //수정 해야함
     user.character.position.updatePosition(
-      position.position_x,
-      position.position_y,
-      position.position_z,
+      position.positionX,
+      position.positionY,
+      position.positionZ,
     );
     user.character.position.updateRotation(
-      rotation.rotation_x,
-      rotation.rotation_y,
-      rotation.rotation_z,
+      rotation.rotationX,
+      rotation.rotationY,
+      rotation.rotationZ,
     );
     console.error(characterState);
     user.character.state = characterState;
