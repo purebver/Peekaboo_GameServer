@@ -1,6 +1,6 @@
 import { disconnectedUserRedis } from '../redis/util.redis.js';
 import { getGameSession } from '../sessions/game.session.js';
-import { getUserBySocket } from '../sessions/user.sessions.js';
+import { getUserBySocket, removeUser } from '../sessions/user.sessions.js';
 
 export const onEnd = (socket) => async (data) => {
   const user = getUserBySocket(socket);
