@@ -23,7 +23,6 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
       }
       ghost.position.updatePosition(position.x, position.y, position.z);
       ghost.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
-      ghost.state = characterState;
     });
   } catch (e) {
     handleError(e);
