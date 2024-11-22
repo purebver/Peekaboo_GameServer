@@ -17,7 +17,7 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.AUTHENTICATION_ERROR);
     }
 
-    // 유저 생성 및 세션 저장
+    // 유저 생성 및 인메모리 세션 저장
     const user = addUser(userId, socket);
 
     socket.userId = user.id;
@@ -25,9 +25,12 @@ export const connectGameRequestHandler = ({ socket, payload }) => {
     // 게임 세션 참가 로직 (임시 로직)
     // 현재 init/index.js에서 게임 세션 하나를 임시로 생성해 두었습니다.
     const gameSession = getGameSession();
+
+    // 본인 제외 이미 게임에 존재하는 유저들
+    const existUserIds = gameSession.users.map((user) => user.id);
     gameSession.addUser(user);
 
-    sendConnectGameResponse(socket, gameSession);
+    sendConnectGameResponse(socket, gameSession, existUserIds);
   } catch (e) {
     handleError(e);
   }

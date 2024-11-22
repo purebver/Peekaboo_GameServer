@@ -97,11 +97,12 @@ message C2S_ConnectGameRequest {
 message S2C_ConnectGameResponse {
   uint32 gameId = 1;
   uint32 hostId = 2;
-  repeated uint32 ghostTypeIds = 3;
-  GlobalFailCode globalFailCode = 4;
-  UserState userState = 5; 
-  GameSessionState gameSessionState = 6;
-  string message = 7;
+  repeated uint32 existUserIds = 3;
+  repeated uint32 ghostTypeIds = 4;
+  GlobalFailCode globalFailCode = 5;
+  UserState userState = 6; 
+  GameSessionState gameSessionState = 7;
+  string message = 8;
 }
 
 message C2S_SpawnInitialGhostRequest {
@@ -111,6 +112,14 @@ message C2S_SpawnInitialGhostRequest {
 message S2C_StartGameNotification {
   uint32 mapId =1;
   GameSessionState gameSessionState = 2;
+}
+
+message S2C_ConnectNewPlayerNotification {
+  uint32 userId = 1;
+}
+
+message S2C_DisconnectPlayerNotification {
+  uint32 userId = 1;
 }
 
 message S2C_PingRequest {
@@ -132,7 +141,9 @@ message GamePacket {
     S2C_ConnectResponse connectResponse = 16;
     C2S_ConnectGameRequest connectGameRequest = 17;
     S2C_ConnectGameResponse connectGameResponse = 18;
-    C2S_SpawnInitialGhostRequest spawnInitialGhostRequest = 19;
-    S2C_StartGameNotification startGameNotification = 20;
+    S2C_ConnectNewPlayerNotification connectNewPlayerNotification = 19;
+    C2S_SpawnInitialGhostRequest spawnInitialGhostRequest = 20;
+    S2C_StartGameNotification startGameNotification = 21;
+    S2C_DisconnectPlayerNotification disconnectPlayerNotification = 22;
   }
 }
