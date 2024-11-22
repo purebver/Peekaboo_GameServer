@@ -66,7 +66,7 @@ class Game {
     this.users.splice(removeUserIndex, 1);
 
     // 연결을 종료한 사실을 다른 유저들에게 Noti로 알려준다.
-    await disconnectPlayerNotification(gameSession, userId);
+    await disconnectPlayerNotification(this, userId);
 
     IntervalManager.getInstance().removeUserInterval(userId);
   }
