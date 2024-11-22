@@ -18,11 +18,8 @@ export const usersLocationNotification = (gameSession) => {
     ) {
       return {
         userId: user.id,
-        moveInfo: {
-          position: position.getPosition(),
-          rotation: rotation.getRotation(),
-          characterState: user.character.state,
-        },
+        position: position.getPosition(),
+        rotation: rotation.getRotation(),
       };
     }
 
@@ -58,11 +55,8 @@ export const usersLocationNotification = (gameSession) => {
 
     const locationData = {
       userId: user.id,
-      moveInfo: {
-        position: predictionPosition,
-        rotation: rotation.getRotation(),
-        characterState: user.character.state,
-      },
+      position: predictionPosition,
+      rotation: rotation.getRotation(),
     };
 
     return locationData;
@@ -82,16 +76,13 @@ export const usersLocationNotification = (gameSession) => {
 /**
  * 귀신의 움직임값을 보내주는 함수입니다.
  */
-export const ghostsLoacationNotification = (gameSession) => {
+export const ghostsLocationNotification = (gameSession) => {
   // 보내줄 데이터 추출하여 정리
   const ghostMoveInfos = gameSession.ghosts.map((ghost) => {
     const ghostMoveInfo = {
       ghostId: ghost.id,
-      moveInfo: {
-        position: ghost.position.getPosition(),
-        rotation: ghost.rotation.getRotation(),
-        characterState: ghost.state,
-      },
+      position: ghost.position.getPosition(),
+      rotation: ghost.rotation.getRotation(),
     };
 
     return ghostMoveInfo;

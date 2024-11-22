@@ -2,7 +2,7 @@ import IntervalManager from '../managers/interval.manager.js';
 import {
   connectNewPlayerNotification,
   disconnectPlayerNotification,
-  ghostsLoacationNotification,
+  ghostsLocationNotification,
 } from '../../notifications/game.notification.js';
 import { usersLocationNotification } from '../../notifications/game.notification.js';
 import { startGameNotification } from '../../notifications/game.notification.js';
@@ -33,7 +33,7 @@ class Game {
     // 임시로 주석 설정
     // IntervalManager.getInstance().addGhostsInterval(
     //   this.id,
-    //   () => ghostsLoacationNotification(this),
+    //   () => ghostsLocationNotification(this),
     //   1000 / 60,
     // );
 

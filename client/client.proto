@@ -52,7 +52,8 @@ message Player {
 
 message PlayerMoveInfo {
   uint32 userId = 1;
-  MoveInfo moveInfo =2;
+  Position position = 1;
+  Rotation rotation = 2;
 }
 
 message Ghost {
@@ -63,7 +64,8 @@ message Ghost {
 
 message GhostMoveInfo {
   uint32 ghostId = 1;
-  MoveInfo moveInfo = 2;
+  Position position = 1;
+  Rotation rotation = 2;
 }
 
 message S2C_ConnectResponse {
