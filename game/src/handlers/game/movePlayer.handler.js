@@ -24,8 +24,6 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
     user.character.position.updatePosition(position.x, position.y, position.z);
     user.character.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
 
-    user.character.state = characterState;
-
     //시간 저장
     user.character.lastUpdateTime = Date.now();
   } catch (e) {
