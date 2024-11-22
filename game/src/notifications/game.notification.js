@@ -32,6 +32,7 @@ export const usersLocationNotification = (gameSession) => {
         gameSession.getAvgLatency()) /
         1000,
     );
+
     const distance = user.character.speed * timeDiff;
 
     const directionX = position.x - lastPosition.x;
@@ -50,9 +51,9 @@ export const usersLocationNotification = (gameSession) => {
 
     // 데드레커닝으로 구한 미래의 좌표
     const predictionPosition = {
-      positionX: position.x + unitVectorX * distance,
-      positionY: position.y + unitVectorY * distance,
-      positionZ: position.z + unitVectorZ * distance,
+      x: position.x + unitVectorX * distance,
+      y: position.y + unitVectorY * distance,
+      z: position.z + unitVectorZ * distance,
     };
 
     const locationData = {
@@ -69,7 +70,7 @@ export const usersLocationNotification = (gameSession) => {
 
   const userLocationPayload = serializer(
     PACKET_TYPE.PlayerMoveNotification,
-    userLocations,
+    { playerMoveInfos: userLocations },
     0,
   );
 
