@@ -17,7 +17,6 @@ message Rotation {
 message MoveInfo {
   Position position = 1;
   Rotation rotation = 2;
-  CharacterState characterState = 3;
 }
 
 message Player {
