@@ -57,7 +57,11 @@ export const onData = (socket) => async (data) => {
         socket.buffer = socket.buffer.subarray(offset);
 
         const handler = getHandlerByPacketType(packetType);
-        handler({ socket, payload });
+        const startTime = Date.now();
+        await handler({ socket, payload });
+        console.log(
+          `${packetType} 핸들러 처리 시간: ${Date.now() - startTime} ms`,
+        );
       } catch (e) {
         console.error(e);
       }

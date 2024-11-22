@@ -5,8 +5,7 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
   try {
     const { playerMoveInfo } = payload;
 
-    const { userId, moveInfo } = playerMoveInfo;
-    const { position, rotation, characterState } = moveInfo;
+    const { userId, position, rotation } = playerMoveInfo;
 
     // 현재 프로토빌드로 게임 첫번째 세션을 반환하도록 함.
     const gameSession = getGameSession();
