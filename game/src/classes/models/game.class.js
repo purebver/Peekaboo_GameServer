@@ -36,12 +36,16 @@ class Game {
     startGameNotification(this);
   }
 
-  addUser(user) {
+  async addUser(user) {
     if (!this.hostId) {
       this.hostId = user.id;
     }
     const character = new Character();
     user.attachCharacter(character);
+
+    // 참가한 유저를 이미 참가한 유저에게 Noti
+    await connectNewPlayerNotification(this, user);
+
     this.users.push(user);
 
     // 핑 인터벌 추가
@@ -53,9 +57,12 @@ class Game {
     );
   }
 
-  removeUser(userId) {
+  async removeUser(userId) {
     const removeUserIndex = this.users.findIndex((user) => user.id === userId);
     this.users.splice(removeUserIndex, 1);
+
+    // 연결을 종료한 사실을 다른 유저들에게 Noti로 알려준다.
+    await disconnectPlayerNotification(gameSession, userId);
 
     IntervalManager.getInstance().removeUserInterval(userId);
   }

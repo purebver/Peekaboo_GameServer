@@ -16,6 +16,8 @@ export const PACKET_MAPS = {
   [PACKET_TYPE.ConnectResponse]: 'connectResponse',
   [PACKET_TYPE.ConnectGameRequest]: 'connectGameRequest',
   [PACKET_TYPE.ConnectGameResponse]: 'connectGameResponse',
+  [PACKET_TYPE.ConnectNewPlayerNotification]: 'connectNewPlayerNotification',
   [PACKET_TYPE.SpawnInitialGhostRequest]: 'spawnInitialGhostRequest',
   [PACKET_TYPE.StartGameNotification]: 'startGameNotification',
+  [PACKET_TYPE.DisconnectPlayerNotification]: 'disconnectPlayerNotification',
 };

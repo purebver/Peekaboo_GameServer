@@ -14,6 +14,8 @@ export const PACKET_TYPE = {
   ConnectResponse: 16,
   ConnectGameRequest: 17,
   ConnectGameResponse: 18,
-  SpawnInitialGhostRequest: 19,
-  StartGameNotification: 20,
+  ConnectNewPlayerNotification: 19,
+  SpawnInitialGhostRequest: 20,
+  StartGameNotification: 21,
+  DisconnectPlayerNotification: 22,
 };

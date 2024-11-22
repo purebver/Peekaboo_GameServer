@@ -9,7 +9,6 @@ export const usersLocationNotification = (gameSession) => {
   const userLocations = gameSession.users.map((user) => {
     const lastPosition = user.character.lastPosition; // 움직이기 전 좌표
     const position = user.character.position; //현 좌표
-    const lastRotation = user.character.lastRotation;
     const rotation = user.character.rotation;
 
     if (
@@ -33,7 +32,6 @@ export const usersLocationNotification = (gameSession) => {
         gameSession.getAvgLatency()) /
         1000,
     );
-
     const distance = user.character.speed * timeDiff;
 
     const directionX = position.x - lastPosition.x;
@@ -52,9 +50,9 @@ export const usersLocationNotification = (gameSession) => {
 
     // 데드레커닝으로 구한 미래의 좌표
     const predictionPosition = {
-      x: position.x + unitVectorX * distance,
-      y: position.y + unitVectorY * distance,
-      z: position.z + unitVectorZ * distance,
+      positionX: position.x + unitVectorX * distance,
+      positionY: position.y + unitVectorY * distance,
+      positionZ: position.z + unitVectorZ * distance,
     };
 
     const locationData = {
@@ -71,7 +69,7 @@ export const usersLocationNotification = (gameSession) => {
 
   const userLocationPayload = serializer(
     PACKET_TYPE.PlayerMoveNotification,
-    { playerMoveInfos: userLocations },
+    userLocations,
     0,
   );
 
@@ -123,6 +121,45 @@ export const startGameNotification = (gameSeesion) => {
   };
 
   const packet = serializer(PACKET_TYPE.StartGameNotification, payload, 0);
+
+  gameSeesion.users.forEach((user) => {
+    user.socket.write(packet);
+  });
+};
+
+/**
+ * 다른 유저 참가 시 알리는 함수
+ */
+export const connectNewPlayerNotification = async (gameSeesion, newUser) => {
+  const userId = newUser.id;
+  const responseData = serializer(
+    PACKET_TYPE.ConnectNewPlayerNotification,
+    { userId },
+    0,
+  );
+  gameSeesion.user.forEach((user) => {
+    user.socket.write(responseData);
+  });
+};
+
+/**
+ * 연결 종료한 유저를 접속 중인 다른 유저들에게 disconnectPlayerNotification로 알려주는 함수
+ * @param {*} gameSession
+ * @param {*} disconnectUserId
+ */
+export const disconnectPlayerNotification = async (
+  gameSession,
+  disconnectUserId,
+) => {
+  const payload = {
+    userId: disconnectUserId,
+  };
+
+  const packet = serializer(
+    PACKET_TYPE.DisconnectPlayerNotification,
+    payload,
+    0,
+  );
 
   gameSeesion.users.forEach((user) => {
     user.socket.write(packet);

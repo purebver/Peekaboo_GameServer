@@ -14,8 +14,8 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
     }
 
     // 해당 게임 세션에 고스트들의 정보 저장
-    ghostMoveInfos.forEach((ghostMoveinfo) => {
-      const { ghostId, moveInfo } = ghostMoveinfo;
+    ghostMoveInfos.forEach((ghostMoveInfo) => {
+      const { ghostId, moveInfo } = ghostMoveInfo;
       const { position, rotation, characterState } = moveInfo;
 
       const ghost = gameSession.getGhost(ghostId);
