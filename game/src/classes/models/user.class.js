@@ -22,6 +22,10 @@ class User {
     console.error('이미 존재하는 캐릭터가 있습니다.');
   }
 
+  setGameId(gameId) {
+    this.gameId = gameId;
+  }
+
   // 핑을 보내주고 또 보내라고 요청도 보내고
   ping() {
     const now = Date.now();
