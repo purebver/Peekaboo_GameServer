@@ -24,11 +24,11 @@ class Game {
     // 게임 상태 변경
     this.state = GAME_SESSION_STATE.INPROGRESS;
 
-    IntervalManager.getInstance().addPlayersInterval(
-      this.id,
-      () => usersLocationNotification(this),
-      1000 / 60,
-    );
+    // IntervalManager.getInstance().addPlayersInterval(
+    //   this.id,
+    //   () => usersLocationNotification(this),
+    //   1000 / 60,
+    // );
 
     // 임시로 주석 설정
     // IntervalManager.getInstance().addGhostsInterval(
