@@ -30,11 +30,12 @@ message S2C_ConnectGameResponse {
   uint32 gameId = 1;
   uint32 hostId = 2;
   repeated uint32 existUserIds = 3;
-  repeated uint32 ghostTypeIds = 4;
-  GlobalFailCode globalFailCode = 5;
-  UserState userState = 6; 
-  GameSessionState gameSessionState = 7;
-  string message = 8;
+  repeated Ghost ghosts = 4
+  repeated uint32 ghostTypeIds = 5;
+  GlobalFailCode globalFailCode = 6;
+  UserState userState = 7; 
+  GameSessionState gameSessionState = 8;
+  string message = 9;
 }
 
 message C2S_SpawnInitialGhostRequest {
