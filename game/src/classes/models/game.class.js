@@ -30,12 +30,11 @@ class Game {
     //   1000 / 60,
     // );
 
-    // 임시로 주석 설정
-    // IntervalManager.getInstance().addGhostsInterval(
-    //   this.id,
-    //   () => ghostsLocationNotification(this),
-    //   1000 / 60,
-    // );
+    IntervalManager.getInstance().addGhostsInterval(
+      this.id,
+      () => ghostsLocationNotification(this),
+      100,
+    );
 
     startGameNotification(this);
   }
