@@ -33,23 +33,26 @@ export const usersLocationNotification = (gameSession) => {
     const distance = user.character.speed * timeDiff;
 
     const directionX = position.x - lastPosition.x;
-    const directionY = position.y - lastPosition.y;
     const directionZ = position.z - lastPosition.z;
 
     const vectorSize = Math.sqrt(
-      Math.pow(directionX, 2) +
-        Math.pow(directionY, 2) +
-        Math.pow(directionZ, 2),
+      Math.pow(directionX, 2) + Math.pow(directionZ, 2),
     );
+    if (vectorSize < 1) {
+      return {
+        userId: user.id,
+        position: position.getPosition(),
+        rotation: rotation.getRotation(),
+      };
+    }
 
     const unitVectorX = directionX / vectorSize;
-    const unitVectorY = directionY / vectorSize;
     const unitVectorZ = directionZ / vectorSize;
 
     // 데드레커닝으로 구한 미래의 좌표
     const predictionPosition = {
       x: position.x + unitVectorX * distance,
-      y: position.y + unitVectorY * distance,
+      y: position.y,
       z: position.z + unitVectorZ * distance,
     };
 

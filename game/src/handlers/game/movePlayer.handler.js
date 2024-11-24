@@ -1,3 +1,4 @@
+import { usersLocationNotification } from '../../notifications/game.notification.js';
 import { getGameSession } from '../../sessions/game.session.js';
 
 // 플레이어 이동 요청에 따른 핸들러 함수
@@ -26,6 +27,8 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
 
     //시간 저장
     user.character.lastUpdateTime = Date.now();
+
+    usersLocationNotification(gameSession);
   } catch (e) {
     console.error(e.message);
   }

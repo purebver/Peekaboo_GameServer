@@ -5,8 +5,8 @@ import { CHARACTER_STATE } from '../../constants/state.js';
 export class Character {
   constructor() {
     // 게임 정보
-    this.position = new Position();
-    this.lastPosition = new Position();
+    this.position = new Position(5.07, 0.68, 0.11);
+    this.lastPosition = new Position(5.07, 0.68, 0.11);
     this.rotation = new Rotation();
     this.lastRotation = new Rotation();
     this.hp = 1;
