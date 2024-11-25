@@ -51,7 +51,6 @@ export const spawnInitialGhostRequestHandler = ({ socket, payload }) => {
         ghostInfo.ghostTypeId,
         ghostInfo.moveInfo.position,
         ghostInfo.moveInfo.rotation,
-        ghostInfo.moveInfo.state,
       );
 
       gameSession.addGhost(ghost);

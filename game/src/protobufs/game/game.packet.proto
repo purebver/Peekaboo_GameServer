@@ -30,7 +30,7 @@ message S2C_ConnectGameResponse {
   uint32 gameId = 1;
   uint32 hostId = 2;
   repeated uint32 existUserIds = 3;
-  repeated Ghost ghosts = 4
+  repeated Ghost ghosts = 4;
   repeated uint32 ghostTypeIds = 5;
   GlobalFailCode globalFailCode = 6;
   UserState userState = 7; 
