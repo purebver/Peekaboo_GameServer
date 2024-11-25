@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "../global/enum.global.proto";
+
 package gameData;
 
 message Position {
@@ -31,6 +33,11 @@ message PlayerMoveInfo {
   Rotation rotation = 3;
 }
 
+message PlayerStateInfo {
+  uint32 userId = 1;
+  PlayerState playerState = 2;
+}
+
 message Ghost {
   uint32 ghostId = 1;
   uint32 ghostTypeId = 2;
@@ -41,4 +48,26 @@ message GhostMoveInfo {
   uint32 ghostId = 1;
   Position position = 2;
   Rotation rotation = 3;
+}
+
+message GhostStateInfo {
+  uint32 ghostId = 1;
+  GhostState ghostState = 2;
+}
+
+message PlayerAttackedInfo {
+  uint32 userId = 1;
+  uint32 attackTypeId = 2;
+  PlayerState playerState = 3;
+}
+	
+message GhostAttackedInfo {
+  uint32 ghostId = 1;
+  uint32 attackTypeId = 3;
+  GhostState ghostState = 4;
+}
+
+message ItemInfo {
+  uint32 itemId = 1;
+  uint32 itemTypeId = 2;
 }

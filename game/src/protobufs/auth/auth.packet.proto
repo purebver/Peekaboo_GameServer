@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package auth;
+import "../global/enum.global.proto";
 
-import '../global/enum.global.proto';
+package auth;
 
 message S2C_ConnectResponse {
   uint32 userId = 1;
