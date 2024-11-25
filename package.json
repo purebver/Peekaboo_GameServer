@@ -1,16 +1,15 @@
 {
-  "name": "peekaboo_gameserver",
+  "name": "Peekaboo_GameServer",
   "version": "1.0.0",
-  "description": "Node.js 6기 우르르까꿍(2조)의 최종 팀프로젝트",
   "main": "index.js",
+  "repository": "https://github.com/purebver/Peekaboo_GameServer.git",
+  "author": "peekaboo_gameserver",
   "type": "module",
   "scripts": {
     "start": "node game/src/server.js",
     "dev": "nodemon game/src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
@@ -20,7 +19,8 @@
     "long": "^5.2.3",
     "mysql2": "^3.11.4",
     "protobufjs": "^7.4.0",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "nodemon": "^3.1.7",
