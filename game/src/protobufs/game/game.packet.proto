@@ -21,44 +21,166 @@ message S2C_GhostMoveNotification {
   repeated GhostMoveInfo ghostMoveInfos = 1;
 }
 
-message C2S_ConnectGameRequest {
-  uint32 userId =1;
-  string token =2;
-}
-
-message S2C_ConnectGameResponse {
-  uint32 gameId = 1;
-  uint32 hostId = 2;
-  repeated uint32 existUserIds = 3;
-  repeated Ghost ghosts = 4;
-  repeated uint32 ghostTypeIds = 5;
-  GlobalFailCode globalFailCode = 6;
-  UserState userState = 7; 
-  GameSessionState gameSessionState = 8;
-  string message = 9;
-}
-
-message C2S_SpawnInitialGhostRequest {
-  repeated Ghost ghosts =1;
-}
-
-message S2C_StartGameNotification {
-  uint32 mapId =1;
-  GameSessionState gameSessionState = 2;
-}
-
-message S2C_ConnectNewPlayerNotification {
-  uint32 userId = 1;
-}
-
-message S2C_DisconnectPlayerNotification {
-  uint32 userId = 1;
-}
-
 message S2C_PingRequest {
   uint64 timestamp = 1;
 }
 
 message C2S_PingResponse {
   uint64 timestamp = 1;
+}
+
+message C2S_PlayerStateChangeRequest {
+  PlayerStateInfo playerStateInfo = 1;
+}
+
+message S2C_PlayerStateChangeNotification {
+  PlayerStateInfo playerStateInfo = 1;
+}
+
+message C2S_GhostStateChangeRequest {
+  GhostStateInfo ghostStateInfo = 1;
+} 
+
+message S2C_GhostStateChangeNotification {
+  GhostStateInfo ghostStateInfo = 1;
+} 
+
+message C2S_ItemChangeRequest {
+  uint32 inventorySlot = 2;
+}
+
+message S2C_ItemChangeNotification {
+  uint32 userId = 1;
+  ItemInfo itemInfo = 2;
+}
+
+message C2S_LoginRequest {
+  unit32 userId = 1;
+  string password = 2;
+}
+
+message S2C_LoginResponse {
+  unit32 userId = 1;
+  string token = 2;
+}
+
+message C2S_CreateRoomRequest {
+  unit32 userId = 1;
+  string token = 2;
+}
+
+message S2C_CreateRoomResponse {
+  GlobalFailCode globalFailCode  = 1;
+  string message = 2;
+  unit32 gameSessionId = 3;
+  string inviteCode = 4;
+}
+
+message C2S_JoinRoomRequest {
+  unit32 userId = 1;
+  unit32 gameSessionId = 2;
+}
+
+message S2C_JoinRoomResponse {
+  GlobalFailCode globalFailCode  = 1;
+  string message = 2;
+  string inviteCode = 4;
+}
+
+message C2S_StartStageRequest	{
+  unit32 gameSessionId = 1;
+  unit32 stageId = 2;
+}
+
+message S2C_SpawnInitialDataRequest	{
+  GlobalFailCode globalFailCode  = 1;
+  string message = 2;
+}
+
+message C2S_SpawnInitialDataResponse {
+  repeated Ghost ghosts = 1;
+  repeated ItemInfo items = 2;
+}
+
+message S2C_StartStageNotification {
+  GlobalFailCode globalFailCode  = 1;
+  string message = 2;
+  repeated Ghost ghosts = 3;
+  repeated ItemInfo items = 4;
+}
+
+message C2S_PlayerAttackedRequest {
+  PlayerAttackedInfo playerAttackedInfo = 1;
+} 
+
+message S2C_PlayerLifeResponse {
+  uint32 life= 1;
+}
+
+message C2S_GhostAttackedRequest {
+  GhostAttackedInfo ghostAttackedInfo = 1;
+}
+
+message C2S_ItemGetRequest {
+  ItemInfo itemInfo = 1;
+  uint32 inventorySlot = 2;
+}
+
+message S2C_ItemGetResponse {
+  ItemInfo itemInfo = 1;
+  uint32 inventorySlot = 2;
+}
+
+message C2S_ItemUseRequest {
+  uint32 inventorySlot = 1;
+}
+
+message S2C_ItemUseResponse {
+  ItemInfo itemInfo = 1;
+  uint32 inventorySlot = 2;
+}
+
+message S2C_ItemUseNotification {
+  uint32 userId = 1;
+  ItemInfo itemInfo = 2;
+}
+
+message C2S_ItemDiscardRequest {
+  ItemInfo itemInfo = 1;
+  uint32 inventorySlot = 2;
+}
+
+message S2C_ItemDiscardResponse {
+  uint32 inventorySlot = 1;
+}
+
+message S2C_ItemDiscardNotification {
+  ItemInfo itemInfo = 1;
+  Position position = 2;
+}
+
+message C2S_DoorToggleRequest{
+  uint32 doorId = 1;
+  bool isDoorToggle = 2;
+}
+
+message S2C_DoorToggleNotification {
+  uint32 doorId = 1;
+  bool isDoorToggle = 2;
+}
+
+message S2C_StageEndNotification {
+  unit32 stageId = 1;
+}
+
+message C2S_ExtractSoulRequest {
+  uint32 soulAmount = 1;
+}
+
+message S2C_ExtractSoulNotification {
+  uint32 soulAccumulatedAmount = 1;
+}
+
+message S2C_DisconnectPlayerNotification {
+  uint32 userId = 1;
 }
