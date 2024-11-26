@@ -18,9 +18,14 @@ export const GAME_SESSION_STATE = {
 };
 
 export const CHARACTER_STATE = {
-  IDLE: 0,
-  WALK: 1,
-  SPRINT: 2,
-  JUMP: 3,
-  DIED: 4,
+  CHARACTER_STATE_NONE: 0,
+  IDLE: 1,
+  MOVE: 2,
+  RUN: 3,
+  JUMP: 4,
+  ATTACK: 5,
+  DIED: 6,
+  ATTACKED: 7,
+  COOLDOWN: 8,
+  SHOUT: 9,
 };

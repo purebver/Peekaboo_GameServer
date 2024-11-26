@@ -64,4 +64,12 @@ export const ErrorCodesMaps = {
     code: 10015,
     message: '유저 검증 오류',
   },
+  GHOST_NOT_FOUND: {
+    code: 10016,
+    message: '귀신 검증 오류',
+  },
+  ITEM_NOT_FOUND: {
+    code: 10017,
+    message: '아이템 검증 오류',
+  },
 };

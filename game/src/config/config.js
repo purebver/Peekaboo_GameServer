@@ -35,7 +35,7 @@ export const config = {
     host: REDIS_HOST,
     port: REDIS_PORT,
     password: REDIS_PASSWORD,
-    user_set: 'USER',
+    user_set: 'user',
   },
   test: {
     test_token: Test_Token,

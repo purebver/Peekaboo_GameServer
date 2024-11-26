@@ -7,12 +7,21 @@ export const setItemRedis = async (userId, inventorySlot, itemId) => {
   //임시 유효시간
   const time = 640;
   if (await redisManager.getClient().exists(key)) {
+    for (let i = 1; i <= 4; i++) {
+      if (i === inventorySlot) {
+        continue;
+      }
+      const newKey = `${config.redis.user_set}:${userId}:${i}`;
+      if (!(await redisManager.getClient().exists(key))) {
+        await redisManager.getClient().set(newKey, itemId, 'EX', time);
+        return [1, i];
+      }
+    }
     //인벤토리에 이미 아이템이 있을 경우
-    return false;
-  } else {
-    await redisManager.getClient().set(key, itemId, 'EX', time);
-    return true;
+    return [0, 0];
   }
+  await redisManager.getClient().set(key, itemId, 'EX', time);
+  return [1, inventorySlot];
 };
 
 export const getItemRedis = async (userId, inventorySlot) => {

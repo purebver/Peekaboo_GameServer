@@ -1,0 +1,7 @@
+export const GHOST_TYPE_ID = {
+  SMILINGGENTLEMAN: 1,
+  MASSAGER: 2,
+  NAUGHTYBOY: 3,
+  DARKHAND: 4,
+  GRIMREAPER: 5,
+};
