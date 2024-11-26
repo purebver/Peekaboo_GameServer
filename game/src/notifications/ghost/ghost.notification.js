@@ -1,5 +1,6 @@
 import { serializer } from '../../utils/packet/create.packet.js';
 import { PACKET_TYPE } from '../../constants/header.js';
+import { CHARACTER_STATE } from '../../constants/state.js';
 
 /**
  * 귀신의 움직임값을 보내주는 함수입니다.
@@ -30,3 +31,63 @@ export const ghostsLocationNotification = (gameSession) => {
     user.socket.write(responseData);
   });
 };
+
+/**
+ * 고스트의 상태변화 통지를 알리는 함수입니다. (호스트 제외)
+ * @param {*} gameSession
+ * @param {*} ghostId
+ * @param {*} ghostState
+ */
+export const ghostStateChangeNotification = (
+  gameSession,
+  ghostId,
+  ghostState,
+) => {
+  const payload = {
+    ghostId,
+    ghostState,
+  };
+
+  const packet = serializer(
+    PACKET_TYPE.GhostStateChangeNotification,
+    payload,
+    0,
+  );
+
+  gameSession.users.forEach((user) => {
+    if (gameSession.hostId === user.id) {
+      return;
+    }
+    user.socket.write(packet);
+  });
+
+  // 추후 몇초후에 다시 상태를 알려주기 위해 // 초단위도 따로 저장해야겠다 TODO
+  switch (ghostState) {
+    case CHARACTER_STATE.ATTACK:
+      {
+        setTimeout(() => {
+          ghostStateChangeNotification(gameSession, ghostId, GHOST_STATE.MOVE);
+        }, 1000); // 이거 초단위 설정
+      }
+      break;
+    case CHARACTER_STATE.ATTACKED:
+      {
+        setTimeout(() => {
+          ghostStateChangeNotification(gameSession, ghostId, GHOST_STATE.MOVE);
+        }, 1000); // 이거 초단위 설정
+      }
+      break;
+    case CHARACTER_STATE.COOLDOWN:
+      {
+        setTimeout(() => {
+          ghostStateChangeNotification(gameSession, ghostId, GHOST_STATE.MOVE);
+        }, 1000); // 이거 초단위 설정
+      }
+      break;
+  }
+};
+
+// message GhostStateInfo {
+//   uint32 ghostId = 1;
+//   GhostState ghostState = 2;
+// }

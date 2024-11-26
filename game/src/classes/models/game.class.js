@@ -47,6 +47,7 @@ class Game {
     }
     const character = new Character();
     user.attachCharacter(character);
+    user.setGameId(this.id);
 
     // 참가한 유저를 이미 참가한 유저에게 Noti
     await connectNewPlayerNotification(this, user);

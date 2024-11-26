@@ -14,6 +14,10 @@ class User {
     this.character = null;
   }
 
+  setGameId(gameId) {
+    this.gameId = gameId;
+  }
+
   attachCharacter(character) {
     if (!this.character) {
       this.character = character;
