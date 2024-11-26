@@ -2,7 +2,7 @@ import IntervalManager from '../managers/interval.manager.js';
 import {
   connectNewPlayerNotification,
   disconnectPlayerNotification,
-  ghostsLoacationNotification,
+  ghostsLocationNotification,
 } from '../../notifications/game.notification.js';
 import { usersLocationNotification } from '../../notifications/game.notification.js';
 import { startGameNotification } from '../../notifications/game.notification.js';
@@ -24,18 +24,17 @@ class Game {
     // 게임 상태 변경
     this.state = GAME_SESSION_STATE.INPROGRESS;
 
-    IntervalManager.getInstance().addPlayersInterval(
-      this.id,
-      () => usersLocationNotification(this),
-      1000 / 60,
-    );
-
-    // 임시로 주석 설정
-    // IntervalManager.getInstance().addGhostsInterval(
+    // IntervalManager.getInstance().addPlayersInterval(
     //   this.id,
-    //   () => ghostsLoacationNotification(this),
+    //   () => usersLocationNotification(this),
     //   1000 / 60,
     // );
+
+    IntervalManager.getInstance().addGhostsInterval(
+      this.id,
+      () => ghostsLocationNotification(this),
+      100,
+    );
 
     startGameNotification(this);
   }
@@ -66,7 +65,7 @@ class Game {
     this.users.splice(removeUserIndex, 1);
 
     // 연결을 종료한 사실을 다른 유저들에게 Noti로 알려준다.
-    await disconnectPlayerNotification(gameSession, userId);
+    await disconnectPlayerNotification(this, userId);
 
     IntervalManager.getInstance().removeUserInterval(userId);
   }

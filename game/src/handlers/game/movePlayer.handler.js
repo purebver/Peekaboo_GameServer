@@ -1,3 +1,4 @@
+import { usersLocationNotification } from '../../notifications/game.notification.js';
 import { getGameSession } from '../../sessions/game.session.js';
 
 // 플레이어 이동 요청에 따른 핸들러 함수
@@ -5,8 +6,7 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
   try {
     const { playerMoveInfo } = payload;
 
-    const { userId, moveInfo } = playerMoveInfo;
-    const { position, rotation, characterState } = moveInfo;
+    const { userId, position, rotation } = playerMoveInfo;
 
     // 현재 프로토빌드로 게임 첫번째 세션을 반환하도록 함.
     const gameSession = getGameSession();
@@ -25,10 +25,10 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
     user.character.position.updatePosition(position.x, position.y, position.z);
     user.character.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
 
-    user.character.state = characterState;
-
     //시간 저장
     user.character.lastUpdateTime = Date.now();
+
+    usersLocationNotification(gameSession);
   } catch (e) {
     console.error(e.message);
   }

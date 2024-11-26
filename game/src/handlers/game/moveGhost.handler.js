@@ -15,8 +15,7 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
 
     // 해당 게임 세션에 고스트들의 정보 저장
     ghostMoveInfos.forEach((ghostMoveInfo) => {
-      const { ghostId, moveInfo } = ghostMoveInfo;
-      const { position, rotation, characterState } = moveInfo;
+      const { ghostId, position, rotation } = ghostMoveInfo;
 
       const ghost = gameSession.getGhost(ghostId);
       if (!ghost) {
@@ -24,7 +23,6 @@ export const moveGhostRequestHandler = ({ socket, payload }) => {
       }
       ghost.position.updatePosition(position.x, position.y, position.z);
       ghost.rotation.updateRotation(rotation.x, rotation.y, rotation.z);
-      ghost.state = characterState;
     });
   } catch (e) {
     handleError(e);
