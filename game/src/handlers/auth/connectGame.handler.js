@@ -6,9 +6,9 @@ import { handleError } from '../../Error/error.handler.js';
 import { invalidTokenResponse } from '../../response/auth.response.js';
 import { sendConnectGameResponse } from '../../response/auth.response.js';
 import { getGameSession } from '../../sessions/game.session.js';
-import { addUser } from '../../sessions/userSessions.js';
+import { addUser } from '../../sessions/user.sessions.js';
 
-export const connectGameRequestHandler = ({ socket, payload }) => {
+export const connectGameRequestHandler = async ({ socket, payload }) => {
   try {
     const { userId, token } = payload;
 

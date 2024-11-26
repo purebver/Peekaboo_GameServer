@@ -15,6 +15,7 @@ class Game {
     this.hostId = null;
     this.users = [];
     this.ghosts = [];
+    this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
   }
 
@@ -80,6 +81,10 @@ class Game {
 
   getGhost(ghostId) {
     return this.ghosts.find((ghost) => ghost.id === ghostId);
+  }
+
+  getItem(itemId) {
+    return this.items.find((item) => item.id === itemId);
   }
 
   // 평균 레이턴시 구하기

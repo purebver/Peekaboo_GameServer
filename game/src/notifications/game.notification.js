@@ -7,6 +7,8 @@ import { serializer } from '../utils/packet/create.packet.js';
  */
 export const usersLocationNotification = (gameSession) => {
   const userLocations = gameSession.users.map((user) => {
+    console.log(gameSession);
+
     const lastPosition = user.character.lastPosition; // 움직이기 전 좌표
     const position = user.character.position; //현 좌표
     const rotation = user.character.rotation;
