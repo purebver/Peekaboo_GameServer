@@ -2,8 +2,8 @@ import {
   connectGameRequestHandler,
   spawnInitialGhostRequestHandler,
 } from './auth/connectGame.handler.js';
-import { movePlayerRequestHandler } from './game/movePlayer.handler.js';
-import { moveGhostRequestHandler } from './game/moveGhost.handler.js';
+import { movePlayerRequestHandler } from './game/player/movePlayer.handler.js';
+import { moveGhostRequestHandler } from './game/ghost/moveGhost.handler.js';
 import { PACKET_TYPE } from '../constants/header.js';
 import { pingHandler } from './game/ping.handler.js';
 import { doorToggleRequestHandler } from './game/door/door.handler.js';
@@ -17,6 +17,8 @@ import {
   itemGetRequestHandler,
   itemUseRequestHandler,
 } from './game/item/item.handler.js';
+import { createRoomHandler } from './game/room/createRoom.handler.js';
+import { joinRoomHandler } from './game/room/joinRoom.handler.js';
 
 const handlers = {
   [PACKET_TYPE.ConnectGameRequest]: {
@@ -69,6 +71,16 @@ const handlers = {
     protoType: 'common.GamePacket',
   },
   /*-------------------------장재영 작업--------------------------*/
+  /*-------------------------권영현 작업--------------------------*/
+  [PACKET_TYPE.CreateRoomRequest]: {
+    handler: createRoomHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.JoinRoomRequest]: {
+    handler: joinRoomHandler,
+    protoType: 'common.GamePacket',
+  },
+  /*-------------------------권영현 작업--------------------------*/
 };
 
 export const getHandlerByPacketType = (packetType) => {

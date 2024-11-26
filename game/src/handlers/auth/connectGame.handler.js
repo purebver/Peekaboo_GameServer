@@ -1,46 +1,21 @@
 import Ghost from '../../classes/models/ghost.class.js';
-import { config } from '../../config/config.js';
 import CustomError from '../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../Error/error.codes.js';
 import { handleError } from '../../Error/error.handler.js';
-import { invalidTokenResponse } from '../../response/auth.response.js';
-import { sendConnectGameResponse } from '../../response/auth.response.js';
-import { getGameSession } from '../../sessions/game.session.js';
-import { addUser } from '../../sessions/user.sessions.js';
+import { getGameSessionById } from '../../sessions/game.session.js';
 
-export const connectGameRequestHandler = async ({ socket, payload }) => {
-  try {
-    const { userId, token } = payload;
-
-    if (config.test.test_token !== token) {
-      invalidTokenResponse(socket);
-      throw new CustomError(ErrorCodesMaps.AUTHENTICATION_ERROR);
-    }
-
-    // 유저 생성 및 인메모리 세션 저장
-    const user = addUser(userId, socket);
-
-    socket.userId = user.id;
-
-    // 게임 세션 참가 로직 (임시 로직)
-    // 현재 init/index.js에서 게임 세션 하나를 임시로 생성해 두었습니다.
-    const gameSession = getGameSession();
-
-    // 본인 제외 이미 게임에 존재하는 유저들
-    const existUserIds = gameSession.users.map((user) => user.id);
-    gameSession.addUser(user);
-
-    sendConnectGameResponse(socket, gameSession, existUserIds);
-  } catch (e) {
-    handleError(e);
-  }
-};
-
+// C2S_spawnInitialDataResponse, S2C_spawnInitialDataRequest 이것들 만들때
+// 나중에 참고만 하고 삭제 : TODO
 export const spawnInitialGhostRequestHandler = ({ socket, payload }) => {
   try {
     const { ghosts } = payload;
 
-    const gameSession = getGameSession();
+    const user = getUserById(socket.userId);
+    if (!user) {
+      throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
+    }
+
+    const gameSession = getGameSessionById(user.gameId);
     if (!gameSession) {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }

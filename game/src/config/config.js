@@ -5,7 +5,6 @@ import {
   REDIS_PORT,
   TCP_HOST,
   TCP_PORT,
-  Test_Token,
   UDP_PORT,
 } from '../constants/env.js';
 import {
@@ -14,7 +13,13 @@ import {
   SEQUENCE_LENGTH,
   VERSION_LENGTH,
 } from '../constants/header.js';
-import { MAX_PLAYER, MAX_PLAYER_HP, MAX_GHOST_NUM } from '../constants/game.js';
+import {
+  MAX_PLAYER,
+  MAX_PLAYER_HP,
+  MAX_GHOST_NUM,
+  INVITE_CODE_LENGTH,
+} from '../constants/game.js';
+import { REDIS_USER_SET_KEY } from '../constants/redis.js';
 
 export const config = {
   server: {
@@ -35,14 +40,12 @@ export const config = {
     host: REDIS_HOST,
     port: REDIS_PORT,
     password: REDIS_PASSWORD,
-    user_set: 'user',
-  },
-  test: {
-    test_token: Test_Token,
+    user_set: REDIS_USER_SET_KEY,
   },
   game: {
     max_player: MAX_PLAYER,
     max_player_hp: MAX_PLAYER_HP,
     max_ghost_num: MAX_GHOST_NUM,
+    invite_code_length: INVITE_CODE_LENGTH,
   },
 };

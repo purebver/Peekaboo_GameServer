@@ -18,6 +18,6 @@ export const getGameSessionById = (id) => {
   return gameSessions.find((game) => game.id === id);
 };
 
-export const getGameSession = () => {
-  return gameSessions[0];
+export const getGameSessionByInviteCode = (inviteCode) => {
+  return gameSessions.find((game) => game.inviteCode === inviteCode);
 };

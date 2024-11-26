@@ -1,5 +1,7 @@
-import { usersLocationNotification } from '../../notifications/game.notification.js';
-import { getGameSession } from '../../sessions/game.session.js';
+import CustomError from '../../../Error/custom.error.js';
+import { getUserById } from '../../../sessions/user.sessions.js';
+import { getGameSessionById } from '../../../sessions/game.session.js';
+import { usersLocationNotification } from '../../../notifications/player/player.notification.js';
 
 // 플레이어 이동 요청에 따른 핸들러 함수
 export const movePlayerRequestHandler = ({ socket, payload }) => {
@@ -8,14 +10,13 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
 
     const { userId, position, rotation } = playerMoveInfo;
 
-    // 현재 프로토빌드로 게임 첫번째 세션을 반환하도록 함.
-    const gameSession = getGameSession();
-
-    // 게임 세션에서 유저 찾기
-    const user = gameSession.getUser(userId);
+    // 유저 찾기
+    const user = getUserById(userId);
     if (!user) {
-      console.error('user가 존재하지 않습니다.');
+      throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
     }
+
+    const gameSession = getGameSessionById(user.gameId);
 
     //이전 값 저장
     user.character.lastPosition.updateClassPosition(user.character.position);

@@ -1,14 +1,21 @@
-import CustomError from '../../Error/custom.error.js';
-import { ErrorCodesMaps } from '../../Error/error.codes.js';
-import { handleError } from '../../Error/error.handler.js';
-import { getGameSession } from '../../sessions/game.session.js';
+import CustomError from '../../../Error/custom.error.js';
+import { ErrorCodesMaps } from '../../../Error/error.codes.js';
+import { handleError } from '../../../Error/error.handler.js';
+import { getGameSessionById } from '../../../sessions/game.session.js';
+import { getUserById } from '../../../sessions/user.sessions.js';
 
 // 호스트 유저만 요청을 보냅니다.
 export const moveGhostRequestHandler = ({ socket, payload }) => {
   try {
     const { ghostMoveInfos } = payload;
 
-    const gameSession = getGameSession();
+    // 유저 찾기
+    const user = getUserById(socket.userId);
+    if (!user) {
+      throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
+    }
+
+    const gameSession = getGameSessionById(user.gameId);
     if (!gameSession) {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }

@@ -3,7 +3,7 @@ import { PACKET_TYPE } from '../../../constants/header.js';
 import { CHARACTER_STATE } from '../../../constants/state.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
-import { playerStateChangeNotification } from '../../../notifications/game.notification.js';
+import { playerStateChangeNotification } from '../../../notifications/player/player.notification.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 

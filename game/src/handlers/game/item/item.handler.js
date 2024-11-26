@@ -5,7 +5,7 @@ import {
   itemChangeNotification,
   itemDiscardNotification,
   itemUseNotification,
-} from '../../../notifications/game.notification.js';
+} from '../../../notifications/item/item.notification.js';
 import {
   getItemRedis,
   removeItemRedis,
