@@ -22,20 +22,20 @@ message MoveInfo {
 }
 
 message Player {
-  uint32 userId = 1;
+  string userId = 1;
   MoveInfo moveInfo = 2;
   bool isHost = 3;
 }
 
 message PlayerMoveInfo {
-  uint32 userId = 1;
+  string userId = 1;
   Position position = 2;
   Rotation rotation = 3;
 }
 
 message PlayerStateInfo {
-  uint32 userId = 1;
-  PlayerState playerState = 2;
+  string userId = 1;
+  CharacterState characterState = 2;
 }
 
 message Ghost {
@@ -52,19 +52,7 @@ message GhostMoveInfo {
 
 message GhostStateInfo {
   uint32 ghostId = 1;
-  GhostState ghostState = 2;
-}
-
-message PlayerAttackedInfo {
-  uint32 userId = 1;
-  uint32 attackTypeId = 2;
-  PlayerState playerState = 3;
-}
-	
-message GhostAttackedInfo {
-  uint32 ghostId = 1;
-  uint32 attackTypeId = 3;
-  GhostState ghostState = 4;
+  CharacterState characterState = 2;
 }
 
 message ItemInfo {

@@ -20,17 +20,7 @@ enum GameSessionState {
     END = 2;
 }
 
-enum PlayerState {
-    IDLE = 1;
-    MOVE = 2;
-    RUN = 3;
-    JUMP = 4;
-    ATTACK = 5;
-    DIED = 6;
-    HIT = 7;
-}
-
-enum GhostState {
+enum CharacterState {
     IDLE = 1;
     MOVE = 2;
     RUN = 3;

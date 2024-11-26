@@ -46,50 +46,55 @@ message S2C_GhostStateChangeNotification {
 } 
 
 message C2S_ItemChangeRequest {
-  uint32 inventorySlot = 2;
+  uint32 inventorySlot = 1;
 }
 
 message S2C_ItemChangeNotification {
-  uint32 userId = 1;
+  string userId = 1;
   ItemInfo itemInfo = 2;
 }
 
 message C2S_LoginRequest {
-  unit32 userId = 1;
+  string id = 1;
   string password = 2;
 }
 
 message S2C_LoginResponse {
-  unit32 userId = 1;
-  string token = 2;
+  GlobalFailCode globalFailCode = 1;
+  string userId = 2;
+  string token = 3;
 }
 
 message C2S_CreateRoomRequest {
-  unit32 userId = 1;
+  string userId = 1;
   string token = 2;
 }
 
 message S2C_CreateRoomResponse {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  unit32 gameSessionId = 3;
+  string gameSessionId = 3;
   string inviteCode = 4;
 }
 
 message C2S_JoinRoomRequest {
-  unit32 userId = 1;
-  unit32 gameSessionId = 2;
+  string userId = 1;
+  string inviteCode = 2;
 }
 
 message S2C_JoinRoomResponse {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  string inviteCode = 4;
+  Player players = 3;
+}
+
+message S2C_JoinRoomNotification {
+  string userId = 1;
 }
 
 message C2S_StartStageRequest	{
-  unit32 gameSessionId = 1;
-  unit32 stageId = 2;
+  string gameSessionId = 1;
+  uint32 stageId = 2;
 }
 
 message S2C_SpawnInitialDataRequest	{
@@ -99,18 +104,19 @@ message S2C_SpawnInitialDataRequest	{
 
 message C2S_SpawnInitialDataResponse {
   repeated Ghost ghosts = 1;
-  repeated ItemInfo items = 2;
+  repeated ItemInfo itemInfos = 2;
 }
 
 message S2C_StartStageNotification {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
   repeated Ghost ghosts = 3;
-  repeated ItemInfo items = 4;
+  repeated ItemInfo itemInfos = 4;
 }
 
 message C2S_PlayerAttackedRequest {
-  PlayerAttackedInfo playerAttackedInfo = 1;
+  string userId = 1;
+  uint32 ghostId = 2;
 } 
 
 message S2C_PlayerLifeResponse {
@@ -118,7 +124,8 @@ message S2C_PlayerLifeResponse {
 }
 
 message C2S_GhostAttackedRequest {
-  GhostAttackedInfo ghostAttackedInfo = 1;
+  uint32 ghostId = 1;
+  string userId = 2;
 }
 
 message C2S_ItemGetRequest {
@@ -141,7 +148,7 @@ message S2C_ItemUseResponse {
 }
 
 message S2C_ItemUseNotification {
-  uint32 userId = 1;
+  string userId = 1;
   ItemInfo itemInfo = 2;
 }
 
@@ -170,7 +177,7 @@ message S2C_DoorToggleNotification {
 }
 
 message S2C_StageEndNotification {
-  unit32 stageId = 1;
+  uint32 stageId = 1;
 }
 
 message C2S_ExtractSoulRequest {
@@ -182,5 +189,11 @@ message S2C_ExtractSoulNotification {
 }
 
 message S2C_DisconnectPlayerNotification {
-  uint32 userId = 1;
+  string userId = 1;
+}
+
+message S2C_ConnectResponse {
+  string userId = 1;
+  string token = 2;
+  GlobalFailCode globalFailCode = 3;
 }

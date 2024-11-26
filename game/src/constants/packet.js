@@ -24,6 +24,7 @@ export const PACKET_MAPS = {
   [PACKET_TYPE.CreateRoomResponse]: 'createRoomResponse',
   [PACKET_TYPE.JoinRoomRequest]: 'joinRoomRequest',
   [PACKET_TYPE.JoinRoomResponse]: 'joinRoomResponse',
+  [PACKET_TYPE.joinRoomNotification]: 'joinRoomNotification',
   [PACKET_TYPE.StartStageRequest]: 'startStageRequest',
   [PACKET_TYPE.SpawnInitialDataRequest]: 'spawnInitialDataRequest',
   [PACKET_TYPE.SpawnInitialDataResponse]: 'spawnInitialDataResponse',

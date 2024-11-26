@@ -83,6 +83,10 @@ class Game {
     return this.ghosts.find((ghost) => ghost.id === ghostId);
   }
 
+  addItem(item) {
+    this.items.push(item);
+  }
+
   getItem(itemId) {
     return this.items.find((item) => item.id === itemId);
   }
