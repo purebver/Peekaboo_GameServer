@@ -1,6 +1,6 @@
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
-import { doorToggleNotification } from '../../../notifications/game.notification.js';
+import { doorToggleNotification } from '../../../notifications/door/door.notification.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 

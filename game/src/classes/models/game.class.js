@@ -1,13 +1,12 @@
 import IntervalManager from '../managers/interval.manager.js';
+import { GAME_SESSION_STATE } from '../../constants/state.js';
+import { Character } from './character.class.js';
+import { getInviteCode } from '../../utils/room/inviteCode.room.js';
+import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
 import {
   connectNewPlayerNotification,
   disconnectPlayerNotification,
-  ghostsLocationNotification,
-} from '../../notifications/game.notification.js';
-import { usersLocationNotification } from '../../notifications/game.notification.js';
-import { startGameNotification } from '../../notifications/game.notification.js';
-import { GAME_SESSION_STATE } from '../../constants/state.js';
-import { Character } from './character.class.js';
+} from '../../notifications/system/system.notification.js';
 
 class Game {
   constructor(id) {
@@ -17,6 +16,8 @@ class Game {
     this.ghosts = [];
     this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
+
+    this.inviteCode = getInviteCode();
   }
 
   startGame() {
@@ -40,8 +41,8 @@ class Game {
     startGameNotification(this);
   }
 
-  async addUser(user) {
-    if (!this.hostId) {
+  async addUser(user, isHost = false) {
+    if (isHost) {
       this.hostId = user.id;
     }
     const character = new Character();

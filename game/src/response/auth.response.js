@@ -16,7 +16,7 @@ export const invalidTokenResponse = (socket) => {
     hostId: null,
     existUserIds: null,
     ghostTypeIds: null, // 임시 고스트 타입
-    gloalFailCode: GLOBAL_FAIL_CODE.INVALID_REQUEST,
+    globalFailCode: GLOBAL_FAIL_CODE.INVALID_REQUEST,
     userState: USER_STATE.STAY,
     gameSessionState: GAME_SESSION_STATE.PREPARE,
     message: '해당 토큰이 일치하지 않아 게임을 입장할 수 없습니다.',
@@ -50,7 +50,7 @@ export const sendConnectGameResponse = (socket, gameSession, existUserIds) => {
     existUserIds: existUserIds,
     ghosts: ghosts,
     ghostTypeIds: [1, 1], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
-    gloalFailCode: GLOBAL_FAIL_CODE.NONE,
+    globalFailCode: GLOBAL_FAIL_CODE.NONE,
     userState: USER_STATE.INGAME,
     gameSessionState: gameSession.state,
     message: '게임 세션 입장에 성공하였습니다.',

@@ -55,9 +55,7 @@ export const onData = (socket) => async (data) => {
       try {
         const { payload } = parserPacket(payloadBuffer);
         socket.buffer = socket.buffer.subarray(offset);
-
         const handler = getHandlerByPacketType(packetType);
-        const startTime = Date.now();
         await handler({ socket, payload });
       } catch (e) {
         console.error(e);

@@ -44,5 +44,5 @@ export const PACKET_TYPE = {
   StageEndNotification: 40,
   ExtractSoulRequest: 41,
   ExtractSoulNotification: 42,
-  disconnectPlayerNotification: 43,
+  DisconnectPlayerNotification: 43,
 };
