@@ -19,7 +19,6 @@ export const DB_PORT = process.env.DB_PORT || '3306';
 export const REDIS_HOST = process.env.REDIS_HOST;
 export const REDIS_PORT = process.env.REDIS_PORT;
 export const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
-
 export const SECRET_KEY = process.env.SECRET_KEY;
 
 // 테스트용 토큰

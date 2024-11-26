@@ -1,55 +1,77 @@
 import redisManager from '../classes/managers/redisManager.js';
-import User from '../classes/models/user.class.js';
+import { Position } from '../classes/models/moveInfo.class.js';
+import { config } from '../config/config.js';
+import { getItemRedis, setItemRedis } from './item.redis.js';
 
-const USER_SET = 'user';
+/**
+ * 해당 유저의 정보를 redis에 저장하는 함수입니다.
+ * @param {*} userId
+ * @param {*} gameId
+ * @param {*} position
+ */
+export const setUserRedis = async (userId, gameId, position = null) => {
+  const key = `${config.redis.user_set}:${userId}`;
 
-const socketStore = new Map(); // 이렇게 하고 또 해당 유저의 소켓을 찾는 로직을 짜면 될것 같기도 하고 그럼 일단
-
-export const addUser = async (userId, socket) => {
-  // const user = new User(userId, socket)
-
-  socketStore.set(userId, socket);
-
-  const key = `${USER_SET}:${userId}`;
-  const userData = {
-    userId: userId,
+  const data = {
+    gameId: gameId,
+    position: JSON.stringify(position),
   };
-  // redisManager.hset(key, userData);
-  await redisManager.getClient().set(key, JSON.stringify(userData)); // "EX", 시간 추가로 설정
-  return new User(userId, socket);
+
+  // 유효 시간 구하기
+  // 게임 스테이지 전체 시간 - 진행 시간 = 유효 시간
+
+  await redisManager.getClient().hset(key, data);
+
+  // 키에 유효 시간 설정
+  await redisManager.getClient().expire(key, 640); // 임시 시간
+
+  // redisManager.getClient().hset(key, 'gameId', gameId);
+  // redisManager.getClient().hset(key, 'position', JSON.stringify(position));
+  // redisManager
+  //   .getClient()
+  //   .set(key, JSON.stringify({ gameId, position }), 'EX', 640);
 };
 
-export const removeUser = async (userId) => {
-  // 메모리에서 소켓 제거
-  const socket = socketStore.get(userId);
-  if (socket) {
-    socketStore.delete(userId);
-  }
+/**
+ * redis에 저장한 해당 유저 정보를 반환하는 함수입니다.
+ * @param {*} userId 해당 유저 id
+ * @param {*} feild 원하는 필드 값
+ * @returns feild를 추가하지 않으면 기본적으로 유저의 모든 정보를 반환합니다.
+ */
+export const getUserRedis = async (userId, feild = null) => {
+  const key = `${config.redis.user_set}:${userId}`;
 
-  // Redis에서 사용자 데이터 제거
-  const key = `${USER_SET}:${userId}`;
+  let data;
+  switch (feild) {
+    case 'gameId':
+      {
+        data = await redisManager.getClient().hget(key, 'gameId');
+      }
+      break;
+    case 'position':
+      {
+        data = await redisManager.getClient().hget(key, 'position');
+        data = JSON.parse(data);
+      }
+      break;
+    default: {
+      data = await redisManager.getClient().hgetall(key);
+      data = {
+        gameId: data.gameId,
+        position: JSON.parse(data.position),
+      };
+    }
+  }
+  return data;
+};
+
+/**
+ * redis에 저장한 해당 유저 정보를 반환하는 함수입니다.
+ * @param {*} userId
+ * @returns
+ */
+export const removeUserRedis = async (userId) => {
+  const key = `${config.redis.user_set}:${userId}`;
+
   await redisManager.getClient().del(key);
 };
-
-export const getUser = async (userId) => {
-  const key = `${USER_SET}:${userId}`;
-  // redisManager.hget(key, userData);
-  const userData = await redisManager.getClient().get(key);
-  const { userId: id } = JSON.parse(userData);
-
-  const socket = socketStore.get(userId);
-
-  // 여기선 받은 값들을 이용하여 인스턴스 재생성
-  const user = new User(id, socket);
-  return user;
-};
-
-const testId = 'aaa';
-
-const testSocket = 'socket1';
-
-await addUser(testId, testSocket);
-
-const user = await getUser(testId);
-
-console.log(user);
