@@ -1,13 +1,14 @@
-import { CHARACTER_STATE } from '../../constants/state.js';
-import CustomError from '../../Error/custom.error.js';
-import { ErrorCodesMaps } from '../../Error/error.codes.js';
-import { handleError } from '../../Error/error.handler.js';
-import { ghostStateChangeNotification } from '../../notifications/game.notification.js';
-import { getGameSessionById } from '../../sessions/game.session.js';
-import { getUserById } from '../../sessions/userSessions.js';
+import { CHARACTER_STATE } from '../../../constants/state.js';
+import CustomError from '../../../Error/custom.error.js';
+import { ErrorCodesMaps } from '../../../Error/error.codes.js';
+import { handleError } from '../../../Error/error.handler.js';
+import { ghostStateChangeNotification } from '../../../notifications/ghost/ghost.notification.js';
+
+import { getGameSessionById } from '../../../sessions/game.session.js';
+import { getUserById } from '../../../sessions/user.sessions.js';
 
 // 호스트 유저만 요청을 보내고 실제로 귀신이 유저의 샤우팅에의해 떼어졌을떄 요청이 들어옵니다.
-export const GhostAttackedRequestHandler = ({ socket, payload }) => {
+export const ghostAttackedRequestHandler = ({ socket, payload }) => {
   try {
     const { userId, ghostId } = payload;
 

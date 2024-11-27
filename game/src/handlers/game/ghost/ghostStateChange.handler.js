@@ -1,9 +1,8 @@
-import { CHARACTER_STATE } from '../../constants/state.js';
-import CustomError from '../../Error/custom.error.js';
-import { ErrorCodesMaps } from '../../Error/error.codes.js';
-import { ghostStateChangeNotification } from '../../notifications/ghost/ghost.notification.js';
-import { getGameSessionById } from '../../sessions/game.session.js';
-import { getUserById } from '../../sessions/userSessions.js';
+import CustomError from '../../../Error/custom.error.js';
+import { ErrorCodesMaps } from '../../../Error/error.codes.js';
+import { ghostStateChangeNotification } from '../../../notifications/ghost/ghost.notification.js';
+import { getGameSessionById } from '../../../sessions/game.session.js';
+import { getUserById } from '../../../sessions/user.sessions.js';
 
 // 호스트만 요청
 export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
