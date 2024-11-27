@@ -1,6 +1,6 @@
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
-import { getUserById } from '../../../sessions/user.sessions.js';
+import { addUser, getUserById } from '../../../sessions/user.sessions.js';
 import { getGameSessionByInviteCode } from '../../../sessions/game.session.js';
 import { sendJoinRoomResponse } from '../../../response/room/room.response.js';
 import { joinRoomNotification } from '../../../notifications/room/room.notification.js';
@@ -8,11 +8,10 @@ import { joinRoomNotification } from '../../../notifications/room/room.notificat
 export const joinRoomHandler = async ({ socket, payload }) => {
   const { userId, inviteCode } = payload;
 
-  // 유저 검증
-  const user = getUserById(socket.userId);
-  if (!user && userId !== user.id) {
-    throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
-  }
+  // TODO : token도 payload에 오면 좋을듯???
+
+  // 방에 참가한 유저를 userSessions에 추가시켜준다.
+  const user = addUser(userId, socket);
 
   // inviteCode로 참가할 방 검증
   const gameSession = getGameSessionByInviteCode(inviteCode);
