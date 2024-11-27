@@ -21,13 +21,6 @@ export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
-    // 게임 세션에 포함된 ghost찾기
-    const ghost = gameSession.getGhost(ghostId);
-    if (!ghost) {
-      throw new CustomError(ErrorCodesMaps.GHOST_NOT_FOUND);
-    }
-    ghost.setState(ghostState);
-
     ghostStateChangeNotification(gameSession, ghostId, ghostState);
   } catch (e) {
     handleError(e);

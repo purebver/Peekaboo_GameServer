@@ -30,11 +30,11 @@ export const ghostAttackedRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GHOST_NOT_FOUND);
     }
 
-    ghostStateChangeNotification(
-      gameSession,
-      ghostId,
-      CHARACTER_STATE.ATTACKED,
-    );
+    // ghostStateChangeNotification(
+    //   gameSession,
+    //   ghostId,
+    //   CHARACTER_STATE.ATTACKED,
+    // );
   } catch (e) {
     handleError(e);
   }

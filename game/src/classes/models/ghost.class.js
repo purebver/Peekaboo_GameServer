@@ -10,13 +10,20 @@ class Ghost {
     this.state = state;
   }
 
+  /**
+   * 귀신의 상태변경 함수입니다.
+   * @param {*} state
+   */
   setState(state) {
     this.state = state;
   }
 
-  // 고스트 타입에 따른 공격로직
-  attack(ghostTypeId, user) {
-    switch (ghostTypeId) {
+  /**
+   * 귀신 타입에 따른 공격 함수입니다.
+   * @param {*} user 공격 당할 플레이어(유저)
+   */
+  attack(user) {
+    switch (this.ghostTypeId) {
       case GHOST_TYPE_ID.SMILINGGENTLEMAN:
         {
           user.character.life--;
