@@ -11,6 +11,11 @@ import {
   removeItemRedis,
   setItemRedis,
 } from '../../../redis/item.redis.js';
+import {
+  itemDiscardResponse,
+  itemGetResponse,
+  itemUseResponse,
+} from '../../../response/item/item.response.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 
@@ -29,24 +34,18 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
   }
 
   const [bool, newInventorySlot] = await setItemRedis(
-    userId,
+    socket.userId,
     inventorySlot,
     itemInfo.itemId,
   );
 
-  // 이미 슬롯에 아이템이 있을경우 처리 중지
+  // 모든 슬롯에 아이템이 있을경우 처리 중지
   if (!bool) {
     return;
   }
 
-  const newPayload = {
-    itemInfo,
-    inventorySlot: newInventorySlot,
-  };
-
-  // 아이템 슬롯으로
-  const packet = serializer(PACKET_TYPE.ItemGetResponse, newPayload, 0);
-  socket.write(packet);
+  // 응답 보내주기
+  itemGetResponse(socket, itemInfo, newInventorySlot);
 
   // 손에 들어주기
   itemChangeNotification(gameSession, socket.userId, itemInfo);
@@ -106,19 +105,7 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
 
   await removeItemRedis(socket.userId, inventorySlot);
 
-  const itemInfo = {
-    itemId,
-    itemTypeId: item.itemTypeId,
-  };
-
-  const responsePayload = {
-    itemInfo,
-    inventorySlot,
-  };
-
-  const packet = serializer(PACKET_TYPE.ItemUseResponse, responsePayload, 0);
-
-  socket.write(packet);
+  itemUseResponse(socket, itemId, item.itemTypeId, inventorySlot);
 
   itemUseNotification(gameSession, socket.userId, itemInfo);
 };
@@ -144,17 +131,7 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
 
   await removeItemRedis(socket.userId, inventorySlot);
 
-  const responsePayload = {
-    inventorySlot,
-  };
-
-  const packet = serializer(
-    PACKET_TYPE.ItemDiscardResponse,
-    responsePayload,
-    0,
-  );
-
-  socket.write(packet);
+  itemDiscardResponse(socket, inventorySlot);
 
   itemDiscardNotification(gameSession, itemInfo, user.character.position);
 };
