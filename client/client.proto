@@ -50,7 +50,7 @@ message MoveInfo {
   Rotation rotation = 2;
 }
 
-message Player {
+message PlayerInfo {
   string userId = 1;
   MoveInfo moveInfo = 2;
   bool isHost = 3;
@@ -67,7 +67,7 @@ message PlayerStateInfo {
   CharacterState characterState = 2;
 }
 
-message Ghost {
+message GhostInfo {
   uint32 ghostId = 1;
   uint32 ghostTypeId = 2;
   MoveInfo moveInfo = 3;
@@ -169,7 +169,7 @@ message C2S_JoinRoomRequest {
 message S2C_JoinRoomResponse {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated Player players = 3;
+  repeated PlayerInfo playerInfos = 3;
 }
 
 message S2C_JoinRoomNotification {
@@ -187,14 +187,14 @@ message S2C_SpawnInitialDataRequest	{
 }
 
 message C2S_SpawnInitialDataResponse {
-  repeated Ghost ghosts = 1;
+  repeated GhostInfo ghostInfos = 1;
   repeated ItemInfo itemInfos = 2;
 }
 
 message S2C_StartStageNotification {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated Ghost ghosts = 3;
+  repeated GhostInfo ghostInfos = 3;
   repeated ItemInfo itemInfos = 4;
 }
 

@@ -103,14 +103,14 @@ message S2C_SpawnInitialDataRequest	{
 }
 
 message C2S_SpawnInitialDataResponse {
-  repeated Ghost ghosts = 1;
+  repeated GhostInfo ghostInfos = 1;
   repeated ItemInfo itemInfos = 2;
 }
 
 message S2C_StartStageNotification {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated Ghost ghosts = 3;
+  repeated GhostInfo ghostInfos = 3;
   repeated ItemInfo itemInfos = 4;
 }
 

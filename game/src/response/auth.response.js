@@ -48,7 +48,7 @@ export const sendConnectGameResponse = (socket, gameSession, existUserIds) => {
     gameId: gameSession.id,
     hostId: gameSession.hostId,
     existUserIds: existUserIds,
-    ghosts: ghosts,
+    ghostInfos: ghosts,
     ghostTypeIds: [1, 1], // 임시 고스트 타입 5마리 소환하라고 보냅니다.
     globalFailCode: GLOBAL_FAIL_CODE.NONE,
     userState: USER_STATE.INGAME,
