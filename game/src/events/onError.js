@@ -1,6 +1,6 @@
 import { removeUser, getUserBySocket } from '../sessions/user.sessions.js';
 import { getGameSessionById } from '../sessions/game.session.js';
-import { disconnectedUserRedis } from '../redis/util.redis.js';
+import { setUserRedis } from '../redis/user.redis.js';
 
 export const onError = (socket) => async (err) => {
   const user = getUserBySocket(socket);
@@ -14,6 +14,10 @@ export const onError = (socket) => async (err) => {
   // userSession에서 user를 제외시킨다.
   removeUser(socket);
 
-  // 유저 정보 저장
-  await disconnectedUserRedis(socket.userId);
+  // 레디스에 유저 정보 저장
+  await setUserRedis(
+    user.id,
+    user.gameId,
+    user.character.position.getPosition(),
+  );
 };
