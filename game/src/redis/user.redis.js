@@ -17,19 +17,12 @@ export const setUserRedis = async (userId, gameId, position = null) => {
     position: JSON.stringify(position),
   };
 
-  // 유효 시간 구하기
-  // 게임 스테이지 전체 시간 - 진행 시간 = 유효 시간
+  // 유효 시간 구하기 TODO 게임 스테이지 전체 시간 - 진행 시간 = 유효 시간
 
   await redisManager.getClient().hset(key, data);
 
   // 키에 유효 시간 설정
-  await redisManager.getClient().expire(key, 640); // 임시 시간
-
-  // redisManager.getClient().hset(key, 'gameId', gameId);
-  // redisManager.getClient().hset(key, 'position', JSON.stringify(position));
-  // redisManager
-  //   .getClient()
-  //   .set(key, JSON.stringify({ gameId, position }), 'EX', 640);
+  await redisManager.getClient().expire(key, 640); // 임시 시간 640 10분 40초
 };
 
 /**
