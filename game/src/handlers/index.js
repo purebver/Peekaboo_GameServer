@@ -16,6 +16,8 @@ import {
 } from './game/item/item.handler.js';
 import { createRoomHandler } from './game/room/createRoom.handler.js';
 import { joinRoomHandler } from './game/room/joinRoom.handler.js';
+import { ghostAttackedRequestHandler } from './game/ghost/ghostAttacked.handler.js';
+import { ghostStateChangeRequestHandler } from './game/ghost/ghostStateChange.handler.js';
 
 const handlers = {
   [PACKET_TYPE.PlayerMoveRequest]: {
@@ -74,6 +76,16 @@ const handlers = {
     protoType: 'common.GamePacket',
   },
   /*-------------------------권영현 작업--------------------------*/
+  /*-------------------------문진수 작업--------------------------*/
+  [PACKET_TYPE.GhostStateChangeRequest]: {
+    handler: ghostStateChangeRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.GhostAttackedRequest]: {
+    handler: ghostAttackedRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  /*-------------------------문진수 작업--------------------------*/
 };
 
 export const getHandlerByPacketType = (packetType) => {

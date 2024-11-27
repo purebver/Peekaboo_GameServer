@@ -44,20 +44,7 @@ export const playerAttackedRequestHandler = async ({ socket, payload }) => {
   }
 
   //어택 타입에 따른 life 수치 조절, user.character.state 변경
-  switch (ghost.typeId) {
-    case GHOST_TYPE_ID.SMILINGGENTLEMAN:
-      user.character.life--;
-      break;
-    case GHOST_TYPE_ID.MASSAGER:
-      break;
-    case GHOST_TYPE_ID.NAUGHTYBOY:
-      break;
-    case GHOST_TYPE_ID.DARKHAND:
-      break;
-    case GHOST_TYPE_ID.GRIMREAPER:
-      user.character.life = 0;
-      break;
-  }
+  ghost.attack(user);
 
   if (user.character.life === 0) {
     user.character.state = CHARACTER_STATE.DIED;
