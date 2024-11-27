@@ -85,7 +85,7 @@ message C2S_JoinRoomRequest {
 message S2C_JoinRoomResponse {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  Player players = 3;
+  repeated Player players = 3;
 }
 
 message S2C_JoinRoomNotification {
