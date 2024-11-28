@@ -2,7 +2,7 @@ import { GHOST_TYPE_ID } from '../../constants/ghost.js';
 import { Position, Rotation } from './moveInfo.class.js';
 
 class Ghost {
-  constructor(id, ghostTypeId, position, rotation, state) {
+  constructor(id, ghostTypeId, position, rotation, state = 0) {
     this.id = id;
     this.ghostTypeId = ghostTypeId;
     this.position = new Position(position.x, position.y, position.z);

@@ -3,6 +3,7 @@ import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import {
   itemChangeNotification,
   itemDiscardNotification,
+  itemDisuseNotification,
   itemUseNotification,
 } from '../../../notifications/item/item.notification.js';
 import {
@@ -92,10 +93,14 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
 
-  //사용 불가능한 아이템일 경우 처리안함
-  if (!item.active) {
-    return;
-  }
+  //아이템 타입에 따라 사용 가능 불가능 구분하여 적용
+  // switch(item.typeId){
+  //   case
+  // }
+
+  item.on = true;
+
+  //추후 아이템 타입에 따른 핸들링 필요
 
   await removeItemRedis(socket.userId, inventorySlot);
 
@@ -131,4 +136,28 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   itemDiscardResponse(socket, inventorySlot);
 
   itemDiscardNotification(gameSession, itemInfo, user.character.position);
+};
+
+export const itemDisuseRequestHandler = async ({ socket, payload }) => {
+  const { itemId } = payload;
+
+  const user = getUserById(socket.userId);
+  if (!user) {
+    throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
+  }
+
+  const gameSession = getGameSessionById(user.gameId);
+  if (!gameSession) {
+    throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
+  }
+
+  const item = gameSession.getItem(itemId);
+
+  if (!item) {
+    throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
+  }
+
+  item.on = false;
+
+  itemDisuseNotification(gameSession, socket.userId, itemId);
 };

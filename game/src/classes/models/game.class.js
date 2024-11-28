@@ -16,6 +16,7 @@ class Game {
     this.ghosts = [];
     this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
+    this.stageId = null;
 
     this.inviteCode = getInviteCode();
   }
@@ -91,6 +92,14 @@ class Game {
 
   getItem(itemId) {
     return this.items.find((item) => item.id === itemId);
+  }
+
+  removeItem(itemId) {
+    const index = this.items.findIndex((item) => item.id === itemId);
+    if (index === -1) {
+      return -1;
+    }
+    return this.items.splice(index, 1)[0];
   }
 
   // 평균 레이턴시 구하기

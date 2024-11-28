@@ -46,4 +46,7 @@ export const PACKET_MAPS = {
   [PACKET_TYPE.ExtractSoulRequest]: 'extractSoulRequest',
   [PACKET_TYPE.ExtractSoulNotification]: 'extractSoulNotification',
   [PACKET_TYPE.DisconnectPlayerNotification]: 'disconnectPlayerNotification',
+  [PACKET_TYPE.ItemDeleteNotification]: 'itemDeleteNotification',
+  [PACKET_TYPE.ItemDisuseRequest]: 'itemDisuseRequest',
+  [PACKET_TYPE.ItemDisuseNotification]: 'itemDisuseNotification',
 };
