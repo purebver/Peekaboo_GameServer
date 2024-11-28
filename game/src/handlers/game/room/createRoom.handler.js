@@ -1,8 +1,6 @@
-import CustomError from '../../../Error/custom.error.js';
-import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import { sendCreateRoomResponse } from '../../../response/room/room.response.js';
 import { addGameSession } from '../../../sessions/game.session.js';
-import { addUser, getUserById } from '../../../sessions/user.sessions.js';
+import { addUser } from '../../../sessions/user.sessions.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export const createRoomHandler = async ({ socket, payload }) => {

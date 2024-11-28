@@ -18,6 +18,7 @@ import { createRoomHandler } from './game/room/createRoom.handler.js';
 import { joinRoomHandler } from './game/room/joinRoom.handler.js';
 import { ghostAttackedRequestHandler } from './game/ghost/ghostAttacked.handler.js';
 import { ghostStateChangeRequestHandler } from './game/ghost/ghostStateChange.handler.js';
+import { extractorSoulHandler } from './game/Extractor/extractor.handler.js';
 import {
   spawnInitialDataResponseHandler,
   startStageRequestHandler,
@@ -85,6 +86,10 @@ const handlers = {
   },
   [PACKET_TYPE.JoinRoomRequest]: {
     handler: joinRoomHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.ExtractSoulRequest]: {
+    handler: extractorSoulHandler,
     protoType: 'common.GamePacket',
   },
   /*-------------------------권영현 작업--------------------------*/
