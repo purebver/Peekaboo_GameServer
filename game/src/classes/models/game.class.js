@@ -38,6 +38,12 @@ class Game {
       () => ghostsLocationNotification(this),
       100,
     );
+
+    IntervalManager.getInstance().addGameMonitorInterval(
+      this.id,
+      this.printGameInfo.bind(this),
+      1500,
+    );
   }
 
   async addUser(user, isHost = false) {
@@ -105,6 +111,26 @@ class Game {
 
     const avgLatency = totalLatency / this.users.length;
     return avgLatency;
+  }
+
+  // 게임 모니터링
+  // - 접속 중인 모든 클라이언트의 정보를 일정 시간 마다 출력해준다.
+  printGameInfo() {
+    if (this.users.length === 0) return;
+
+    console.log(
+      `---------- [${this.id.substring(0, 8)}] Game Monitor ------------------------------------------`,
+    );
+    this.users.forEach((user) => {
+      // user.printUserInfo()
+      // - pos, rot, latency를 출력해준다.
+      console.log(
+        `[${user.id.substring(0, 8)}] User : ${user.character.printInfo()}`,
+      );
+    });
+    console.log(
+      `---------------------------------------------------------------------------------------------------------`,
+    );
   }
 }
 

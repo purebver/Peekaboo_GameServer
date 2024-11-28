@@ -19,4 +19,8 @@ export class Character {
   getLastPosition() {
     return this.lastPosition;
   }
+
+  printInfo() {
+    return `Pos: (${this.position.x.toFixed(2)}, ${this.position.y.toFixed(2)}, ${this.position.z.toFixed(2)}) | Rot: (${this.rotation.x.toFixed(2)}, ${this.rotation.y.toFixed(2)}, ${this.rotation.z.toFixed(2)}) | latency: ${this.latency}`;
+  }
 }
