@@ -11,6 +11,7 @@ import {
 import {
   itemChangeRequestHandler,
   itemDiscardRequestHandler,
+  itemDisuseRequestHandler,
   itemGetRequestHandler,
   itemUseRequestHandler,
 } from './game/item/item.handler.js';
@@ -63,6 +64,10 @@ const handlers = {
   },
   [PACKET_TYPE.ItemDiscardRequest]: {
     handler: itemDiscardRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.ItemDisuseRequest]: {
+    handler: itemDisuseRequestHandler,
     protoType: 'common.GamePacket',
   },
   /*-------------------------장재영 작업--------------------------*/
