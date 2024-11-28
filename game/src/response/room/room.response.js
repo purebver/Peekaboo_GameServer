@@ -14,7 +14,11 @@ export const sendCreateRoomResponse = (socket, game) => {
     gameSessionId: game.id,
     inviteCode: game.inviteCode, // 임시 고스트 타입
   };
-  const responseData = serializer(PACKET_TYPE.CreateRoomResponse, data, 0); // sequence도 임시로
+  const responseData = serializer(
+    PACKET_TYPE.CreateRoomResponse,
+    data,
+    socket.sequence++,
+  ); // sequence도 임시로
   socket.write(responseData);
 };
 
@@ -37,6 +41,10 @@ export const sendJoinRoomResponse = (socket, game) => {
     message: '방에 성공적으로 참가하였습니다.',
     playerInfos: players,
   };
-  const responseData = serializer(PACKET_TYPE.JoinRoomResponse, data, 0); // sequence도 임시로
+  const responseData = serializer(
+    PACKET_TYPE.JoinRoomResponse,
+    data,
+    socket.sequence++,
+  ); // sequence도 임시로
   socket.write(responseData);
 };
