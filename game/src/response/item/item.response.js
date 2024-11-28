@@ -1,22 +1,18 @@
 import { PACKET_TYPE } from '../../constants/header.js';
 import { serializer } from '../../utils/packet/create.packet.js';
 
-export const itemGetResponse = (socket, itemInfo, inventorySlot) => {
+export const itemGetResponse = (socket, itemId, inventorySlot) => {
   const newPayload = {
-    itemInfo,
+    itemId,
     inventorySlot,
   };
   const packet = serializer(PACKET_TYPE.ItemGetResponse, newPayload, 0);
   socket.write(packet);
 };
 
-export const itemUseResponse = (socket, itemId, itemTypeId, inventorySlot) => {
-  const itemInfo = {
-    itemId,
-    itemTypeId,
-  };
+export const itemUseResponse = (socket, itemId, inventorySlot) => {
   const responsePayload = {
-    itemInfo,
+    itemId,
     inventorySlot,
   };
   const packet = serializer(PACKET_TYPE.ItemUseResponse, responsePayload, 0);

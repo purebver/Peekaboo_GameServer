@@ -1,4 +1,3 @@
-import { PACKET_TYPE } from '../../../constants/header.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import {
@@ -21,7 +20,7 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 
 // 아마도 불큐 사용할 구간
 export const itemGetRequestHandler = async ({ socket, payload }) => {
-  const { itemInfo, inventorySlot } = payload;
+  const { itemId, inventorySlot } = payload;
 
   const user = getUserById(socket.userId);
   if (!user) {
@@ -36,7 +35,7 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
   const [bool, newInventorySlot] = await setItemRedis(
     socket.userId,
     inventorySlot,
-    itemInfo.itemId,
+    itemId,
   );
 
   // 모든 슬롯에 아이템이 있을경우 처리 중지
@@ -45,10 +44,10 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
   }
 
   // 응답 보내주기
-  itemGetResponse(socket, itemInfo, newInventorySlot);
+  itemGetResponse(socket, itemId, newInventorySlot);
 
   // 손에 들어주기
-  itemChangeNotification(gameSession, socket.userId, itemInfo);
+  itemChangeNotification(gameSession, socket.userId, itemId);
 };
 
 export const itemChangeRequestHandler = async ({ socket, payload }) => {
@@ -70,13 +69,8 @@ export const itemChangeRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
 
-  const itemInfo = {
-    itemId,
-    itemTypeId: item.itemTypeId,
-  };
-
   // 손에 들어주기
-  itemChangeNotification(gameSession, socket.userId, itemInfo);
+  itemChangeNotification(gameSession, socket.userId, itemId);
 };
 
 export const itemUseRequestHandler = async ({ socket, payload }) => {
@@ -105,9 +99,9 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
 
   await removeItemRedis(socket.userId, inventorySlot);
 
-  itemUseResponse(socket, itemId, item.itemTypeId, inventorySlot);
+  itemUseResponse(socket, itemId, inventorySlot);
 
-  itemUseNotification(gameSession, socket.userId, itemInfo);
+  itemUseNotification(gameSession, socket.userId, itemId);
 };
 
 export const itemDiscardRequestHandler = async ({ socket, payload }) => {
@@ -127,6 +121,9 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   const item = gameSession.getItem(itemId);
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
+  }
+  if (itemInfo.itemId !== itemId) {
+    throw new CustomError(ErrorCodesMaps.ITEM_DETERIORATION);
   }
 
   await removeItemRedis(socket.userId, inventorySlot);

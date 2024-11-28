@@ -1,10 +1,10 @@
 import { serializer } from '../../utils/packet/create.packet.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 
-export const itemChangeNotification = (gameSession, userId, itemInfo) => {
+export const itemChangeNotification = (gameSession, userId, itemId) => {
   const payload = {
     userId,
-    itemInfo,
+    itemId,
   };
   const packet = serializer(PACKET_TYPE.ItemChangeNotification, payload, 0);
 
@@ -13,10 +13,10 @@ export const itemChangeNotification = (gameSession, userId, itemInfo) => {
   });
 };
 
-export const itemUseNotification = (gameSession, userId, itemInfo) => {
+export const itemUseNotification = (gameSession, userId, itemId) => {
   const payload = {
     userId,
-    itemInfo,
+    itemId,
   };
   const packet = serializer(PACKET_TYPE.ItemUseNotification, payload, 0);
 
