@@ -93,6 +93,14 @@ class Game {
     return this.items.find((item) => item.id === itemId);
   }
 
+  removeItem(itemId) {
+    const index = this.items.findIndex((item) => item.id === itemId);
+    if (index === -1) {
+      return -1;
+    }
+    return this.items.splice(index, 1)[0];
+  }
+
   // 평균 레이턴시 구하기
   getAvgLatency() {
     const totalLatency = this.users.reduce((total, user) => {

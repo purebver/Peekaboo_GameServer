@@ -48,4 +48,6 @@ export const PACKET_TYPE = {
   GhostSpecialStateRequest: 44,
   GhostSpecialStateNotification: 45,
   ItemDeleteNotification: 46,
+  ItemDisuseRequest: 47,
+  ItemDisuseNotification: 48,
 };
