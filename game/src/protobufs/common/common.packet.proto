@@ -44,5 +44,7 @@ message GamePacket {
     C2S_ExtractSoulRequest extractSoulRequest = 41;
     S2C_ExtractSoulNotification extractSoulNotification = 42;
     S2C_DisconnectPlayerNotification disconnectPlayerNotification = 43;
+    C2S_GhostSpecialStateRequest ghostSpecialStateRequest = 44;
+    S2C_GhostSpecialStateNotification ghostSpecialStateNotification = 45;
   }
 }
