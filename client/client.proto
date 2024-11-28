@@ -87,7 +87,7 @@ message GhostStateInfo {
 message ItemInfo {
   uint32 itemId = 1;
   uint32 itemTypeId = 2;
-  MoveInfo moveInfo = 3;
+  Position position = 3;
 }
 
 message C2S_PlayerMoveRequest {
