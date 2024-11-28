@@ -12,6 +12,7 @@ export const joinRoomHandler = async ({ socket, payload }) => {
 
   // 방에 참가한 유저를 userSessions에 추가시켜준다.
   const user = addUser(userId, socket);
+  socket.userId = userId;
 
   // inviteCode로 참가할 방 검증
   const gameSession = getGameSessionByInviteCode(inviteCode);
