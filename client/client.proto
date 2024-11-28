@@ -267,11 +267,13 @@ message S2C_StageEndNotification {
 }
 
 message C2S_ExtractSoulRequest {
-  uint32 soulAmount = 1;
+  uint32 userId = 1;
+  uint32 itemId = 2;
+  uint32 inventorySlot = 3;
 }
 
 message S2C_ExtractSoulNotification {
-  uint32 soulAccumulatedAmount = 1;
+  uint32 soulAccumulatedAmount = 1; 
 }
 
 message S2C_DisconnectPlayerNotification {
