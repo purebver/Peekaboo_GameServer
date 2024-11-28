@@ -45,4 +45,9 @@ export const PACKET_TYPE = {
   ExtractSoulRequest: 41,
   ExtractSoulNotification: 42,
   DisconnectPlayerNotification: 43,
+  GhostSpecialStateRequest: 44,
+  GhostSpecialStateNotification: 45,
+  ItemDeleteNotification: 46,
+  ItemDisuseRequest: 47,
+  ItemDisuseNotification: 48,
 };

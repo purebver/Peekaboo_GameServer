@@ -46,5 +46,8 @@ message GamePacket {
     S2C_DisconnectPlayerNotification disconnectPlayerNotification = 43;
     C2S_GhostSpecialStateRequest ghostSpecialStateRequest = 44;
     S2C_GhostSpecialStateNotification ghostSpecialStateNotification = 45;
+    S2C_ItemDeleteNotification itemDeleteNotification = 46;
+    C2S_ItemDisuseRequest itemDisuseRequest = 47;
+    S2C_ItemDisuseNotification itemDisuseNotification = 48;
   }
 }
