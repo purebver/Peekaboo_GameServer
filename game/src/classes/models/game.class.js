@@ -14,6 +14,7 @@ class Game {
     this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
     this.stageId = null;
+    this.ghostCSpawn = false;
 
     this.goalSoulAmount = 0;
     this.soulAccumulatedAmount = 0;
