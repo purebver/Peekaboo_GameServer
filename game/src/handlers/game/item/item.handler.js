@@ -7,6 +7,7 @@ import {
   itemUseNotification,
 } from '../../../notifications/item/item.notification.js';
 import {
+  checkInventoryRedis,
   getItemRedis,
   removeItemRedis,
   setItemRedis,
@@ -49,6 +50,14 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
 
   // 손에 들어주기
   itemChangeNotification(gameSession, socket.userId, itemId);
+
+  if (!gameSession.ghostCSpawn) {
+    const check = await checkInventoryRedis(socket.userId);
+    if (check) {
+      gameSession.ghostCSpawn === true;
+      //ghostC 소환 요청 로직 추가
+    }
+  }
 };
 
 export const itemChangeRequestHandler = async ({ socket, payload }) => {
