@@ -28,7 +28,7 @@ export const ghostsLocationNotification = (gameSession) => {
     const responseData = serializer(
       PACKET_TYPE.GhostMoveNotification,
       { ghostMoveInfos },
-      0,
+      user.socket.sequence++,
     );
     user.socket.write(responseData);
   });
@@ -57,16 +57,15 @@ export const ghostStateChangeNotification = (
     ghostState,
   };
 
-  const packet = serializer(
-    PACKET_TYPE.GhostStateChangeNotification,
-    payload,
-    0,
-  );
-
   gameSession.users.forEach((user) => {
     if (gameSession.hostId === user.id) {
       return;
     }
+    const packet = serializer(
+      PACKET_TYPE.GhostStateChangeNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 

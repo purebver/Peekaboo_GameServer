@@ -10,9 +10,12 @@ export const joinRoomNotification = (gameSession, userId) => {
     userId,
   };
 
-  const packet = serializer(PACKET_TYPE.JoinRoomNotification, payload, 0);
-
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.JoinRoomNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
@@ -29,12 +32,15 @@ export const startStageNotification = (
     ghostInfos,
     itemInfos,
   };
-  const packet = serializer(PACKET_TYPE.StartStageNotification, payload, 0);
+
   gameSession.users.forEach((user) => {
     if (user.id !== userId) {
+      const packet = serializer(
+        PACKET_TYPE.StartStageNotification,
+        payload,
+        user.socket.sequence++,
+      );
       user.socket.write(packet);
     }
   });
-
-  gameSession.state = GAME_SESSION_STATE.INPROGRESS;
 };

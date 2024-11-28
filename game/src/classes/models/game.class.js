@@ -3,10 +3,7 @@ import { GAME_SESSION_STATE } from '../../constants/state.js';
 import { Character } from './character.class.js';
 import { getInviteCode } from '../../utils/room/inviteCode.room.js';
 import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
-import {
-  connectNewPlayerNotification,
-  disconnectPlayerNotification,
-} from '../../notifications/system/system.notification.js';
+import { disconnectPlayerNotification } from '../../notifications/system/system.notification.js';
 
 class Game {
   constructor(id) {
@@ -41,8 +38,6 @@ class Game {
       () => ghostsLocationNotification(this),
       100,
     );
-
-    startGameNotification(this);
   }
 
   async addUser(user, isHost = false) {
@@ -52,9 +47,6 @@ class Game {
     const character = new Character();
     user.attachCharacter(character);
     user.setGameId(this.id);
-
-    // 참가한 유저를 이미 참가한 유저에게 Noti
-    await connectNewPlayerNotification(this, user);
 
     this.users.push(user);
 

@@ -7,9 +7,13 @@ export const itemChangeNotification = (gameSession, userId, itemId) => {
     userId,
     itemId,
   };
-  const packet = serializer(PACKET_TYPE.ItemChangeNotification, payload, 0);
 
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemChangeNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
@@ -19,9 +23,13 @@ export const itemUseNotification = (gameSession, userId, itemId) => {
     userId,
     itemId,
   };
-  const packet = serializer(PACKET_TYPE.ItemUseNotification, payload, 0);
 
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemUseNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
@@ -31,9 +39,13 @@ export const itemDiscardNotification = (gameSession, itemInfo, position) => {
     itemInfo,
     position: position.getPosition(),
   };
-  const packet = serializer(PACKET_TYPE.ItemDiscardNotification, payload, 0);
 
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemDiscardNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
@@ -48,9 +60,13 @@ export const itemDeleteNotification = (gameSession, itemId) => {
   const payload = {
     itemId,
   };
-  const packet = serializer(PACKET_TYPE.ItemDeleteNotification, payload, 0);
 
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemDeleteNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
@@ -60,8 +76,13 @@ export const itemDisuseNotification = (gameSession, userId, itemId) => {
     userId,
     itemId,
   };
-  const packet = serializer(PACKET_TYPE.ItemDisuseNotification, payload, 0);
+
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemDisuseNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };

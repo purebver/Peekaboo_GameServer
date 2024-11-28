@@ -21,7 +21,7 @@ export const startStageRequestHandler = ({ socket, payload }) => {
   const packet = serializer(
     PACKET_TYPE.SpawnInitialDataRequest,
     s2cRequestPayload,
-    0,
+    socket.sequence++,
   );
 
   socket.write(packet);
@@ -54,4 +54,6 @@ export const spawnInitialDataResponseHandler = ({ socket, payload }) => {
   });
 
   startStageNotification(gameSession, socket.userId, ghostInfos, itemInfos);
+
+  gameSession.startGame();
 };
