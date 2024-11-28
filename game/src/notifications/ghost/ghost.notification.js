@@ -64,7 +64,7 @@ export const ghostStateChangeNotification = (
     }
     const packet = serializer(
       PACKET_TYPE.GhostStateChangeNotification,
-      payload,
+      data,
       user.socket.sequence++,
     );
     user.socket.write(packet);
@@ -128,13 +128,17 @@ export const ghostSpecialStateNotification = (gameSession, payload) => {
     isOn,
   };
 
-  const packet = serializer(PACKET_TYPE.GhostSpecialStateNotification, data, 0);
-
   // 호스트 제외 packet 전송
   gameSession.users.forEach((user) => {
     if (gameSession.hostId === user.id) {
       return;
     }
+
+    const packet = serializer(
+      PACKET_TYPE.GhostSpecialStateNotification,
+      data,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };
