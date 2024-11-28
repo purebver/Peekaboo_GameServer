@@ -23,6 +23,7 @@ import {
   spawnInitialDataResponseHandler,
   startStageRequestHandler,
 } from './game/room/waitingRoom.handler.js';
+import { ghostSpecialStateRequestHandler } from './game/ghost/ghostSpecialState.handler.js';
 
 const handlers = {
   [PACKET_TYPE.PlayerMoveRequest]: {
@@ -100,6 +101,10 @@ const handlers = {
   },
   [PACKET_TYPE.GhostAttackedRequest]: {
     handler: ghostAttackedRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.GhostSpecialStateRequest]: {
+    handler: ghostSpecialStateRequestHandler,
     protoType: 'common.GamePacket',
   },
   /*-------------------------문진수 작업--------------------------*/
