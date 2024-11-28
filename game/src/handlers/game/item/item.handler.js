@@ -7,7 +7,6 @@ import {
   itemUseNotification,
 } from '../../../notifications/item/item.notification.js';
 import {
-  checkInventoryRedis,
   getItemRedis,
   removeItemRedis,
   setItemRedis,
@@ -45,6 +44,8 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
     return;
   }
 
+  user.character.itemCount++;
+
   // 응답 보내주기
   itemGetResponse(socket, itemId, newInventorySlot);
 
@@ -52,8 +53,7 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
   itemChangeNotification(gameSession, socket.userId, itemId);
 
   if (!gameSession.ghostCSpawn) {
-    const check = await checkInventoryRedis(socket.userId);
-    if (check) {
+    if (user.character.itemCount === 4) {
       gameSession.ghostCSpawn === true;
       //ghostC 소환 요청 로직 추가
     }
@@ -141,6 +141,8 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   }
 
   await removeItemRedis(socket.userId, inventorySlot);
+
+  user.character.itemCount--;
 
   itemDiscardResponse(socket, inventorySlot);
 
