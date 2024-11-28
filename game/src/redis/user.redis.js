@@ -1,7 +1,5 @@
 import redisManager from '../classes/managers/redisManager.js';
-import { Position } from '../classes/models/moveInfo.class.js';
 import { config } from '../config/config.js';
-import { getItemRedis, setItemRedis } from './item.redis.js';
 
 /**
  * 해당 유저의 정보를 redis에 저장하는 함수입니다.

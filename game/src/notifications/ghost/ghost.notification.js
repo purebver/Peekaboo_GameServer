@@ -45,24 +45,22 @@ export const ghostStateChangeNotification = (
   ghostId,
   ghostState,
 ) => {
-  // 게임 세션에 포함된 ghost찾기
+  // 고스트 검증
   const ghost = gameSession.getGhost(ghostId);
   if (!ghost) {
     throw new CustomError(ErrorCodesMaps.GHOST_NOT_FOUND);
   }
   ghost.setState(ghostState);
 
-  const payload = {
+  const data = {
     ghostId,
     ghostState,
   };
 
-  const packet = serializer(
-    PACKET_TYPE.GhostStateChangeNotification,
-    payload,
-    0,
-  );
+  // 추후 클라이언트 sequence 검증떄문에 forEach안으로 넣어줘야 될 것도 같습니다.
+  const packet = serializer(PACKET_TYPE.GhostStateChangeNotification, data, 0);
 
+  // 호스트 제외 packet 전송
   gameSession.users.forEach((user) => {
     if (gameSession.hostId === user.id) {
       return;
@@ -106,4 +104,35 @@ export const ghostStateChangeNotification = (
   //     }
   //     break;
   // }
+};
+
+/**
+ * 귀신의 특수상태 통지를 알리는 함수입니다. (호스트 제외)
+ * @param {*} gameSession
+ * @param {*} payload
+ */
+export const ghostSpecialStateNotification = (gameSession, payload) => {
+  const { ghostId, specialStateType, isOn } = payload;
+
+  // 고스트 검증
+  const ghost = gameSession.getGhost(ghostId);
+  if (!ghost) {
+    throw new CustomError(ErrorCodesMaps.GHOST_NOT_FOUND);
+  }
+
+  const data = {
+    ghostId,
+    specialStateType,
+    isOn,
+  };
+
+  const packet = serializer(PACKET_TYPE.GhostSpecialStateNotification, data, 0);
+
+  // 호스트 제외 packet 전송
+  gameSession.users.forEach((user) => {
+    if (gameSession.hostId === user.id) {
+      return;
+    }
+    user.socket.write(packet);
+  });
 };

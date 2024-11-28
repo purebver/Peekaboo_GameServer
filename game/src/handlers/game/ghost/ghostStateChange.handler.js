@@ -9,13 +9,13 @@ export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
   try {
     const { ghostStateInfo } = payload;
     const { ghostId, ghostState } = ghostStateInfo;
-    // user찾기
+    // user 검증
     const user = getUserById(socket.userId);
     if (!user) {
       throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
     }
 
-    // user를 통해 게임 세션찾기
+    // 게임 세션 검증
     const gameSession = getGameSessionById(user.gameId);
     if (!gameSession) {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
@@ -26,8 +26,3 @@ export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
     handleError(e);
   }
 };
-
-// message GhostStateInfo {
-//     uint32 ghostId = 1;
-//     GhostState ghostState = 2;
-// }
