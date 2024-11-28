@@ -72,4 +72,8 @@ export const ErrorCodesMaps = {
     code: 10017,
     message: '아이템 검증 오류',
   },
+  ITEM_DETERIORATION: {
+    code: 10018,
+    message: '아이템 검증 오류',
+  },
 };

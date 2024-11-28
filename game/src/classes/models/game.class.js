@@ -16,6 +16,7 @@ class Game {
     this.ghosts = [];
     this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
+    this.stageId = null;
 
     this.inviteCode = getInviteCode();
   }
