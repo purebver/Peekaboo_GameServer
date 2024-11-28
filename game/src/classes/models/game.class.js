@@ -20,7 +20,6 @@ class Game {
 
     this.goalSoulAmount = 0;
     this.soulAccumulatedAmount = 0;
-    this.stageId = null;
 
     this.inviteCode = getInviteCode();
   }
