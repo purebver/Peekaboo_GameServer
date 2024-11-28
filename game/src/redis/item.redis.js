@@ -26,22 +26,6 @@ export const setItemRedis = async (userId, inventorySlot, itemId) => {
   return [1, inventorySlot];
 };
 
-export const checkInventoryRedis = async (userId) => {
-  let count = 0;
-  let i = 1;
-  while (i < 5) {
-    const Key = `${config.redis.user_set}:${userId}:${i}`;
-    if (await redisManager.getClient().exists(newKey)) {
-      count++;
-    }
-    i++;
-  }
-  if (count === 4) {
-    return true;
-  }
-  return false;
-};
-
 export const getItemRedis = async (userId, inventorySlot) => {
   const key = `${config.redis.user_set}:${userId}:${inventorySlot}`;
 
