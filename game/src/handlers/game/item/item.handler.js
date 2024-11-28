@@ -97,6 +97,8 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
     return;
   }
 
+  //추후 아이템 타입에 따른 핸들링 필요
+
   await removeItemRedis(socket.userId, inventorySlot);
 
   itemUseResponse(socket, itemId, inventorySlot);

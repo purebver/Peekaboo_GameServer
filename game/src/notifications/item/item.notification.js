@@ -36,3 +36,14 @@ export const itemDiscardNotification = (gameSession, itemInfo, position) => {
     user.socket.write(packet);
   });
 };
+
+export const itemDeleteNotification = (gameSession, itemId) => {
+  const payload = {
+    itemId,
+  };
+  const packet = serializer(PACKET_TYPE.ItemDeleteNotification, payload, 0);
+
+  gameSession.users.forEach((user) => {
+    user.socket.write(packet);
+  });
+};
