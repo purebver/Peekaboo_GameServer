@@ -51,7 +51,7 @@ message C2S_ItemChangeRequest {
 
 message S2C_ItemChangeNotification {
   string userId = 1;
-  ItemInfo itemInfo = 2;
+  uint32 itemId = 2;
 }
 
 message C2S_LoginRequest {
@@ -80,12 +80,14 @@ message S2C_CreateRoomResponse {
 message C2S_JoinRoomRequest {
   string userId = 1;
   string inviteCode = 2;
+  string token = 3;
 }
 
 message S2C_JoinRoomResponse {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated Player players = 3;
+  string gameSessionId = 3;
+  repeated PlayerInfo playerInfos = 4;
 }
 
 message S2C_JoinRoomNotification {
@@ -129,12 +131,12 @@ message C2S_GhostAttackedRequest {
 }
 
 message C2S_ItemGetRequest {
-  ItemInfo itemInfo = 1;
+  uint32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
 message S2C_ItemGetResponse {
-  ItemInfo itemInfo = 1;
+  int32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
@@ -143,13 +145,13 @@ message C2S_ItemUseRequest {
 }
 
 message S2C_ItemUseResponse {
-  ItemInfo itemInfo = 1;
+  int32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
 message S2C_ItemUseNotification {
   string userId = 1;
-  ItemInfo itemInfo = 2;
+  int32 itemId = 2;
 }
 
 message C2S_ItemDiscardRequest {
@@ -163,7 +165,6 @@ message S2C_ItemDiscardResponse {
 
 message S2C_ItemDiscardNotification {
   ItemInfo itemInfo = 1;
-  Position position = 2;
 }
 
 message C2S_DoorToggleRequest{
@@ -192,8 +193,14 @@ message S2C_DisconnectPlayerNotification {
   string userId = 1;
 }
 
-message S2C_ConnectResponse {
-  string userId = 1;
-  string token = 2;
-  GlobalFailCode globalFailCode = 3;
+message C2S_GhostSpecialStateRequest {
+  uint32 ghostId = 1;
+  uint32 specialState = 2;
+  bool isOn = 3;
+}
+
+message S2C_GhostSpecialStateNotification {
+  uint32 ghostId = 1;
+  uint32 specialState = 2;
+  bool isOn = 3;
 }
