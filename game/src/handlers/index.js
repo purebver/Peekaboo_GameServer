@@ -1,4 +1,3 @@
-import { spawnInitialGhostRequestHandler } from './auth/connectGame.handler.js';
 import { movePlayerRequestHandler } from './game/player/movePlayer.handler.js';
 import { moveGhostRequestHandler } from './game/ghost/moveGhost.handler.js';
 import { PACKET_TYPE } from '../constants/header.js';
@@ -19,6 +18,10 @@ import { createRoomHandler } from './game/room/createRoom.handler.js';
 import { joinRoomHandler } from './game/room/joinRoom.handler.js';
 import { ghostAttackedRequestHandler } from './game/ghost/ghostAttacked.handler.js';
 import { ghostStateChangeRequestHandler } from './game/ghost/ghostStateChange.handler.js';
+import {
+  spawnInitialDataResponseHandler,
+  startStageRequestHandler,
+} from './game/room/waitingRoom.handler.js';
 
 const handlers = {
   [PACKET_TYPE.PlayerMoveRequest]: {
@@ -29,15 +32,19 @@ const handlers = {
     handler: moveGhostRequestHandler,
     protoType: 'common.GamePacket',
   },
-  [PACKET_TYPE.SpawnInitialGhostRequest]: {
-    handler: spawnInitialGhostRequestHandler,
-    protoType: 'common.GamePacket',
-  },
   [PACKET_TYPE.PingResponse]: {
     handler: pingHandler,
     protoType: 'common.GamePacket',
   },
   /*-------------------------장재영 작업--------------------------*/
+  [PACKET_TYPE.StartStageRequest]: {
+    handler: startStageRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.SpawnInitialDataResponse]: {
+    handler: spawnInitialDataResponseHandler,
+    protoType: 'common.GamePacket',
+  },
   [PACKET_TYPE.DoorToggleRequest]: {
     handler: doorToggleRequestHandler,
     protoType: 'common.GamePacket',
