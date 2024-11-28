@@ -58,4 +58,5 @@ message GhostStateInfo {
 message ItemInfo {
   uint32 itemId = 1;
   uint32 itemTypeId = 2;
+  Position position =3;
 }
