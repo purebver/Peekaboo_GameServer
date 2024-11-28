@@ -5,7 +5,7 @@ import { GAME_SESSION_STATE } from '../../constants/state.js';
 /**
  * 방에 참가한 플레이어 정보를 기존 유저들에게 알리는 함수
  */
-export const joinRoomNotification = (gameSession, userId) => {
+export const joinRoomNotification = async (gameSession, userId) => {
   const payload = {
     userId,
   };
