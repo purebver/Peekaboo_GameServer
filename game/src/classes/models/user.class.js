@@ -47,9 +47,9 @@ class User {
   receivePing(data) {
     const now = Date.now();
     this.character.latency = (now - data.timestamp) / 2;
-    console.log(
-      `Received pong from user ${this.id} at ${now} with latency ${this.character.latency}ms`,
-    );
+    //console.log(
+    //  `Received pong from user ${this.id} at ${now} with latency ${this.character.latency}ms`,
+    //);
   }
 }
 

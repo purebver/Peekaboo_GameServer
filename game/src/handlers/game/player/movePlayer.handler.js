@@ -2,6 +2,8 @@ import CustomError from '../../../Error/custom.error.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { usersLocationNotification } from '../../../notifications/player/player.notification.js';
+import { ErrorCodesMaps } from '../../../Error/error.codes.js';
+import { userSessions } from '../../../sessions/sessions.js';
 
 // 플레이어 이동 요청에 따른 핸들러 함수
 export const movePlayerRequestHandler = ({ socket, payload }) => {
@@ -31,6 +33,6 @@ export const movePlayerRequestHandler = ({ socket, payload }) => {
 
     usersLocationNotification(gameSession);
   } catch (e) {
-    console.error(e.message);
+    console.error(`${e.message}`);
   }
 };
