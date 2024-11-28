@@ -7,7 +7,7 @@ export const extractSoulNotification = (gameSession, soulAccumulatedAmount) => {
     const responseData = serializer(
       PACKET_TYPE.ExtractSoulNotification,
       { soulAccumulatedAmount: soulAccumulatedAmount },
-      0,
+      user.socket.sequence++,
     );
     user.socket.write(responseData);
   });

@@ -66,25 +66,23 @@ export const usersLocationNotification = (gameSession) => {
     return locationData;
   });
 
-  const userLocationPayload = serializer(
-    PACKET_TYPE.PlayerMoveNotification,
-    { playerMoveInfos: userLocations },
-    0,
-  );
-
   gameSession.users.forEach((user) => {
+    const userLocationPayload = serializer(
+      PACKET_TYPE.PlayerMoveNotification,
+      { playerMoveInfos: userLocations },
+      user.socket.sequence++,
+    );
     user.socket.write(userLocationPayload);
   });
 };
 
 export const playerStateChangeNotification = (gameSession, payload) => {
-  const packet = serializer(
-    PACKET_TYPE.PlayerStateChangeNotification,
-    payload,
-    0,
-  );
-
   gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.PlayerStateChangeNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 };

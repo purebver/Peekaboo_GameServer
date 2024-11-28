@@ -34,7 +34,7 @@ class User {
     const pingPacket = serializer(
       PACKET_TYPE.PingRequest,
       { timestamp: now },
-      this.socket.sequence,
+      this.socket.sequence++,
     );
 
     this.socket.write(pingPacket);

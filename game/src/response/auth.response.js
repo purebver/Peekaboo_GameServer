@@ -21,7 +21,11 @@ export const invalidTokenResponse = (socket) => {
     gameSessionState: GAME_SESSION_STATE.PREPARE,
     message: '해당 토큰이 일치하지 않아 게임을 입장할 수 없습니다.',
   };
-  const responseData = serializer(PACKET_TYPE.ConnectGameResponse, data, 0); // sequence도 임시로
+  const responseData = serializer(
+    PACKET_TYPE.ConnectGameResponse,
+    data,
+    socket.sequence++,
+  ); // sequence도 임시로
   socket.write(responseData);
 };
 
@@ -55,6 +59,10 @@ export const sendConnectGameResponse = (socket, gameSession, existUserIds) => {
     gameSessionState: gameSession.state,
     message: '게임 세션 입장에 성공하였습니다.',
   };
-  const responseData = serializer(PACKET_TYPE.ConnectGameResponse, data, 0); // sequence도 임시로
+  const responseData = serializer(
+    PACKET_TYPE.ConnectGameResponse,
+    data,
+    socket.sequence++,
+  ); // sequence도 임시로
   socket.write(responseData);
 };

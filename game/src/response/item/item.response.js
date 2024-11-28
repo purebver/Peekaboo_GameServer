@@ -6,7 +6,11 @@ export const itemGetResponse = (socket, itemId, inventorySlot) => {
     itemId,
     inventorySlot,
   };
-  const packet = serializer(PACKET_TYPE.ItemGetResponse, newPayload, 0);
+  const packet = serializer(
+    PACKET_TYPE.ItemGetResponse,
+    newPayload,
+    socket.sequence++,
+  );
   socket.write(packet);
 };
 
@@ -15,7 +19,11 @@ export const itemUseResponse = (socket, itemId, inventorySlot) => {
     itemId,
     inventorySlot,
   };
-  const packet = serializer(PACKET_TYPE.ItemUseResponse, responsePayload, 0);
+  const packet = serializer(
+    PACKET_TYPE.ItemUseResponse,
+    responsePayload,
+    socket.sequence++,
+  );
 
   socket.write(packet);
 };
@@ -27,7 +35,7 @@ export const itemDiscardResponse = (socket, inventorySlot) => {
   const packet = serializer(
     PACKET_TYPE.ItemDiscardResponse,
     responsePayload,
-    0,
+    socket.sequence++,
   );
 
   socket.write(packet);

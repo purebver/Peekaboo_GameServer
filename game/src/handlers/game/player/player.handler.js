@@ -56,7 +56,11 @@ export const playerAttackedRequestHandler = async ({ socket, payload }) => {
     life: user.character.life,
   };
 
-  const packet = serializer(PACKET_TYPE.PlayerLifeResponse, lifePayload, 0);
+  const packet = serializer(
+    PACKET_TYPE.PlayerLifeResponse,
+    lifePayload,
+    socket.sequence++,
+  );
 
   socket.write(packet);
 

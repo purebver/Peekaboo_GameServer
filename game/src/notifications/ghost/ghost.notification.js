@@ -28,7 +28,7 @@ export const ghostsLocationNotification = (gameSession) => {
     const responseData = serializer(
       PACKET_TYPE.GhostMoveNotification,
       { ghostMoveInfos },
-      0,
+      user.socket.sequence++,
     );
     user.socket.write(responseData);
   });
@@ -57,14 +57,16 @@ export const ghostStateChangeNotification = (
     ghostState,
   };
 
-  // 추후 클라이언트 sequence 검증떄문에 forEach안으로 넣어줘야 될 것도 같습니다.
-  const packet = serializer(PACKET_TYPE.GhostStateChangeNotification, data, 0);
-
   // 호스트 제외 packet 전송
   gameSession.users.forEach((user) => {
     if (gameSession.hostId === user.id) {
       return;
     }
+    const packet = serializer(
+      PACKET_TYPE.GhostStateChangeNotification,
+      payload,
+      user.socket.sequence++,
+    );
     user.socket.write(packet);
   });
 
