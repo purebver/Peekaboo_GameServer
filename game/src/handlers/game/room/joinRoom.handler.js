@@ -22,7 +22,7 @@ export const joinRoomHandler = async ({ socket, payload }) => {
 
   // 플레이어를 참가시키기 전에
   // 기존에 참가한 유저들에게 참가할 플레이어를 joinRoomNotification로 알려준다.
-  joinRoomNotification(gameSession, user.id);
+  await joinRoomNotification(gameSession, user.id);
 
   // 방에 유저를 참가시킨다.
   gameSession.addUser(user);
