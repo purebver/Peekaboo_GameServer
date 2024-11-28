@@ -52,7 +52,7 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
   itemChangeNotification(gameSession, socket.userId, itemId);
 
   if (!gameSession.ghostCSpawn) {
-    const check = checkInventoryRedis(socket.userId);
+    const check = await checkInventoryRedis(socket.userId);
     if (check) {
       gameSession.ghostCSpawn === true;
       //ghostC 소환 요청 로직 추가
