@@ -18,6 +18,10 @@ class Game {
     this.state = GAME_SESSION_STATE.PREPARE;
     this.stageId = null;
 
+    this.goalSoulAmount = 0;
+    this.soulAccumulatedAmount = 0;
+    this.stageId = null;
+
     this.inviteCode = getInviteCode();
   }
 

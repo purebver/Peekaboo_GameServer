@@ -8,6 +8,7 @@ class User {
     this.id = id;
     this.socket = socket;
     this.state = USER_STATE.STAY;
+    this.exp = 0;
 
     // 게임 관련 정보
     this.gameId = null;
