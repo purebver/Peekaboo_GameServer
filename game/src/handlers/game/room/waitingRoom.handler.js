@@ -7,15 +7,16 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 import { serializer } from '../../../utils/packet/create.packet.js';
 
 export const startStageRequestHandler = ({ socket, payload }) => {
-  const { gameSessionId, stageId } = payload;
+  const { gameSessionId, difficultyId } = payload;
 
   const gameSession = getGameSessionById(gameSessionId);
 
-  gameSession.stageId = stageId;
+  gameSession.difficultyId = difficultyId;
 
   const s2cRequestPayload = {
     globalFailCode: 0,
-    message: '게임을 시작합니다.',
+    difficultyId,
+    message: '게임 시작을 요청합니다.',
   };
 
   const packet = serializer(
