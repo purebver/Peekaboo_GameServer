@@ -1,5 +1,6 @@
 import { Rotation, Position } from './moveInfo.class.js';
 import { CHARACTER_STATE } from '../../constants/state.js';
+import { Inventory } from './inventory.class.js';
 
 export class Character {
   constructor() {
@@ -14,11 +15,15 @@ export class Character {
     this.speed = 1;
     this.latency = null;
     this.lastUpdateTime = Date.now();
-    this.itemCount = 0;
+    this.inventory = new Inventory();
   }
 
   getLastPosition() {
     return this.lastPosition;
+  }
+
+  getInventory() {
+    return this.inventory;
   }
 
   printInfo() {
