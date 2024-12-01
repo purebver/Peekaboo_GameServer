@@ -41,6 +41,8 @@ class ItemQueueManager {
           return;
         }
 
+        item.mapOn = false;
+
         const time = 640;
 
         const [bool, newInventorySlot] = await checkSetInventorySlotRedis(
@@ -59,8 +61,6 @@ class ItemQueueManager {
         const key = `${config.redis.user_set}:${userId}:${newInventorySlot}`;
 
         await redisManager.getClient().set(key, itemId, 'EX', time);
-
-        item.mapOn = false;
 
         user.character.itemCount++;
 
