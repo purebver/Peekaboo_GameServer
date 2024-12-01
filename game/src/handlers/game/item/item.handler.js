@@ -8,11 +8,6 @@ import {
   itemUseNotification,
 } from '../../../notifications/item/item.notification.js';
 import {
-  checkSetInventorySlotRedis,
-  getItemRedis,
-  removeItemRedis,
-} from '../../../redis/item.redis.js';
-import {
   itemDiscardResponse,
   itemUseResponse,
 } from '../../../response/item/item.response.js';
@@ -38,6 +33,8 @@ export const itemGetRequestHandler = async ({ socket, payload }) => {
 export const itemChangeRequestHandler = async ({ socket, payload }) => {
   const { inventorySlot } = payload;
 
+  const slot = inventorySlot - 1;
+
   const user = getUserById(socket.userId);
   if (!user) {
     throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
@@ -48,7 +45,8 @@ export const itemChangeRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
+  const itemId = user.character.inventory.slot[slot];
+
   const item = gameSession.getItem(itemId);
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
@@ -61,6 +59,8 @@ export const itemChangeRequestHandler = async ({ socket, payload }) => {
 export const itemUseRequestHandler = async ({ socket, payload }) => {
   const { inventorySlot } = payload;
 
+  const slot = inventorySlot - 1;
+
   const user = getUserById(socket.userId);
   if (!user) {
     throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
@@ -71,7 +71,7 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
+  const itemId = user.character.inventory.slot[slot];
 
   const item = gameSession.getItem(itemId);
 
@@ -88,8 +88,6 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
 
   //추후 아이템 타입에 따른 핸들링 필요
 
-  // await removeItemRedis(socket.userId, inventorySlot);
-
   itemUseResponse(socket, itemId, inventorySlot);
 
   itemUseNotification(gameSession, socket.userId, itemId);
@@ -97,6 +95,12 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
 
 export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   const { itemInfo, inventorySlot } = payload;
+
+  if (!itemInfo.itemId) {
+    return;
+  }
+
+  const slot = inventorySlot - 1;
 
   const user = getUserById(socket.userId);
   if (!user) {
@@ -108,7 +112,7 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
+  const itemId = user.character.inventory.removeInventorySlot(slot);
   const item = gameSession.getItem(itemId);
 
   if (!item) {
@@ -118,13 +122,10 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.ITEM_DETERIORATION);
   }
 
-  await removeItemRedis(socket.userId, inventorySlot);
-
   item.mapOn = true;
 
-  item.position.updateClassPosition(itemInfo.position);
-
-  user.character.itemCount--;
+  // item.position.updateClassPosition(itemInfo.position);
+  item.position.updateClassPosition(user.character.position);
 
   itemDiscardResponse(socket, inventorySlot);
 

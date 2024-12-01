@@ -1,14 +1,11 @@
 import Queue from 'bull';
 import { config } from '../../config/config.js';
-import redisManager from './redisManager.js';
-import { doorToggleNotification } from '../../notifications/door/door.notification.js';
 import { getGameSessionById } from '../../sessions/game.session.js';
 import CustomError from '../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../Error/error.codes.js';
 import { getUserById } from '../../sessions/user.sessions.js';
 import { itemGetResponse } from '../../response/item/item.response.js';
 import { itemChangeNotification } from '../../notifications/item/item.notification.js';
-import { checkSetInventorySlotRedis } from '../../redis/item.redis.js';
 
 class ItemQueueManager {
   constructor() {
@@ -42,29 +39,20 @@ class ItemQueueManager {
           return;
         }
 
-        // const [bool, newInventorySlot] = await checkSetInventorySlotRedis(
-        //   userId,
-        //   inventorySlot,
-        //   itemId,
-        // );
+        const newInventorySlot = user.character.inventory.checkSetInventorySlot(
+          inventorySlot,
+          itemId,
+        );
 
-        // if (inventorySlot !== newInventorySlot) {
-        //   console.error('서버에서 인벤토리 슬롯 변경');
-        // }
+        if (inventorySlot !== newInventorySlot) {
+          console.error('서버에서 인벤토리 슬롯 변경');
+        }
 
-        // if (!bool) {
-        //   return;
-        // }
-
-        const time = 640;
-
-        const key = `${config.redis.user_set}:${userId}:${inventorySlot}`;
-
-        await redisManager.getClient().set(key, itemId, 'EX', time);
+        if (!newInventorySlot) {
+          return;
+        }
 
         item.mapOn = false;
-
-        user.character.itemCount++;
 
         // 응답 보내주기
         // itemGetResponse(user.socket, itemId, newInventorySlot);
@@ -74,12 +62,13 @@ class ItemQueueManager {
         itemChangeNotification(gameSession, userId, itemId);
 
         if (!gameSession.ghostCSpawn) {
-          if (user.character.itemCount === 4) {
+          if (user.character.inventory.itemCount === 4) {
             gameSession.ghostCSpawn === true;
             //ghostC 소환 요청 로직 추가
           }
         }
         console.log(Date.now() - startTime);
+        console.log(user.character.inventory);
       });
 
       this.queue.on('failed', (job, err) => {
