@@ -96,12 +96,13 @@ message S2C_JoinRoomNotification {
 
 message C2S_StartStageRequest	{
   string gameSessionId = 1;
-  uint32 stageId = 2;
+  string difficultyId = 2;
 }
 
 message S2C_SpawnInitialDataRequest	{
   GlobalFailCode globalFailCode  = 1;
-  string message = 2;
+  string difficultyId = 2;
+  string message = 3;
 }
 
 message C2S_SpawnInitialDataResponse {
@@ -178,7 +179,7 @@ message S2C_DoorToggleNotification {
 }
 
 message S2C_StageEndNotification {
-  uint32 stageId = 1;
+  string difficultyId = 1;
 }
 
 message C2S_ExtractSoulRequest {

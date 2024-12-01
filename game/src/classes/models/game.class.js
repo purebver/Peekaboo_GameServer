@@ -13,7 +13,7 @@ class Game {
     this.ghosts = [];
     this.items = [];
     this.state = GAME_SESSION_STATE.PREPARE;
-    this.stageId = null;
+    this.difficultyId = null;
     this.ghostCSpawn = false;
 
     this.goalSoulAmount = 0;
