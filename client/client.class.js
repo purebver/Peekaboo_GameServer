@@ -29,6 +29,11 @@ class Client {
     this.token;
     this.userId;
     this.sequence;
+    this.host = false;
+    this.gameSessionId;
+
+    // 호스트 기준
+    this.inviteCode;
 
     this.position = new Position();
     this.rotation = new Rotation();
@@ -189,7 +194,6 @@ class Client {
         break;
       case PACKET_TYPE.ItemChangeNotification:
         {
-          // Handle ItemChangeNotification
         }
         break;
       case PACKET_TYPE.LoginResponse:
@@ -201,12 +205,17 @@ class Client {
         break;
       case PACKET_TYPE.CreateRoomResponse:
         {
-          // Handle CreateRoomResponse
+          const { globalFailCode, message, gameSessionId, inviteCode } =
+            payload;
+          this.gameSessionId = gameSessionId;
+          this.inviteCode = inviteCode;
         }
         break;
       case PACKET_TYPE.JoinRoomResponse:
         {
-          // Handle JoinRoomResponse
+          const { globalFailCode, message, gameSessionId, playerInfos } =
+            payload;
+          this.gameSessionId = gameSessionId;
         }
         break;
       case PACKET_TYPE.JoinRoomNotification:
@@ -216,12 +225,68 @@ class Client {
         break;
       case PACKET_TYPE.SpawnInitialDataRequest:
         {
-          // Handle SpawnInitialDataResponse
+          const position = {
+            x: 0,
+            y: 0,
+            z: 0,
+          };
+          const rotation = {
+            x: 0,
+            y: 0,
+            z: 0,
+          };
+          const moveInfo = {
+            position,
+            rotation,
+          };
+          const ghostInfos = [
+            {
+              ghostId: 1,
+              ghostTypeId: 1,
+              moveInfo,
+            },
+            {
+              ghostId: 2,
+              ghostTypeId: 2,
+              moveInfo,
+            },
+          ];
+          const itemInfos = [
+            {
+              itemId: 1,
+              itemTypeId: 1,
+              position,
+            },
+            {
+              itemId: 2,
+              itemTypeId: 1,
+              position,
+            },
+            {
+              itemId: 3,
+              itemTypeId: 1,
+              position,
+            },
+            {
+              itemId: 4,
+              itemTypeId: 1,
+              position,
+            },
+          ];
+          const data = {
+            ghostInfos,
+            itemInfos,
+          };
+          this.sendPacket(
+            PACKET_TYPE.SpawnInitialDataResponse,
+            data,
+            CLIENTTYPE.GAMECLIENT,
+          );
         }
         break;
       case PACKET_TYPE.StartStageNotification:
         {
-          // Handle StartStageNotification
+          const { globalFailCode, message, ghostInfos, itemInfos } = payload;
         }
         break;
       case PACKET_TYPE.PlayerLifeResponse:

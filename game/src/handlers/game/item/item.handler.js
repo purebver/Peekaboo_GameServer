@@ -1,3 +1,4 @@
+import itemQueueManager from '../../../classes/managers/itemQueueManager.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import {
@@ -7,13 +8,12 @@ import {
   itemUseNotification,
 } from '../../../notifications/item/item.notification.js';
 import {
+  checkSetInventorySlotRedis,
   getItemRedis,
   removeItemRedis,
-  setItemRedis,
 } from '../../../redis/item.redis.js';
 import {
   itemDiscardResponse,
-  itemGetResponse,
   itemUseResponse,
 } from '../../../response/item/item.response.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
@@ -23,41 +23,16 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 export const itemGetRequestHandler = async ({ socket, payload }) => {
   const { itemId, inventorySlot } = payload;
 
-  const user = getUserById(socket.userId);
-  if (!user) {
-    throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
-  }
-
-  const gameSession = getGameSessionById(user.gameId);
-  if (!gameSession) {
-    throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
-  }
-
-  const [bool, newInventorySlot] = await setItemRedis(
-    socket.userId,
-    inventorySlot,
-    itemId,
+  // 동시성 제어 1(불큐)
+  // 실질적인 아이템 저장
+  await itemQueueManager.getQueue().add(
+    {
+      userId: socket.userId,
+      itemId,
+      inventorySlot,
+    },
+    { jobId: `getItem:${itemId}`, removeOnComplete: true },
   );
-
-  // 모든 슬롯에 아이템이 있을경우 처리 중지
-  if (!bool) {
-    return;
-  }
-
-  user.character.itemCount++;
-
-  // 응답 보내주기
-  itemGetResponse(socket, itemId, newInventorySlot);
-
-  // 손에 들어주기
-  itemChangeNotification(gameSession, socket.userId, itemId);
-
-  if (!gameSession.ghostCSpawn) {
-    if (user.character.itemCount === 4) {
-      gameSession.ghostCSpawn === true;
-      //ghostC 소환 요청 로직 추가
-    }
-  }
 };
 
 export const itemChangeRequestHandler = async ({ socket, payload }) => {
@@ -73,7 +48,7 @@ export const itemChangeRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = await getItemRedis(socket.userId, inventorySlot);
+  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
   const item = gameSession.getItem(itemId);
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
@@ -96,8 +71,10 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = await getItemRedis(socket.userId, inventorySlot);
+  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
+
   const item = gameSession.getItem(itemId);
+
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
@@ -111,7 +88,7 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
 
   //추후 아이템 타입에 따른 핸들링 필요
 
-  await removeItemRedis(socket.userId, inventorySlot);
+  // await removeItemRedis(socket.userId, inventorySlot);
 
   itemUseResponse(socket, itemId, inventorySlot);
 
@@ -131,8 +108,9 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  const itemId = await getItemRedis(socket.userId, inventorySlot);
+  const itemId = Number(await getItemRedis(socket.userId, inventorySlot));
   const item = gameSession.getItem(itemId);
+
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
@@ -141,6 +119,10 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   }
 
   await removeItemRedis(socket.userId, inventorySlot);
+
+  item.mapOn = true;
+
+  item.position.updateClassPosition(itemInfo.position);
 
   user.character.itemCount--;
 

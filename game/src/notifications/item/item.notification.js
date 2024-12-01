@@ -7,7 +7,6 @@ export const itemChangeNotification = (gameSession, userId, itemId) => {
     userId,
     itemId,
   };
-
   gameSession.users.forEach((user) => {
     const packet = serializer(
       PACKET_TYPE.ItemChangeNotification,
