@@ -11,7 +11,7 @@ export const ghostAttackedRequestHandler = ({ socket, payload }) => {
     const { userId, ghostId } = payload;
 
     // user 검증
-    const user = getUserById(socket.userId);
+    const user = getUserById(userId);
     if (!user) {
       throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
     }
