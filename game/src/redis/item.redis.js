@@ -1,7 +1,12 @@
 import redisManager from '../classes/managers/redisManager.js';
 import { config } from '../config/config.js';
 
-export const checkSetInventorySlotRedis = async (userId, inventorySlot) => {
+export const checkSetInventorySlotRedis = async (
+  userId,
+  inventorySlot,
+  itemId,
+) => {
+  const time = 640;
   let count = 0;
   let i = inventorySlot;
   while (count < 4) {
@@ -12,10 +17,13 @@ export const checkSetInventorySlotRedis = async (userId, inventorySlot) => {
     if (!lock) {
       continue;
     }
-    const Key = `${config.redis.user_set}:${userId}:${i}`;
-    if (!(await redisManager.getClient().exists(Key))) {
+    const key = `${config.redis.user_set}:${userId}:${i}`;
+
+    if (!(await redisManager.getClient().exists(key))) {
+      await redisManager.getClient().set(key, itemId, 'EX', time);
       return [1, i];
     }
+
     i = (i % 4) + 1;
     count++;
   }

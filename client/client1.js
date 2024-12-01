@@ -71,7 +71,7 @@ while (i < 5) {
   console.log(i);
   const data = {
     itemId: i,
-    inventorySlot: 1,
+    inventorySlot: i,
   };
 
   client.sendPacket(PACKET_TYPE.ItemGetRequest, data, CLIENTTYPE.GAMECLIENT);
@@ -80,60 +80,60 @@ while (i < 5) {
 }
 
 // 아이템 사용 요청
-await delay(4000);
+// await delay(4000);
 
-const useItemdata = {
-  inventorySlot: 1,
-};
+// const useItemdata = {
+//   inventorySlot: 1,
+// };
 
-client.sendPacket(
-  PACKET_TYPE.ItemUseRequest,
-  useItemdata,
-  CLIENTTYPE.GAMECLIENT,
-);
+// client.sendPacket(
+//   PACKET_TYPE.ItemUseRequest,
+//   useItemdata,
+//   CLIENTTYPE.GAMECLIENT,
+// );
 
 // 아이템 변경 요청
-await delay(2000);
+// await delay(2000);
 
-const changeItemdata = {
-  inventorySlot: 2,
-};
+// const changeItemdata = {
+//   inventorySlot: 2,
+// };
 
-client.sendPacket(
-  PACKET_TYPE.ItemChangeRequest,
-  changeItemdata,
-  CLIENTTYPE.GAMECLIENT,
-);
+// client.sendPacket(
+//   PACKET_TYPE.ItemChangeRequest,
+//   changeItemdata,
+//   CLIENTTYPE.GAMECLIENT,
+// );
 
-await delay(2000);
+// await delay(2000);
 
-const DiscardItemdata = {
-  itemInfo: {
-    itemId: 2,
-    itemTypeId: 2,
-    position: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-  },
-  inventorySlot: 2,
-};
+// const DiscardItemdata = {
+//   itemInfo: {
+//     itemId: 2,
+//     itemTypeId: 2,
+//     position: {
+//       x: 0,
+//       y: 0,
+//       z: 0,
+//     },
+//   },
+//   inventorySlot: 2,
+// };
 
-client.sendPacket(
-  PACKET_TYPE.ItemDiscardRequest,
-  DiscardItemdata,
-  CLIENTTYPE.GAMECLIENT,
-);
+// client.sendPacket(
+//   PACKET_TYPE.ItemDiscardRequest,
+//   DiscardItemdata,
+//   CLIENTTYPE.GAMECLIENT,
+// );
 
-await delay(2000);
+// await delay(2000);
 
-const DisuseItemdata = {
-  itemId: 1,
-};
+// const DisuseItemdata = {
+//   itemId: 1,
+// };
 
-client.sendPacket(
-  PACKET_TYPE.ItemDisuseRequest,
-  DisuseItemdata,
-  CLIENTTYPE.GAMECLIENT,
-);
+// client.sendPacket(
+//   PACKET_TYPE.ItemDisuseRequest,
+//   DisuseItemdata,
+//   CLIENTTYPE.GAMECLIENT,
+// );

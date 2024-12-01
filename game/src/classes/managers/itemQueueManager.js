@@ -21,7 +21,8 @@ class ItemQueueManager {
         },
       });
 
-      this.queue.process(4, async (job) => {
+      this.queue.process(10, async (job) => {
+        const startTime = Date.now();
         const { userId, itemId, inventorySlot } = job.data;
 
         const user = getUserById(userId);
@@ -41,22 +42,23 @@ class ItemQueueManager {
           return;
         }
 
+        // const [bool, newInventorySlot] = await checkSetInventorySlotRedis(
+        //   userId,
+        //   inventorySlot,
+        //   itemId,
+        // );
+
+        // if (inventorySlot !== newInventorySlot) {
+        //   console.error('서버에서 인벤토리 슬롯 변경');
+        // }
+
+        // if (!bool) {
+        //   return;
+        // }
+
         const time = 640;
 
-        const [bool, newInventorySlot] = await checkSetInventorySlotRedis(
-          userId,
-          inventorySlot,
-        );
-
-        if (inventorySlot !== newInventorySlot) {
-          console.error('서버에서 인벤토리 슬롯 변경');
-        }
-
-        if (!bool) {
-          return;
-        }
-
-        const key = `${config.redis.user_set}:${userId}:${newInventorySlot}`;
+        const key = `${config.redis.user_set}:${userId}:${inventorySlot}`;
 
         await redisManager.getClient().set(key, itemId, 'EX', time);
 
@@ -65,7 +67,8 @@ class ItemQueueManager {
         user.character.itemCount++;
 
         // 응답 보내주기
-        itemGetResponse(user.socket, itemId, newInventorySlot);
+        // itemGetResponse(user.socket, itemId, newInventorySlot);
+        itemGetResponse(user.socket, itemId, inventorySlot);
 
         // 손에 들어주기
         itemChangeNotification(gameSession, userId, itemId);
@@ -76,6 +79,7 @@ class ItemQueueManager {
             //ghostC 소환 요청 로직 추가
           }
         }
+        console.log(Date.now() - startTime);
       });
 
       this.queue.on('failed', (job, err) => {
