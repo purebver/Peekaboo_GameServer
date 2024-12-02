@@ -1,7 +1,7 @@
 import { Position, Rotation } from './moveInfo.class.js';
 
 class Item {
-  constructor(itemId, itemTypeId, position, rotation) {
+  constructor(itemId, itemTypeId, position, rotation = null) {
     this.id = itemId;
     this.typeId = itemTypeId;
     this.position = new Position(position.x, position.y, position.z);
