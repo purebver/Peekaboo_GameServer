@@ -1,4 +1,3 @@
-import itemQueueManager from '../../../classes/managers/itemQueueManager.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import {
@@ -18,9 +17,19 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 export const itemGetRequestHandler = async ({ socket, payload }) => {
   const { itemId, inventorySlot } = payload;
 
+  const user = getUserById(socket.userId);
+  if (!user) {
+    throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
+  }
+
+  const gameSession = getGameSessionById(user.gameId);
+  if (!gameSession) {
+    throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
+  }
+
   // 동시성 제어 1(불큐)
   // 실질적인 아이템 저장
-  await itemQueueManager.getQueue().add(
+  await gameSession.itemQueue.queue.add(
     {
       userId: socket.userId,
       itemId,

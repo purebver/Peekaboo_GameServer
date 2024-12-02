@@ -6,43 +6,38 @@ import CustomError from '../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../Error/error.codes.js';
 
 class DoorQueueManager {
-  constructor() {
-    if (!DoorQueueManager.instance) {
-      this.queue = new Queue('doorQueue', {
-        redis: {
-          host: config.redis.host,
-          port: config.redis.port,
-          password: config.redis.password,
-        },
-      });
+  constructor(gameId) {
+    this.queue = new Queue(`${gameId}:doorQueue`, {
+      redis: {
+        host: config.redis.host,
+        port: config.redis.port,
+        password: config.redis.password,
+      },
+    });
 
-      this.queue.process(4, async (job) => {
-        const { gameSessionId, doorId, isDoorToggle } = job.data;
+    this.queue.process(4, async (job) => {
+      const { gameSessionId, doorId, isDoorToggle } = job.data;
 
-        const gameSession = getGameSessionById(gameSessionId);
-        if (!gameSession) {
-          throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
-        }
-        const payload = {
-          doorId,
-          isDoorToggle,
-        };
+      const gameSession = getGameSessionById(gameSessionId);
+      if (!gameSession) {
+        throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
+      }
+      const payload = {
+        doorId,
+        isDoorToggle,
+      };
 
-        doorToggleNotification(gameSession, payload);
-      });
+      doorToggleNotification(gameSession, payload);
+    });
 
-      this.queue.on('failed', (job, err) => {
-        console.error(`Job ${job.id} 실패 error:`, err);
-      });
+    this.queue.on('failed', (job, err) => {
+      console.error(`Job ${job.id} 실패 error:`, err);
+    });
 
-      DoorQueueManager.instance = this;
-    }
+    DoorQueueManager.instance = this;
+
     return DoorQueueManager.instance;
   }
-
-  getQueue = () => this.queue;
 }
 
-const doorQueueManager = new DoorQueueManager();
-
-export default doorQueueManager;
+export default DoorQueueManager;
