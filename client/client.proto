@@ -319,9 +319,14 @@ message C2S_GhostSpawnRequest {
   GhostInfo ghostInfo = 1;
 }
 
-message C2S_GhostSpawnNotification {
+message S2C_GhostSpawnNotification {
   GhostInfo ghostInfo = 1;
 }
+
+message S2C_ItemGetNotification {
+  uint32 itemId = 1;
+  string userId = 2;
+} 
 
 message GamePacket {
   oneof payload {
@@ -374,6 +379,7 @@ message GamePacket {
     S2C_ItemCreateNotification itemCreateNotification = 50;
     S2C_BlockInteractionNotification blockInteractionNotification = 51;
     C2S_GhostSpawnRequest ghostSpawnRequest = 52;
-    C2S_GhostSpawnNotification ghostSpawnNotification = 53;
+    S2C_GhostSpawnNotification ghostSpawnNotification = 53;
+    S2C_ItemGetNotification itemGetNotification = 54;
   }
 }
