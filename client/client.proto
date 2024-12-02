@@ -367,10 +367,13 @@ message GamePacket {
     S2C_DisconnectPlayerNotification disconnectPlayerNotification = 43;
     C2S_GhostSpecialStateRequest ghostSpecialStateRequest = 44;
     S2C_GhostSpecialStateNotification ghostSpecialStateNotification = 45;
-    C2S_ItemCreateRequest itemCreateRequest = 46;
-    S2C_ItemCreateNotification itemCreateNotification = 47;
-    S2C_BlockInteractionNotification blockInteractionNotification = 48;
-    C2S_GhostSpawnRequest ghostSpawnRequest = 49;
-    C2S_GhostSpawnNotification ghostSpawnNotification = 50;
+    S2C_ItemDeleteNotification itemDeleteNotification = 46;
+    C2S_ItemDisuseRequest itemDisuseRequest = 47;
+    S2C_ItemDisuseNotification itemDisuseNotification = 48;
+    C2S_ItemCreateRequest itemCreateRequest = 49;
+    S2C_ItemCreateNotification itemCreateNotification = 50;
+    S2C_BlockInteractionNotification blockInteractionNotification = 51;
+    C2S_GhostSpawnRequest ghostSpawnRequest = 52;
+    C2S_GhostSpawnNotification ghostSpawnNotification = 53;
   }
 }
