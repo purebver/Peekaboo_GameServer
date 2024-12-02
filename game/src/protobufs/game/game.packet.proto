@@ -106,15 +106,13 @@ message S2C_SpawnInitialDataRequest	{
 }
 
 message C2S_SpawnInitialDataResponse {
-  repeated GhostInfo ghostInfos = 1;
-  repeated ItemInfo itemInfos = 2;
+  repeated ItemInfo itemInfos = 1;
 }
 
 message S2C_StartStageNotification {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated GhostInfo ghostInfos = 3;
-  repeated ItemInfo itemInfos = 4;
+  repeated ItemInfo itemInfos = 3;
 }
 
 message C2S_PlayerAttackedRequest {
@@ -219,4 +217,23 @@ message C2S_ItemDisuseRequest {
 message S2C_ItemDisuseNotification {
   uint32 userId = 1;
   uint32 itemId  = 2;
+}
+
+message C2S_ItemCreateRequest {
+  ItemInfo itemInfo = 1;
+}
+
+message S2C_ItemCreateNotification {
+  ItemInfo itemInfo = 1;
+}
+
+message S2C_BlockInteractionNotification {
+}
+
+message C2S_GhostSpawnRequest {
+  GhostInfo ghostInfo = 1;
+}
+
+message C2S_GhostSpawnNotification {
+  GhostInfo ghostInfo = 1;
 }
