@@ -191,15 +191,13 @@ message S2C_SpawnInitialDataRequest	{
 }
 
 message C2S_SpawnInitialDataResponse {
-  repeated GhostInfo ghostInfos = 1;
-  repeated ItemInfo itemInfos = 2;
+  repeated ItemInfo itemInfos = 1;
 }
 
 message S2C_StartStageNotification {
   GlobalFailCode globalFailCode  = 1;
   string message = 2;
-  repeated GhostInfo ghostInfos = 3;
-  repeated ItemInfo itemInfos = 4;
+  repeated ItemInfo itemInfos = 3;
 }
 
 message C2S_PlayerAttackedRequest {
@@ -306,6 +304,25 @@ message S2C_ItemDisuseNotification {
   uint32 itemId  = 2;
 }
 
+message C2S_ItemCreateRequest {
+  ItemInfo itemInfo = 1;
+}
+
+message S2C_ItemCreateNotification {
+  ItemInfo itemInfo = 1;
+}
+
+message S2C_BlockInteractionNotification {
+}
+
+message C2S_GhostSpawnRequest {
+  GhostInfo ghostInfo = 1;
+}
+
+message C2S_GhostSpawnNotification {
+  GhostInfo ghostInfo = 1;
+}
+
 message GamePacket {
   oneof payload {
     C2S_PlayerMoveRequest playerMoveRequest = 1;
@@ -350,5 +367,10 @@ message GamePacket {
     S2C_DisconnectPlayerNotification disconnectPlayerNotification = 43;
     C2S_GhostSpecialStateRequest ghostSpecialStateRequest = 44;
     S2C_GhostSpecialStateNotification ghostSpecialStateNotification = 45;
+    C2S_ItemCreateRequest itemCreateRequest = 46;
+    S2C_ItemCreateNotification itemCreateNotification = 47;
+    S2C_BlockInteractionNotification blockInteractionNotification = 48;
+    C2S_GhostSpawnRequest ghostSpawnRequest = 49;
+    C2S_GhostSpawnNotification ghostSpawnNotification = 50;
   }
 }
