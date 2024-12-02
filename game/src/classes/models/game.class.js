@@ -4,6 +4,8 @@ import { Character } from './character.class.js';
 import { getInviteCode } from '../../utils/room/inviteCode.room.js';
 import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
 import { disconnectPlayerNotification } from '../../notifications/system/system.notification.js';
+import ItemQueueManager from '../managers/itemQueueManager.js';
+import DoorQueueManager from '../managers/doorQueueManager.js';
 
 class Game {
   constructor(id) {
@@ -20,6 +22,8 @@ class Game {
     this.soulAccumulatedAmount = 0;
 
     this.inviteCode = getInviteCode();
+    this.itemQueue = new ItemQueueManager(id);
+    this.doorQueue = new DoorQueueManager(id);
   }
 
   startGame() {
