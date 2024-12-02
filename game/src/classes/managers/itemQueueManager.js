@@ -9,6 +9,7 @@ import {
   itemChangeNotification,
   itemGetNotification,
 } from '../../notifications/item/item.notification.js';
+import redisManager from './redisManager.js';
 
 class ItemQueueManager {
   constructor(gameId) {
@@ -20,11 +21,9 @@ class ItemQueueManager {
       },
     });
 
-    this.queue.process(10, async (job) => {
+    this.queue.process(4, async (job) => {
       const startTime = Date.now();
       const { userId, itemId, inventorySlot } = job.data;
-
-      console.log('userId', userId);
 
       const user = getUserById(userId);
       if (!user) {
@@ -43,37 +42,40 @@ class ItemQueueManager {
         return;
       }
 
-      const newInventorySlot = user.character.inventory.checkSetInventorySlot(
-        inventorySlot,
-        itemId,
-      );
-
-      if (inventorySlot !== newInventorySlot) {
-        console.error('서버에서 인벤토리 슬롯 변경');
-      }
-
-      if (!newInventorySlot) {
+      if (user.character.inventory.slot[inventorySlot - 1]) {
         return;
       }
 
-      item.mapOn = false;
+      const lockKey = `lock:${userId}:${inventorySlot}`;
 
-      // 응답 보내주기
-      // itemGetResponse(user.socket, itemId, newInventorySlot);
-      itemGetResponse(user.socket, itemId, inventorySlot);
-      itemGetNotification(gameSession, itemId, userId);
-
-      // 손에 들어주기
-      itemChangeNotification(gameSession, userId, itemId);
-
-      if (!gameSession.ghostCSpawn) {
-        if (user.character.inventory.itemCount === 4) {
-          gameSession.ghostCSpawn === true;
-          //ghostC 소환 요청 로직 추가
-        }
+      //락을 걸엇으면 = ok 또는 락이 걸린상태 = null
+      const lock = await redisManager
+        .getClient()
+        .set(lockKey, `slotLock:${inventorySlot}`, 'NX', 'EX', 10);
+      if (!lock) {
+        return;
       }
-      console.log(Date.now() - startTime);
-      console.log(user.character.inventory);
+      try {
+        user.character.inventory.slot[inventorySlot - 1] = itemId;
+
+        item.mapOn = false;
+
+        // 응답 보내주기
+        // itemGetResponse(user.socket, itemId, newInventorySlot);
+        itemGetResponse(user.socket, itemId, inventorySlot);
+        itemGetNotification(gameSession, itemId, userId);
+
+        if (!gameSession.ghostCSpawn) {
+          if (user.character.inventory.itemCount === 4) {
+            gameSession.ghostCSpawn === true;
+            //ghostC 소환 요청 로직 추가
+          }
+        }
+        console.log(Date.now() - startTime);
+        console.log(user.character.inventory);
+      } finally {
+        await redisManager.getClient().del(lockKey);
+      }
     });
 
     this.queue.on('failed', (job, err) => {
