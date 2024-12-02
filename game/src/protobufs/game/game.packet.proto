@@ -234,6 +234,11 @@ message C2S_GhostSpawnRequest {
   GhostInfo ghostInfo = 1;
 }
 
-message C2S_GhostSpawnNotification {
+message S2C_GhostSpawnNotification {
   GhostInfo ghostInfo = 1;
 }
+
+message S2C_ItemGetNotification {
+  uint32 itemId = 1;
+  string userId = 2;
+} 

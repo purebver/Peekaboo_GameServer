@@ -53,6 +53,7 @@ message GamePacket {
     S2C_ItemCreateNotification itemCreateNotification = 50;
     S2C_BlockInteractionNotification blockInteractionNotification = 51;
     C2S_GhostSpawnRequest ghostSpawnRequest = 52;
-    C2S_GhostSpawnNotification ghostSpawnNotification = 53;
+    S2C_GhostSpawnNotification ghostSpawnNotification = 53;
+    S2C_ItemGetNotification itemGetNotification = 54;
   }
 }
