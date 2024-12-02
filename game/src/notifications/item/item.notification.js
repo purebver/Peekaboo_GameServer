@@ -85,3 +85,17 @@ export const itemDisuseNotification = (gameSession, userId, itemId) => {
     user.socket.write(packet);
   });
 };
+
+export const itemCreateNotification = (gameSession, itemInfo) => {
+  gameSession.users.forEach((user) => {
+    if (gameSession.hostId !== user.id) {
+      const packet = serializer(
+        PACKET_TYPE.ItemCreateNotification,
+        itemInfo,
+        user.socket.sequence++,
+      );
+
+      user.socket.write(packet);
+    }
+  });
+};

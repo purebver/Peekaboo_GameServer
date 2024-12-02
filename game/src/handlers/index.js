@@ -24,6 +24,8 @@ import {
   startStageRequestHandler,
 } from './game/room/waitingRoom.handler.js';
 import { ghostSpecialStateRequestHandler } from './game/ghost/ghostSpecialState.handler.js';
+import { ghostSpawnHandler } from './game/ghost/ghostSpawn.handler.js';
+import { itemCreateHandler } from './game/item/itemCreate.handler.js';
 
 const handlers = {
   [PACKET_TYPE.PlayerMoveRequest]: {
@@ -105,6 +107,14 @@ const handlers = {
   },
   [PACKET_TYPE.GhostSpecialStateRequest]: {
     handler: ghostSpecialStateRequestHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.GhostSpawnRequest]: {
+    handler: ghostSpawnHandler,
+    protoType: 'common.GamePacket',
+  },
+  [PACKET_TYPE.ItemCreateRequest]: {
+    handler: itemCreateHandler,
     protoType: 'common.GamePacket',
   },
   /*-------------------------문진수 작업--------------------------*/
