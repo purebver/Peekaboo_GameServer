@@ -50,4 +50,10 @@ export const PACKET_TYPE = {
   ItemDeleteNotification: 46,
   ItemDisuseRequest: 47,
   ItemDisuseNotification: 48,
+  ItemCreateRequest: 49,
+  ItemCreateNotification: 50,
+  BlockInteractionNotification: 51,
+  GhostSpawnRequest: 52,
+  GhostSpawnNotification: 53,
+  ItemGetNotification: 54,
 };

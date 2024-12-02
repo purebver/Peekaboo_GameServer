@@ -50,4 +50,10 @@ export const PACKET_MAPS = {
   [PACKET_TYPE.ItemDeleteNotification]: 'itemDeleteNotification',
   [PACKET_TYPE.ItemDisuseRequest]: 'itemDisuseRequest',
   [PACKET_TYPE.ItemDisuseNotification]: 'itemDisuseNotification',
+  [PACKET_TYPE.ItemCreateRequest]: 'itemCreateRequest',
+  [PACKET_TYPE.ItemCreateNotification]: 'itemCreateNotification',
+  [PACKET_TYPE.BlockInteractionNotification]: 'blockInteractionNotification',
+  [PACKET_TYPE.GhostSpawnRequest]: 'ghostSpawnRequest',
+  [PACKET_TYPE.GhostSpawnNotification]: 'ghostSpawnNotification',
+  [PACKET_TYPE.ItemGetNotification]: 'itemGetNotification',
 };
