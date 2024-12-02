@@ -1,7 +1,6 @@
 import CustomError from '../../../Error/custom.error.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
-import { getItemRedis, removeItemRedis } from '../../../redis/item.redis.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
 import { itemDeleteNotification } from '../../../notifications/item/item.notification.js';
 import { extractSoulNotification } from '../../../notifications/extractor/extractor.notification.js';
@@ -30,8 +29,9 @@ export const extractorSoulHandler = async ({ socket, payload }) => {
 
   // 인벤토리 검증
   // 유저의 인벤토리(Redis)에서 아이템 찾기
-  const redisItemId = await getItemRedis(socket.userId, inventorySlot);
-  if (!redisItemId) {
+  const serverItemId = user.character.inventory.slot[inventorySlot - 1];
+
+  if (!serverItemId) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
 
