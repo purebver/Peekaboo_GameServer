@@ -23,3 +23,15 @@ export const disconnectPlayerNotification = async (
     user.socket.write(packet);
   });
 };
+
+export const blockInteractionNotification = (gameSession) => {
+  gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.BlockInteractionNotification,
+      {},
+      user.socket.sequence++,
+    );
+
+    user.socket.write(packet);
+  });
+};
