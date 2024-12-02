@@ -5,7 +5,10 @@ import CustomError from '../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../Error/error.codes.js';
 import { getUserById } from '../../sessions/user.sessions.js';
 import { itemGetResponse } from '../../response/item/item.response.js';
-import { itemChangeNotification } from '../../notifications/item/item.notification.js';
+import {
+  itemChangeNotification,
+  itemGetNotification,
+} from '../../notifications/item/item.notification.js';
 
 class ItemQueueManager {
   constructor(gameId) {
@@ -58,6 +61,7 @@ class ItemQueueManager {
       // 응답 보내주기
       // itemGetResponse(user.socket, itemId, newInventorySlot);
       itemGetResponse(user.socket, itemId, inventorySlot);
+      itemGetNotification(gameSession, itemId, userId);
 
       // 손에 들어주기
       itemChangeNotification(gameSession, userId, itemId);

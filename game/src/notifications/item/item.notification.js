@@ -99,3 +99,20 @@ export const itemCreateNotification = (gameSession, itemInfo) => {
     }
   });
 };
+
+export const itemGetNotification = (gameSession, itemId, userId) => {
+  gameSession.users.forEach((user) => {
+    if (user.id !== userId) {
+      const packet = serializer(
+        PACKET_TYPE.ItemGetNotification,
+        {
+          itemId,
+          userId,
+        },
+        user.socket.sequence++,
+      );
+
+      user.socket.write(packet);
+    }
+  });
+};
