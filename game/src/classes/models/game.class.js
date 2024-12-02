@@ -6,6 +6,8 @@ import { ghostsLocationNotification } from '../../notifications/ghost/ghost.noti
 import { disconnectPlayerNotification } from '../../notifications/system/system.notification.js';
 import ItemQueueManager from '../managers/itemQueueManager.js';
 import DoorQueueManager from '../managers/doorQueueManager.js';
+import { Door } from './door.class.js';
+import { config } from '../../config/config.js';
 
 class Game {
   constructor(id) {
@@ -14,6 +16,7 @@ class Game {
     this.users = [];
     this.ghosts = [];
     this.items = [];
+    this.doors = [];
     this.state = GAME_SESSION_STATE.PREPARE;
     this.difficultyId = null;
     this.ghostCSpawn = false;
@@ -28,6 +31,9 @@ class Game {
 
   startGame() {
     // 귀신 5마리 정도 세팅
+
+    // 문 초기화
+    this.initDoors();
 
     // 게임 상태 변경
     this.state = GAME_SESSION_STATE.INPROGRESS;
@@ -106,6 +112,17 @@ class Game {
       return -1;
     }
     return this.items.splice(index, 1)[0];
+  }
+
+  initDoors() {
+    for (let i = 0; i < config.game.max_door_num; i++) {
+      const door = new Door(i + 1);
+      this.doors.push(door);
+    }
+  }
+
+  getDoor(doorId) {
+    return this.doors.find((door) => door.id === doorId);
   }
 
   // 평균 레이턴시 구하기

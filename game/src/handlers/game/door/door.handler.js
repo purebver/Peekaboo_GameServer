@@ -18,18 +18,9 @@ export const doorToggleRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
-  // 동시성 제어1
-  const lockKey = `lock:door:${doorId}`;
-  const lock = await redisManager
-    .getClient()
-    .set(lockKey, doorId, 'NX', 'PX', 300); //0.3초
-  if (!lock) {
-    return;
-  }
-
-  // 동시성 제어2
+  // 문 상호작용 요청을 DoorQueue에 추가
   gameSession.doorQueue.queue.add(
-    { gameSessionId: user.gameId, doorId, isDoorToggle, lockKey },
+    { gameSessionId: user.gameId, userId: user.id, doorId, isDoorToggle },
     { jobId: `door:${doorId}`, removeOnComplete: true },
   );
 };

@@ -76,4 +76,8 @@ export const ErrorCodesMaps = {
     code: 10018,
     message: '아이템 검증 오류',
   },
+  DOOR_NOT_FOUND: {
+    code: 10019,
+    message: '문 검증 오류',
+  },
 };
