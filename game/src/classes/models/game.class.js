@@ -3,11 +3,15 @@ import { GAME_SESSION_STATE } from '../../constants/state.js';
 import { Character } from './character.class.js';
 import { getInviteCode } from '../../utils/room/inviteCode.room.js';
 import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
-import { disconnectPlayerNotification } from '../../notifications/system/system.notification.js';
+import {
+  disconnectPlayerNotification,
+  remainingTimeNotification,
+} from '../../notifications/system/system.notification.js';
 import ItemQueueManager from '../managers/itemQueueManager.js';
 import DoorQueueManager from '../managers/doorQueueManager.js';
 import { Door } from './door.class.js';
 import { config } from '../../config/config.js';
+import { getGameAssets } from '../../init/load.assets.js';
 
 class Game {
   constructor(id) {
@@ -19,6 +23,7 @@ class Game {
     this.doors = [];
     this.state = GAME_SESSION_STATE.PREPARE;
     this.difficultyId = null;
+    this.remainingTime = null;
     this.ghostCSpawn = false;
 
     this.goalSoulAmount = 0;
@@ -30,13 +35,18 @@ class Game {
   }
 
   startGame() {
-    // 귀신 5마리 정도 세팅
+    const gameAssets = getGameAssets();
 
     // 문 초기화
     this.initDoors();
 
     // 게임 상태 변경
     this.state = GAME_SESSION_STATE.INPROGRESS;
+
+    // 게임 남은 시간 초기화
+    this.remainingTime = gameAssets.difficulty.data.find(
+      (data) => data.id === this.difficultyId,
+    );
 
     // IntervalManager.getInstance().addPlayersInterval(
     //   this.id,
@@ -53,8 +63,14 @@ class Game {
     IntervalManager.getInstance().addGameMonitorInterval(
       this.id,
       this.printGameInfo.bind(this),
-      1500,
+      3000,
     );
+
+    // IntervalManager.getInstance().addGameTimeInterval(
+    //   this.id,
+    //   this.gameTimer.bind(this),
+    //   1000,
+    // );
   }
 
   async addUser(user, isHost = false) {
@@ -153,6 +169,15 @@ class Game {
     console.log(
       `---------------------------------------------------------------------------------------------------------`,
     );
+  }
+
+  gameTimer() {
+    if (this.state !== GAME_SESSION_STATE.INPROGRESS) {
+      return;
+    }
+    this.remainingTime -= 1;
+
+    remainingTimeNotification(this);
   }
 }
 

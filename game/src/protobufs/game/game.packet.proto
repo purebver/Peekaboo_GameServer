@@ -242,3 +242,7 @@ message S2C_ItemGetNotification {
   uint32 itemId = 1;
   string userId = 2;
 } 
+
+message S2C_RemainingTimeNotification {
+  uint32 remainingTime = 1;
+}

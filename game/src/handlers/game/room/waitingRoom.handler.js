@@ -1,5 +1,6 @@
 import Ghost from '../../../classes/models/ghost.class.js';
 import Item from '../../../classes/models/item.class.js';
+import { Position } from '../../../classes/models/moveInfo.class.js';
 import { PACKET_TYPE } from '../../../constants/header.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
@@ -19,7 +20,14 @@ export const startStageRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
-    gameSession.difficultyId = difficultyId;
+    // TODO : 임의로 전달받은 difficultyId에 100을 더해서 사용한다.
+    gameSession.difficultyId = difficultyId + 100;
+
+    // 게임이 시작되기 전까지 모든 플레이어게게 Block하도록 알려주는 blockInteractionNotification을 보낸다.
+    blockInteractionNotification(gameSession);
+
+    // host인 플레이어에게 아이템을 생성하도록 알려주는 SpawnInitialDataRequest를 보낸다.
+    const hostUser = gameSession.getUser(gameSession.hostId);
 
     const s2cRequestPayload = {
       globalFailCode: 0,
@@ -33,9 +41,7 @@ export const startStageRequestHandler = ({ socket, payload }) => {
       socket.sequence++,
     );
 
-    blockInteractionNotification(gameSession);
-
-    socket.write(packet);
+    hostUser.socket.write(packet);
   } catch (e) {
     handleError(e);
   }
@@ -52,7 +58,7 @@ export const spawnInitialDataResponseHandler = ({ socket, payload }) => {
     const item = new Item(
       itemInfo.itemId,
       itemInfo.itemTypeId,
-      itemInfo.position,
+      itemInfo.position ? itemInfo.position : new Position(),
     );
     gameSession.addItem(item);
   });

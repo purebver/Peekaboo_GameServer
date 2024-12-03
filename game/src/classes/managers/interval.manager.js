@@ -43,6 +43,12 @@ class IntervalManager extends BaseManager {
     this.intervals.get(gameId).set(type, setInterval(callback, interval));
   }
 
+  addGameTimeInterval(gameId, callback, interval, type = 'time') {
+    if (!this.intervals.has(gameId)) this.intervals.set(gameId, new Map());
+
+    this.intervals.get(gameId).set(type, setInterval(callback, interval));
+  }
+
   removeUserInterval(userId) {
     if (this.intervals.has(userId)) {
       const userIntervals = this.intervals.get(userId);

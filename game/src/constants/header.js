@@ -56,4 +56,5 @@ export const PACKET_TYPE = {
   GhostSpawnRequest: 52,
   GhostSpawnNotification: 53,
   ItemGetNotification: 54,
+  RemainingTimeNotification: 55,
 };

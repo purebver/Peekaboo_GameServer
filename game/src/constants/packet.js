@@ -56,4 +56,5 @@ export const PACKET_MAPS = {
   [PACKET_TYPE.GhostSpawnRequest]: 'ghostSpawnRequest',
   [PACKET_TYPE.GhostSpawnNotification]: 'ghostSpawnNotification',
   [PACKET_TYPE.ItemGetNotification]: 'itemGetNotification',
+  [PACKET_TYPE.RemainingTimeNotification]: 'remainingTimeNotification',
 };
