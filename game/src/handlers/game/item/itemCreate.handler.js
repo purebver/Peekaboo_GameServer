@@ -11,7 +11,7 @@ export const itemCreateHandler = ({ socket, payload }) => {
     const { itemTypeId } = payload;
 
     // 아이템타입 id 검증
-    if (2104 > itemTypeId && 2106 < itemTypeId) {
+    if (2104 > itemTypeId || 2106 < itemTypeId) {
       return;
     }
 
