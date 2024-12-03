@@ -89,9 +89,12 @@ export const itemUseRequestHandler = async ({ socket, payload }) => {
   }
 
   //아이템 타입에 따라 사용 가능 불가능 구분하여 적용
-  // switch(item.typeId){
-  //   case
-  // }
+  switch (item.typeId) {
+    case 2104:
+      break;
+    default:
+      return;
+  }
 
   item.on = true;
 

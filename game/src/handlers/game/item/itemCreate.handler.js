@@ -8,7 +8,7 @@ import { handleError } from '../../../Error/error.handler.js';
 
 export const itemCreateHandler = ({ socket, payload }) => {
   try {
-    const { itemInfo } = payload;
+    const { itemTypeId } = payload;
 
     const user = getUserById(socket.userId);
     if (!user) {
@@ -19,14 +19,21 @@ export const itemCreateHandler = ({ socket, payload }) => {
     if (!gameSession) {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
+    const newItemId = gameSession.items[gameSession.items.length - 1].id + 1;
 
-    const item = new Item(
-      itemInfo.itemId,
-      itemInfo.itemTypeId,
-      itemInfo.position,
-    );
+    // 상점 근처에 있는 고정된 포지션 상점에서 구입시 바닥에 떨구는 형식으로 하기로 함
+    // 임시로 유저 캐릭터 포지션
+    const storePosition = user.character.position.getPosition();
+
+    const item = new Item(newItemId, itemTypeId, storePosition);
 
     gameSession.addItem(item);
+
+    const itemInfo = {
+      itemId: item.id,
+      itemTypeId: item.typeId,
+      position: storePosition,
+    };
 
     itemCreateNotification(gameSession, itemInfo);
   } catch (e) {
