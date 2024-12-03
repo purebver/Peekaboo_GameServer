@@ -43,7 +43,7 @@ const fileNames = [
 // Promise.all()
 export const loadGameAssets = async () => {
   try {
-    const gameAssets = Object.fromEntries(
+    gameAssets = Object.fromEntries(
       await Promise.all(
         fileNames.map(async (fileName) => {
           const key = fileName.replace('.json', '');
