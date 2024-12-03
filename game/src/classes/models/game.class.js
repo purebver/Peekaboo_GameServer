@@ -1,5 +1,5 @@
 import IntervalManager from '../managers/interval.manager.js';
-import { GAME_SESSION_STATE } from '../../constants/state.js';
+import { CHARACTER_STATE, GAME_SESSION_STATE } from '../../constants/state.js';
 import { Character } from './character.class.js';
 import { getInviteCode } from '../../utils/room/inviteCode.room.js';
 import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
@@ -66,7 +66,7 @@ class Game {
       3000,
     );
 
-    // IntervalManager.getInstance().addGameTimeInterval(
+    // IntervalManager.getInstance().addGameTimerInterval(
     //   this.id,
     //   this.gameTimer.bind(this),
     //   1000,
@@ -177,7 +177,24 @@ class Game {
     }
     this.remainingTime -= 1;
 
-    remainingTimeNotification(this);
+    if (this.remainingTime <= 0) {
+      // TODO : 스테이지 종료
+    } else {
+      // 게임 남은 시간 동기화를 위해 remainingTimeNotification 패킷을 보낸다.
+      remainingTimeNotification(this);
+    }
+  }
+
+  // 모든 플레이어가
+  checkStageEnd() {
+    const isEndStage = this.users.every((user) => {
+      return (
+        user.character.state === CHARACTER_STATE.DIED ||
+        user.character.state === CHARACTER_STATE.EXIT
+      );
+    });
+
+    return isEndStage;
   }
 }
 

@@ -43,7 +43,7 @@ class IntervalManager extends BaseManager {
     this.intervals.get(gameId).set(type, setInterval(callback, interval));
   }
 
-  addGameTimeInterval(gameId, callback, interval, type = 'time') {
+  addGameTimerInterval(gameId, callback, interval, type = 'timer') {
     if (!this.intervals.has(gameId)) this.intervals.set(gameId, new Map());
 
     this.intervals.get(gameId).set(type, setInterval(callback, interval));
