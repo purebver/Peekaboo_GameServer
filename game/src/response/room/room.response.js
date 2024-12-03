@@ -39,12 +39,17 @@ export const sendJoinRoomResponse = (socket, game) => {
   const data = {
     globalFailCode: GLOBAL_FAIL_CODE.NONE,
     message: '방에 성공적으로 참가하였습니다.',
+    gameSessionId: game.id,
     playerInfos: players,
   };
+
   const responseData = serializer(
     PACKET_TYPE.JoinRoomResponse,
     data,
     socket.sequence++,
   ); // sequence도 임시로
+
+  console.log(`joinRoomResponse => ${JSON.stringify(data)}`);
+
   socket.write(responseData);
 };

@@ -1,4 +1,5 @@
 import { config } from '../config/config.js';
+import { PACKET_MAPS } from '../constants/packet.js';
 import { getHandlerByPacketType } from '../handlers/index.js';
 import parserPacket from '../utils/packet/parser.packet.js';
 
@@ -55,6 +56,13 @@ export const onData = (socket) => async (data) => {
       try {
         const { payload } = parserPacket(payloadBuffer);
         socket.buffer = socket.buffer.subarray(offset);
+
+        // 수신한 패킷 Logging
+        if (packetType !== 1 && packetType !== 6)
+          console.log(
+            `PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
+          );
+
         const handler = getHandlerByPacketType(packetType);
         await handler({ socket, payload });
       } catch (e) {

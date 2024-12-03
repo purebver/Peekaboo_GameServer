@@ -135,7 +135,7 @@ message C2S_ItemGetRequest {
 }
 
 message S2C_ItemGetResponse {
-  int32 itemId = 1;
+  uint32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
@@ -144,13 +144,13 @@ message C2S_ItemUseRequest {
 }
 
 message S2C_ItemUseResponse {
-  int32 itemId = 1;
+  uint32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
 message S2C_ItemUseNotification {
   string userId = 1;
-  int32 itemId = 2;
+  uint32 itemId = 2;
 }
 
 message C2S_ItemDiscardRequest {
@@ -242,3 +242,7 @@ message S2C_ItemGetNotification {
   uint32 itemId = 1;
   string userId = 2;
 } 
+
+message S2C_RemainingTimeNotification {
+  uint32 remainingTime = 1;
+}

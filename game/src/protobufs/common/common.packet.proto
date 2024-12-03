@@ -55,5 +55,6 @@ message GamePacket {
     C2S_GhostSpawnRequest ghostSpawnRequest = 52;
     S2C_GhostSpawnNotification ghostSpawnNotification = 53;
     S2C_ItemGetNotification itemGetNotification = 54;
+    S2C_RemainingTimeNotification remainingTimeNotification = 55;
   }
 }

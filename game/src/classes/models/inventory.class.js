@@ -2,13 +2,13 @@ import redisManager from '../managers/redisManager.js';
 
 export class Inventory {
   constructor() {
-    this.slot = [null, null, null, null];
+    this.slot = [0, 0, 0, 0];
     this.itemCount = 0;
   }
 
   removeInventorySlot(clientSlot) {
     const itemId = this.slot[clientSlot];
-    this.slot[clientSlot] = null;
+    this.slot[clientSlot] = 0;
     this.itemCount--;
     return itemId;
   }

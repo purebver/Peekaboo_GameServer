@@ -31,6 +31,7 @@ enum CharacterState {
   HIT = 7;
   COOLDOWN = 8;
   SHOUT = 9;
+  EXIT = 10;
 }
 
 message Position {
@@ -220,7 +221,7 @@ message C2S_ItemGetRequest {
 }
 
 message S2C_ItemGetResponse {
-  int32 itemId = 1;
+  uint32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
@@ -229,13 +230,13 @@ message C2S_ItemUseRequest {
 }
 
 message S2C_ItemUseResponse {
-  int32 itemId = 1;
+  uint32 itemId = 1;
   uint32 inventorySlot = 2;
 }
 
 message S2C_ItemUseNotification {
   string userId = 1;
-  int32 itemId = 2;
+  uint32 itemId = 2;
 }
 
 message C2S_ItemDiscardRequest {
@@ -328,6 +329,10 @@ message S2C_ItemGetNotification {
   string userId = 2;
 } 
 
+message S2C_RemainingTimeNotification {
+  uint32 remainingTime = 1;
+}
+
 message GamePacket {
   oneof payload {
     C2S_PlayerMoveRequest playerMoveRequest = 1;
@@ -381,5 +386,6 @@ message GamePacket {
     C2S_GhostSpawnRequest ghostSpawnRequest = 52;
     S2C_GhostSpawnNotification ghostSpawnNotification = 53;
     S2C_ItemGetNotification itemGetNotification = 54;
+    S2C_RemainingTimeNotification remainingTimeNotification = 55;
   }
 }

@@ -28,4 +28,5 @@ export const CHARACTER_STATE = {
   ATTACKED: 7,
   COOLDOWN: 8,
   SHOUT: 9,
+  EXIT: 10,
 };

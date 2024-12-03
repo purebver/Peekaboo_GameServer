@@ -17,6 +17,9 @@ export const joinRoomNotification = async (gameSession, userId) => {
       user.socket.sequence++,
     );
     user.socket.write(packet);
+    console.log(
+      `joinRoom Notification ${user.id} => payload : ${JSON.stringify(payload)}`,
+    );
   });
 };
 
@@ -27,14 +30,14 @@ export const startStageNotification = (gameSession, userId, itemInfos) => {
     itemInfos,
   };
 
+  console.log(`StartStageNotification payload : ${JSON.stringify(payload)}`);
+
   gameSession.users.forEach((user) => {
-    if (user.id !== userId) {
-      const packet = serializer(
-        PACKET_TYPE.StartStageNotification,
-        payload,
-        user.socket.sequence++,
-      );
-      user.socket.write(packet);
-    }
+    const packet = serializer(
+      PACKET_TYPE.StartStageNotification,
+      payload,
+      user.socket.sequence++,
+    );
+    user.socket.write(packet);
   });
 };

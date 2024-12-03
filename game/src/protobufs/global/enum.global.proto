@@ -30,4 +30,5 @@ enum CharacterState {
     HIT = 7;
     COOLDOWN = 8;
     SHOUT = 9;
+    EXIT = 10;
 }

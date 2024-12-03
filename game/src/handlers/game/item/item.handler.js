@@ -56,11 +56,6 @@ export const itemChangeRequestHandler = async ({ socket, payload }) => {
 
   const itemId = user.character.inventory.slot[slot];
 
-  const item = gameSession.getItem(itemId);
-  if (!item) {
-    throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
-  }
-
   // 손에 들어주기
   itemChangeNotification(gameSession, socket.userId, itemId);
 };
