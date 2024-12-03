@@ -9,11 +9,11 @@ import { handleError } from '../../../Error/error.handler.js';
 export const itemCreateHandler = ({ socket, payload }) => {
   try {
     const { itemTypeId } = payload;
-
+    //일단 이부분 빼달래요
     // 아이템타입 id 검증
-    if (2104 > itemTypeId || 2106 < itemTypeId) {
-      return;
-    }
+    // if (itemTypeId < 2014 || itemTypeId > 2106) {
+    //   return;
+    // }
 
     const user = getUserById(socket.userId);
     if (!user) {
@@ -25,10 +25,12 @@ export const itemCreateHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
     const newItemId = gameSession.items[gameSession.items.length - 1].id + 1;
+    console.log('newItemId----------', newItemId);
 
     // 상점 근처에 있는 고정된 포지션 상점에서 구입시 바닥에 떨구는 형식으로 하기로 함
     // 임시로 유저 캐릭터 포지션
     const storePosition = user.character.position.getPosition();
+    console.log('storePosition----------', storePosition);
 
     const item = new Item(newItemId, itemTypeId, storePosition);
 
@@ -39,6 +41,8 @@ export const itemCreateHandler = ({ socket, payload }) => {
       itemTypeId: item.typeId,
       position: storePosition,
     };
+
+    console.log('itemInfo----------', JSON.stringify(itemInfo));
 
     itemCreateNotification(gameSession, itemInfo);
   } catch (e) {

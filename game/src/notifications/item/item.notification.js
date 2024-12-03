@@ -33,10 +33,10 @@ export const itemUseNotification = (gameSession, userId, itemId) => {
   });
 };
 
-export const itemDiscardNotification = (gameSession, itemInfo, position) => {
+export const itemDiscardNotification = (gameSession, userId, itemId) => {
   const payload = {
-    itemInfo,
-    position: position.getPosition(),
+    userId,
+    itemId,
   };
 
   gameSession.users.forEach((user) => {
@@ -76,6 +76,11 @@ export const itemDisuseNotification = (gameSession, userId, itemId) => {
     itemId,
   };
 
+  // message S2C_ItemDisuseNotification {
+  //   uint32 userId = 1;
+  //   uint32 itemId  = 2;
+  // }
+
   gameSession.users.forEach((user) => {
     const packet = serializer(
       PACKET_TYPE.ItemDisuseNotification,
@@ -87,16 +92,19 @@ export const itemDisuseNotification = (gameSession, userId, itemId) => {
 };
 
 export const itemCreateNotification = (gameSession, itemInfo) => {
+  const payload = {
+    itemInfo,
+  };
+  console.log('itemInfo한번더', itemInfo);
   gameSession.users.forEach((user) => {
-    if (gameSession.hostId !== user.id) {
-      const packet = serializer(
-        PACKET_TYPE.ItemCreateNotification,
-        itemInfo,
-        user.socket.sequence++,
-      );
+    const packet = serializer(
+      PACKET_TYPE.ItemCreateNotification,
+      payload,
+      user.socket.sequence++,
+    );
+    console.log('packet-------------', JSON.stringify(packet));
 
-      user.socket.write(packet);
-    }
+    user.socket.write(packet);
   });
 };
 

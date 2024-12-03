@@ -249,7 +249,8 @@ message S2C_ItemDiscardResponse {
 }
 
 message S2C_ItemDiscardNotification {
-  ItemInfo itemInfo = 1;
+  string userId = 1;
+  uint32 itemId = 2;
 }
 
 message C2S_DoorToggleRequest{
