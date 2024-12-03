@@ -305,7 +305,7 @@ message S2C_ItemDisuseNotification {
 }
 
 message C2S_ItemCreateRequest {
-  ItemInfo itemInfo = 1;
+  uint32 itemTypeId = 1;
 }
 
 message S2C_ItemCreateNotification {
