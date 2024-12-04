@@ -15,14 +15,22 @@ export const playerStateChangeRequestHandler = async ({ socket, payload }) => {
     throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
   }
 
-  user.character.state = playerStateInfo.playerState;
-
   const gameSession = getGameSessionById(user.gameId);
   if (!gameSession) {
     throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
   }
 
+  user.character.state = playerStateInfo.playerState;
+
   playerStateChangeNotification(gameSession, payload);
+
+  // 만약 player가 탈출했다면 스테이지 종료를 검사한다.
+  if (user.character.state === CHARACTER_STATE.EXIT) {
+    if (gameSession.checkStageEnd()) {
+      // 스테이지 종료 조건이 만족했다면,
+      gameSession.stageEnd();
+    }
+  }
 };
 
 export const playerAttackedRequestHandler = async ({ socket, payload }) => {
@@ -69,4 +77,12 @@ export const playerAttackedRequestHandler = async ({ socket, payload }) => {
     playerState: user.character.state,
   };
   playerStateChangeNotification(gameSession, playerStateInfo);
+
+  // 만약 player가 죽었다면 스테이지 종료를 검사한다.
+  if (user.character.state === CHARACTER_STATE.DIED) {
+    if (gameSession.checkStageEnd()) {
+      // 스테이지 종료 조건이 만족했다면, 스테이지를 종료시킨다.
+      gameSession.stageEnd();
+    }
+  }
 };

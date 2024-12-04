@@ -16,7 +16,7 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 // 아마도 불큐 사용할 구간
 export const itemGetRequestHandler = async ({ socket, payload }) => {
   const { itemId, inventorySlot } = payload;
-
+  console.log(socket.userId, '슬롯확인----------', inventorySlot);
   const user = getUserById(socket.userId);
   if (!user) {
     throw new CustomError(ErrorCodesMaps.USER_NOT_FOUND);
@@ -125,6 +125,7 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
   if (!item) {
     throw new CustomError(ErrorCodesMaps.ITEM_NOT_FOUND);
   }
+
   if (itemInfo.itemId !== itemId) {
     throw new CustomError(ErrorCodesMaps.ITEM_DETERIORATION);
   }
@@ -136,7 +137,7 @@ export const itemDiscardRequestHandler = async ({ socket, payload }) => {
 
   itemDiscardResponse(socket, inventorySlot);
 
-  itemDiscardNotification(gameSession, itemInfo, user.character.position);
+  itemDiscardNotification(gameSession, socket.userId, itemId);
 };
 
 export const itemDisuseRequestHandler = async ({ socket, payload }) => {

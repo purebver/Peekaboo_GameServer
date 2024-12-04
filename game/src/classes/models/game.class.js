@@ -6,6 +6,7 @@ import { ghostsLocationNotification } from '../../notifications/ghost/ghost.noti
 import {
   disconnectPlayerNotification,
   remainingTimeNotification,
+  stageEndNotification,
 } from '../../notifications/system/system.notification.js';
 import ItemQueueManager from '../managers/itemQueueManager.js';
 import DoorQueueManager from '../managers/doorQueueManager.js';
@@ -178,14 +179,14 @@ class Game {
     this.remainingTime -= 1;
 
     if (this.remainingTime <= 0) {
-      // TODO : 스테이지 종료
+      stageEndNotification(this);
     } else {
       // 게임 남은 시간 동기화를 위해 remainingTimeNotification 패킷을 보낸다.
       remainingTimeNotification(this);
     }
   }
 
-  // 모든 플레이어가
+  // 모든 플레이어가 죽었거나 탈출했는지 검사하는 함수
   checkStageEnd() {
     const isEndStage = this.users.every((user) => {
       return (
@@ -195,6 +196,19 @@ class Game {
     });
 
     return isEndStage;
+  }
+
+  // 게임 종료 로직
+  stageEnd() {
+    // 게임 상태를 END로 변경한다.
+    this.state = GAME_SESSION_STATE.END;
+
+    // TODO : 추후 필요한 로직들은 밑에 추가해준다.
+    // ex) 아이템 정리, 귀신 정리, 인벤토리 정리 등등...
+
+    // 점수(영혼 모은 개수)를 우선 여기서 구현할까?
+
+    stageEndNotification(this);
   }
 }
 

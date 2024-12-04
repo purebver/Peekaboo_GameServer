@@ -39,6 +39,12 @@ export const serializer = (packetType, payloadData = {}, sequence) => {
   const payloadLengthBuffer = Buffer.alloc(config.packet.payloadLength);
   payloadLengthBuffer.writeUInt32BE(payloadBuffer.length);
 
+  // Send Logging Test
+  // PingRequest, MoveNotification는 제외
+  if (packetType !== 2 && packetType !== 5)
+    console.log(
+      `#@!SEND!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
+    );
   return Buffer.concat([
     typeBuffer,
     versionLengthBuffer,

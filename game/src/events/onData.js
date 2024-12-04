@@ -57,10 +57,11 @@ export const onData = (socket) => async (data) => {
         const { payload } = parserPacket(payloadBuffer);
         socket.buffer = socket.buffer.subarray(offset);
 
-        // 수신한 패킷 Logging
+        // Recv Logging Test
+        // PingResponse, MoveRequest는 제외
         if (packetType !== 1 && packetType !== 6)
           console.log(
-            `PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
+            `#@!RECV!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
           );
 
         const handler = getHandlerByPacketType(packetType);

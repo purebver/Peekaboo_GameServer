@@ -33,10 +33,10 @@ export const itemUseNotification = (gameSession, userId, itemId) => {
   });
 };
 
-export const itemDiscardNotification = (gameSession, itemInfo, position) => {
+export const itemDiscardNotification = (gameSession, userId, itemId) => {
   const payload = {
-    itemInfo,
-    position: position.getPosition(),
+    userId,
+    itemId,
   };
 
   gameSession.users.forEach((user) => {
@@ -85,18 +85,19 @@ export const itemDisuseNotification = (gameSession, userId, itemId) => {
     user.socket.write(packet);
   });
 };
-
 export const itemCreateNotification = (gameSession, itemInfo) => {
-  gameSession.users.forEach((user) => {
-    if (gameSession.hostId !== user.id) {
-      const packet = serializer(
-        PACKET_TYPE.ItemCreateNotification,
-        itemInfo,
-        user.socket.sequence++,
-      );
+  const payload = {
+    itemInfo,
+  };
 
-      user.socket.write(packet);
-    }
+  gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.ItemCreateNotification,
+      payload,
+      user.socket.sequence++,
+    );
+
+    user.socket.write(packet);
   });
 };
 

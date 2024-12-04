@@ -9,11 +9,11 @@ import { handleError } from '../../../Error/error.handler.js';
 export const itemCreateHandler = ({ socket, payload }) => {
   try {
     const { itemTypeId } = payload;
-
+    //일단 이부분 빼달래요
     // 아이템타입 id 검증
-    if (2104 > itemTypeId || 2106 < itemTypeId) {
-      return;
-    }
+    // if (itemTypeId < 2014 || itemTypeId > 2106) {
+    //   return;
+    // }
 
     const user = getUserById(socket.userId);
     if (!user) {

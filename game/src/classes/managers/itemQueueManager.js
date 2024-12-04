@@ -58,6 +58,8 @@ class ItemQueueManager {
       try {
         user.character.inventory.slot[inventorySlot - 1] = itemId;
 
+        user.character.inventory.itemCount++;
+
         item.mapOn = false;
 
         // 응답 보내주기
