@@ -48,3 +48,15 @@ export const remainingTimeNotification = (gameSession) => {
     user.socket.write(packet);
   });
 };
+
+export const stageEndNotification = (gameSession) => {
+  gameSession.users.forEach((user) => {
+    const packet = serializer(
+      PACKET_TYPE.StageEndNotification,
+      { difficultyId: gameSession.difficultyId },
+      user.socket.sequence++,
+    );
+
+    user.socket.write(packet);
+  });
+};
