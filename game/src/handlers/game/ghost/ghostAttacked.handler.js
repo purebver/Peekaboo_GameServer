@@ -29,6 +29,7 @@ export const ghostAttackedRequestHandler = ({ socket, payload }) => {
     }
 
     // 추후 귀신의 피격이 생긴다면 추가 로직 구현 TODO
+    // ghostStateChangeNotification()
   } catch (e) {
     handleError(e);
   }

@@ -9,7 +9,7 @@ import { getUserById } from '../../../sessions/user.sessions.js';
  */
 export const ghostSpecialStateRequestHandler = ({ socket, payload }) => {
   try {
-    const { ghostId, specialStateType, isOn } = payload;
+    const { ghostId, specialState, isOn } = payload;
     // user 검증
     const user = getUserById(socket.userId);
     if (!user) {
@@ -23,7 +23,7 @@ export const ghostSpecialStateRequestHandler = ({ socket, payload }) => {
     }
 
     // 추후 특수 상태에 따른 변화 로직이 있으면 추가 TODO
-    // switch(specialStateType) {
+    // switch(specialState) {
 
     // }
 
