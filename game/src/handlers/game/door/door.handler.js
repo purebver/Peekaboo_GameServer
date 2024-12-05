@@ -28,5 +28,6 @@ export const doorToggleRequestHandler = async ({ socket, payload }) => {
   // );
 
   // Test : 본인 제외 나머지 플레이어에게 doorToggleNotification을 보낸다.
-  testDoorToggleNotification(gameSession, payload, user.id);
+  doorToggleNotification(gameSession, payload);
+  // testDoorToggleNotification(gameSession, payload, user.id);
 };
