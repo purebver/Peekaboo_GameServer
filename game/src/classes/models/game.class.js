@@ -23,12 +23,14 @@ class Game {
     this.items = [];
     this.doors = [];
     this.state = GAME_SESSION_STATE.PREPARE;
+    this.ghostSpawnPositions = null;
     this.difficultyId = null;
     this.remainingTime = null;
     this.ghostCSpawn = false;
 
     this.goalSoulAmount = 0;
     this.soulAccumulatedAmount = 0;
+    this.ghostIdCount = 1;
 
     this.inviteCode = getInviteCode();
     this.itemQueue = new ItemQueueManager(id);
@@ -48,6 +50,9 @@ class Game {
     this.remainingTime = gameAssets.difficulty.data.find(
       (data) => data.id === this.difficultyId,
     );
+
+    // 귀신 스폰 가능 지점 초기화
+    this.ghostSpawnPositions = [...gameAssets.ghostSpawnPos.data];
 
     // IntervalManager.getInstance().addPlayersInterval(
     //   this.id,

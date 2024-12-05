@@ -151,14 +151,11 @@ export const ghostSpecialStateNotification = (gameSession, payload) => {
 // 귀신 생성 알림
 export const ghostSpawnNotification = (gameSession, ghostInfo) => {
   gameSession.users.forEach((user) => {
-    if (gameSession.hostId !== user.id) {
-      const packet = serializer(
-        PACKET_TYPE.GhostSpawnNotification,
-        ghostInfo,
-        user.socket.sequence++,
-      );
-
-      user.socket.write(packet);
-    }
+    const packet = serializer(
+      PACKET_TYPE.GhostSpawnNotification,
+      ghostInfo,
+      user.socket.sequence++,
+    );
+    user.socket.write(packet);
   });
 };

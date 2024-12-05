@@ -232,7 +232,7 @@ message S2C_BlockInteractionNotification {
 }
 
 message C2S_GhostSpawnRequest {
-  GhostInfo ghostInfo = 1;
+  uint32 ghostTypeId = 1;
 }
 
 message S2C_GhostSpawnNotification {
