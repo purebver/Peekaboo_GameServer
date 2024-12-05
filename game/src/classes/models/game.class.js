@@ -13,6 +13,7 @@ import DoorQueueManager from '../managers/doorQueueManager.js';
 import { Door } from './door.class.js';
 import { config } from '../../config/config.js';
 import { getGameAssets } from '../../init/load.assets.js';
+import { removeGameSession } from '../../sessions/game.session.js';
 
 class Game {
   constructor(id) {
@@ -209,7 +210,7 @@ class Game {
   }
 
   // 게임 종료 로직
-  stageEnd() {
+  async stageEnd() {
     // 게임 상태를 END로 변경한다.
     this.state = GAME_SESSION_STATE.END;
 
@@ -219,6 +220,21 @@ class Game {
     // 점수(영혼 모은 개수)를 우선 여기서 구현할까?
 
     stageEndNotification(this);
+
+    // ** 임시 게임 종료 시, 게임 세션을 삭제하도록 진행
+    // 1. 해당 게임 세션에 속한 유저들의 인터벌 삭제
+    // 2. 해당 게임 세션에서 수행하는 인터벌 삭제
+    // 3. 불큐 삭제
+    // 4. destroy this
+    this.users.forEach((user) => {
+      IntervalManager.getInstance().removeUserInterval(user.id);
+    });
+    IntervalManager.getInstance().removeGameInterval(this.id);
+    await this.doorQueue.queue.obliterate({ force: true });
+    await this.doorQueue.queue.close();
+    await this.itemQueue.queue.obliterate({ force: true });
+    await this.itemQueue.queue.close();
+    removeGameSession(this.id);
   }
 }
 

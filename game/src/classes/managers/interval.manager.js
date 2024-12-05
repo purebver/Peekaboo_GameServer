@@ -59,6 +59,16 @@ class IntervalManager extends BaseManager {
     }
   }
 
+  removeGameInterval(gameId) {
+    if (this.intervals.has(gameId)) {
+      const gameIntervals = this.intervals.get(gameId);
+      gameIntervals.forEach((intervalId) => {
+        clearInterval(intervalId);
+      });
+      this.intervals.delete(gameId);
+    }
+  }
+
   removeMonsterTypeInterval(gameId) {
     if (this.intervals.has(gameId)) {
       const gameMonitorInterval = this.intervals.get(gameId);
