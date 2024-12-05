@@ -57,9 +57,13 @@ export const ghostStateChangeNotification = (
   }
   ghost.setState(ghostState);
 
-  const data = {
+  const ghostStateInfo = {
     ghostId,
-    ghostState,
+    characterState: ghostState,
+  };
+
+  const payload = {
+    ghostStateInfo,
   };
 
   // 호스트 제외 packet 전송
@@ -69,48 +73,11 @@ export const ghostStateChangeNotification = (
     }
     const packet = serializer(
       PACKET_TYPE.GhostStateChangeNotification,
-      data,
+      payload,
       user.socket.sequence++,
     );
     user.socket.write(packet);
   });
-
-  // 추후 몇초후에 다시 상태를 알려주기 위해 // 초단위도 따로 저장해야겠다 TODO // 이거는 상의 후 할지 말지 결정
-  // switch (ghostState) {
-  //   case CHARACTER_STATE.ATTACK:
-  //     {
-  //       setTimeout(() => {
-  //         ghostStateChangeNotification(
-  //           gameSession,
-  //           ghostId,
-  //           CHARACTER_STATE.MOVE,
-  //         );
-  //       }, 1000); // 이거 초단위 설정
-  //     }
-  //     break;
-  //   case CHARACTER_STATE.ATTACKED:
-  //     {
-  //       setTimeout(() => {
-  //         ghostStateChangeNotification(
-  //           gameSession,
-  //           ghostId,
-  //           CHARACTER_STATE.MOVE,
-  //         );
-  //       }, 1000); // 이거 초단위 설정
-  //     }
-  //     break;
-  //   case CHARACTER_STATE.COOLDOWN:
-  //     {
-  //       setTimeout(() => {
-  //         ghostStateChangeNotification(
-  //           gameSession,
-  //           ghostId,
-  //           CHARACTER_STATE.MOVE,
-  //         );
-  //       }, 1000); // 이거 초단위 설정
-  //     }
-  //     break;
-  // }
 };
 
 /**
@@ -119,7 +86,7 @@ export const ghostStateChangeNotification = (
  * @param {*} payload
  */
 export const ghostSpecialStateNotification = (gameSession, payload) => {
-  const { ghostId, specialStateType, isOn } = payload;
+  const { ghostId, specialState, isOn } = payload;
 
   // 고스트 검증
   const ghost = gameSession.getGhost(ghostId);
@@ -129,7 +96,7 @@ export const ghostSpecialStateNotification = (gameSession, payload) => {
 
   const data = {
     ghostId,
-    specialStateType,
+    specialState,
     isOn,
   };
 
@@ -150,10 +117,13 @@ export const ghostSpecialStateNotification = (gameSession, payload) => {
 
 // 귀신 생성 알림
 export const ghostSpawnNotification = (gameSession, ghostInfo) => {
+  const payload = {
+    ghostInfo,
+  };
   gameSession.users.forEach((user) => {
     const packet = serializer(
       PACKET_TYPE.GhostSpawnNotification,
-      ghostInfo,
+      payload,
       user.socket.sequence++,
     );
     user.socket.write(packet);

@@ -21,6 +21,7 @@ export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
+    console.log('ghostState--------', ghostState);
     ghostStateChangeNotification(gameSession, ghostId, ghostState);
   } catch (e) {
     handleError(e);
