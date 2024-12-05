@@ -48,6 +48,10 @@ class Ghost {
         break;
     }
   }
+
+  printInfo() {
+    return `Type : ${this.ghostTypeId}, Position : (${this.position.x}, ${this.position.y}, ${this.position.z})`;
+  }
 }
 
 export default Ghost;

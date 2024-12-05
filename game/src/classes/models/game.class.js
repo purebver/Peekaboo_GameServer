@@ -158,7 +158,7 @@ class Game {
     if (this.users.length === 0) return;
 
     console.log(
-      `---------- [${this.id.substring(0, 8)}] Game Monitor ------------------------------------------`,
+      `-------------------------------------- [${this.id.substring(0, 8)}] Game Monitor ------------------------------------------`,
     );
     this.users.forEach((user) => {
       // user.printUserInfo()
@@ -166,6 +166,11 @@ class Game {
       console.log(
         `[${user.id.substring(0, 8)}] User : ${user.character.printInfo()}`,
       );
+    });
+    this.ghosts.forEach((ghost, index) => {
+      // user.printUserInfo()
+      // - pos, rot, latency를 출력해준다.
+      console.log(`[${index + 1}}] Ghost : ${ghost.printInfo()}`);
     });
     console.log(
       `---------------------------------------------------------------------------------------------------------`,

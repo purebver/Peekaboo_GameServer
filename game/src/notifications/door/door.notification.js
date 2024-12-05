@@ -11,3 +11,17 @@ export const doorToggleNotification = (gameSession, payload) => {
     user.socket.write(packet);
   });
 };
+
+export const testDoorToggleNotification = (gameSession, payload, userId) => {
+  gameSession.users.forEach((user) => {
+    if (user.id === userId) {
+      return;
+    }
+    const packet = serializer(
+      PACKET_TYPE.DoorToggleNotification,
+      payload,
+      user.socket.sequence++,
+    );
+    user.socket.write(packet);
+  });
+};

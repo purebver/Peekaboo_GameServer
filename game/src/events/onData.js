@@ -1,4 +1,5 @@
 import { config } from '../config/config.js';
+import { PACKET_TYPE } from '../constants/header.js';
 import { PACKET_MAPS } from '../constants/packet.js';
 import { getHandlerByPacketType } from '../handlers/index.js';
 import parserPacket from '../utils/packet/parser.packet.js';
@@ -58,8 +59,12 @@ export const onData = (socket) => async (data) => {
         socket.buffer = socket.buffer.subarray(offset);
 
         // Recv Logging Test
-        // PingResponse, MoveRequest는 제외
-        if (packetType !== 1 && packetType !== 6)
+        // PingResponse, PlayerMoveRequest, GhostMoveRequest는 제외
+        if (
+          packetType !== PACKET_TYPE.PlayerMoveRequest &&
+          packetType !== PACKET_TYPE.GhostMoveRequest &&
+          packetType !== PACKET_TYPE.PingResponse
+        )
           console.log(
             `#@!RECV!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
           );

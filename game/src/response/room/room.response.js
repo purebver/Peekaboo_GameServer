@@ -49,7 +49,5 @@ export const sendJoinRoomResponse = (socket, game) => {
     socket.sequence++,
   ); // sequence도 임시로
 
-  console.log(`joinRoomResponse => ${JSON.stringify(data)}`);
-
   socket.write(responseData);
 };
