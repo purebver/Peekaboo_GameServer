@@ -11,9 +11,10 @@ export const itemCreateHandler = ({ socket, payload }) => {
     const { itemTypeId } = payload;
     //일단 이부분 빼달래요
     // 아이템타입 id 검증
-    // if (itemTypeId < 2014 || itemTypeId > 2106) {
-    //   return;
-    // }
+    if (itemTypeId < 2014 || itemTypeId > 2106) {
+      console.log(`Item Create Error => ItemType : ${itemTypeId}`);
+      return;
+    }
 
     const user = getUserById(socket.userId);
     if (!user) {

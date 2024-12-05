@@ -1,4 +1,5 @@
 import { config } from '../../config/config.js';
+import { PACKET_TYPE } from '../../constants/header.js';
 import { PACKET_MAPS } from '../../constants/packet.js';
 import { getProtoMessages } from '../../init/load.protos.js';
 
@@ -40,10 +41,14 @@ export const serializer = (packetType, payloadData = {}, sequence) => {
   payloadLengthBuffer.writeUInt32BE(payloadBuffer.length);
 
   // Send Logging Test
-  // PingRequest, MoveNotification는 제외
-  if (packetType !== 2 && packetType !== 5)
+  // PingRequest, PlayerMoveNotification, GhostMoveNotification는 제외
+  if (
+    packetType !== PACKET_TYPE.PlayerMoveNotification &&
+    packetType !== PACKET_TYPE.GhostMoveNotification &&
+    packetType !== PACKET_TYPE.PingRequest
+  )
     console.log(
-      `#@!SEND!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
+      `#@!SEND!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payloadData)}`,
     );
   return Buffer.concat([
     typeBuffer,

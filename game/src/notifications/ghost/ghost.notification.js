@@ -8,6 +8,11 @@ import { ErrorCodesMaps } from '../../Error/error.codes.js';
  * 귀신의 움직임값을 보내주는 함수입니다.
  */
 export const ghostsLocationNotification = (gameSession) => {
+  // ghosts에 ghost가 없다면 ghostsLocationNotification을 보내지 않는다.
+  if (gameSession.ghosts.length === 0) {
+    return;
+  }
+
   // 보내줄 데이터 추출하여 정리
   const ghostMoveInfos = gameSession.ghosts.map((ghost) => {
     const ghostMoveInfo = {

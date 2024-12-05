@@ -17,9 +17,6 @@ export const joinRoomNotification = async (gameSession, userId) => {
       user.socket.sequence++,
     );
     user.socket.write(packet);
-    console.log(
-      `joinRoom Notification ${user.id} => payload : ${JSON.stringify(payload)}`,
-    );
   });
 };
 

@@ -1,7 +1,10 @@
 import redisManager from '../../../classes/managers/redisManager.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
-import { doorToggleNotification } from '../../../notifications/door/door.notification.js';
+import {
+  doorToggleNotification,
+  testDoorToggleNotification,
+} from '../../../notifications/door/door.notification.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 
@@ -19,8 +22,11 @@ export const doorToggleRequestHandler = async ({ socket, payload }) => {
   }
 
   // 문 상호작용 요청을 DoorQueue에 추가
-  gameSession.doorQueue.queue.add(
-    { gameSessionId: user.gameId, userId: user.id, doorId, isDoorToggle },
-    { jobId: `door:${doorId}`, removeOnComplete: true },
-  );
+  // gameSession.doorQueue.queue.add(
+  //   { gameSessionId: user.gameId, userId: user.id, doorId, isDoorToggle },
+  //   { jobId: `door:${doorId}`, removeOnComplete: true },
+  // );
+
+  // Test : 본인 제외 나머지 플레이어에게 doorToggleNotification을 보낸다.
+  testDoorToggleNotification(gameSession, payload, user.id);
 };

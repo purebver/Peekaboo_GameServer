@@ -14,6 +14,11 @@ export const joinRoomHandler = async ({ socket, payload }) => {
   const user = addUser(userId, socket);
   socket.userId = userId;
 
+  // inviteCode 검증
+  if (!inviteCode) {
+    throw new CustomError(ErrorCodesMaps.INVALID_PACKET);
+  }
+
   // inviteCode로 참가할 방 검증
   const gameSession = getGameSessionByInviteCode(inviteCode);
   if (!gameSession) {
