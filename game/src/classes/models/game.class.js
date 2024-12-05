@@ -190,7 +190,7 @@ class Game {
     this.remainingTime -= 1;
 
     if (this.remainingTime <= 0) {
-      stageEndNotification(this);
+      this.stageEnd();
     } else {
       // 게임 남은 시간 동기화를 위해 remainingTimeNotification 패킷을 보낸다.
       remainingTimeNotification(this);
