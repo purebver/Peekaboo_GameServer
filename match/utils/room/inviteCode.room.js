@@ -1,4 +1,4 @@
-import { config } from '../../config/config.js';
+import { config } from '../../../game/src/config/config.js';
 import crypto from 'crypto';
 
 export const getInviteCode = () => {

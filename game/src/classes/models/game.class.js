@@ -1,7 +1,6 @@
 import IntervalManager from '../managers/interval.manager.js';
 import { CHARACTER_STATE, GAME_SESSION_STATE } from '../../constants/state.js';
 import { Character } from './character.class.js';
-import { getInviteCode } from '../../utils/room/inviteCode.room.js';
 import { ghostsLocationNotification } from '../../notifications/ghost/ghost.notification.js';
 import {
   disconnectPlayerNotification,
@@ -33,7 +32,6 @@ class Game {
     this.soulAccumulatedAmount = 0;
     this.ghostIdCount = 1;
 
-    this.inviteCode = getInviteCode();
     this.itemQueue = new ItemQueueManager(id);
     this.doorQueue = new DoorQueueManager(id);
   }
