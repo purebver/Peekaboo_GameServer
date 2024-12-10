@@ -54,17 +54,6 @@ message S2C_ItemChangeNotification {
   uint32 itemId = 2;
 }
 
-message C2S_LoginRequest {
-  string id = 1;
-  string password = 2;
-}
-
-message S2C_LoginResponse {
-  GlobalFailCode globalFailCode = 1;
-  string userId = 2;
-  string token = 3;
-}
-
 message C2S_CreateRoomRequest {
   string userId = 1;
   string token = 2;
@@ -169,12 +158,12 @@ message S2C_ItemDiscardNotification {
 
 message C2S_DoorToggleRequest{
   uint32 doorId = 1;
-  bool isDoorToggle = 2;
+  DoorState doorState = 2;
 }
 
 message S2C_DoorToggleNotification {
   uint32 doorId = 1;
-  bool isDoorToggle = 2;
+  DoorState doorState = 2;
 }
 
 message S2C_StageEndNotification {
@@ -246,4 +235,74 @@ message S2C_ItemGetNotification {
 
 message S2C_RemainingTimeNotification {
   uint32 remainingTime = 1;
+}
+
+message C2S_ItemPurchaseRequest {
+  uint32 itemTypeId = 1;
+} 
+
+message S2C_ItemPurchaseNotification {
+  ItemInfo itemInfo = 1;
+}
+
+message S2C_ItemPurchaseResponse {
+  GlobalFailCode globalFailCode = 1;
+}
+
+// outgame
+message C2S_RegistAccountRequest {
+  string id = 1;
+  string password = 2;
+}
+
+message S2C_RegistAccountResponse {
+  GlobalFailCode globalFailCode = 1;
+  string message = 2;
+}
+
+message C2S_LoginRequest {
+  string id = 1;
+  string password = 2;
+}
+
+message S2C_LoginResponse {
+  GlobalFailCode globalFailCode = 1;
+  string userId = 2;
+  string token = 3;
+}
+
+message C2S_ChangeNicknameRequest {
+  string userId = 1;
+  string nickname = 2; 
+  string token = 3;
+}
+
+message S2C_ChangeNicknameResponse {
+  GlobalFailCode globalFailCode = 1;
+  string message = 2;
+}
+
+message C2S_EnterLobbyRequest {
+  string userId = 1;
+}
+
+message S2C_EnterLobbyResponse {
+  repeated RoomInfo roomInfos = 1;
+}
+
+message C2S_RefreshLobbyRequest {
+  string userId = 1;
+}
+
+message S2C_RefreshLobbyResponse {
+  repeated RoomInfo roomInfos = 1;
+  GlobalFailCode globalFailCode = 2;
+}
+
+message C2S_SearchRoomRequest {
+ string searchText = 1;
+}
+
+message S2C_SearchRoomResponse {
+ repeated RoomInfo roomInfos = 1;
 }
