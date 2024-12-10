@@ -45,7 +45,8 @@ export const serializer = (packetType, payloadData = {}, sequence) => {
   if (
     packetType !== PACKET_TYPE.PlayerMoveNotification &&
     packetType !== PACKET_TYPE.GhostMoveNotification &&
-    packetType !== PACKET_TYPE.PingRequest
+    packetType !== PACKET_TYPE.PingRequest &&
+    packetType !== PACKET_TYPE.PlayerStateChangeNotification
   )
     console.log(
       `#@!SEND!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payloadData)}`,

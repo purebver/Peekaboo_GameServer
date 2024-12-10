@@ -18,7 +18,7 @@ export const ghostsLocationNotification = (gameSession) => {
     const ghostMoveInfo = {
       ghostId: ghost.id,
       position: ghost.position.getPosition(),
-      rotation: ghost.rotation.getRotation(),
+      // rotation: ghost.rotation.getRotation(),
     };
 
     return ghostMoveInfo;
@@ -48,7 +48,7 @@ export const ghostsLocationNotification = (gameSession) => {
 export const ghostStateChangeNotification = (
   gameSession,
   ghostId,
-  ghostState,
+  characterState,
 ) => {
   // 고스트 검증
   const ghost = gameSession.getGhost(ghostId);
@@ -59,7 +59,7 @@ export const ghostStateChangeNotification = (
 
   const ghostStateInfo = {
     ghostId,
-    characterState: ghostState,
+    characterState,
   };
 
   const payload = {

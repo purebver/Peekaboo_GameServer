@@ -1,37 +1,35 @@
 syntax = "proto3";
 
 enum GlobalFailCode {
-  NONE = 0;
-  UNKNOWN = 1;
-  INVALID_REQUEST = 2;
-  AUTHENTICATION_FAILED = 3;
+    NONE = 0;
+    UNKNOWN = 1;
+    INVALID_REQUEST = 2;
+    AUTHENTICATION_FAILED = 3;
 }
 
 enum UserState {
-  USER_STATE_NONE = 0;
-  STAY = 1;
-  INGAME = 2;
+    STAY = 0;
+    INGAME = 1;
 }
 
 enum GameSessionState {
-  GAME_STATE_NONE = 0;
-  PREPARE = 1;
-  INPROGRESS = 2;
-  END = 3;
+    PREPARE = 0;
+    INPROGRESS = 1;
+    END = 2;
 }
 
 enum CharacterState {
-  CHARACTER_STATE_NONE = 0;
-  IDLE = 1;
-  MOVE = 2;
-  RUN = 3;
-  JUMP = 4;
-  ATTACK = 5;
-  DIED = 6;
-  HIT = 7;
-  COOLDOWN = 8;
-  SHOUT = 9;
-  EXIT = 10;
+    CHARACTER_STATE_NONE = 0;
+    IDLE = 1;
+    MOVE = 2;
+    RUN = 3;
+    JUMP = 4;
+    ATTACK = 5;
+    DIED = 6;
+    HIT = 7;
+    COOLDOWN = 8;
+    SHOUT = 9;
+    EXIT = 10;
 }
 
 enum DoorState {
@@ -250,10 +248,12 @@ message S2C_ItemDiscardNotification {
 message C2S_DoorToggleRequest{
   uint32 doorId = 1;
   DoorState doorState = 2;
+  DoorState doorState = 2;
 }
 
 message S2C_DoorToggleNotification {
   uint32 doorId = 1;
+  DoorState doorState = 2;
   DoorState doorState = 2;
 }
 
@@ -412,8 +412,6 @@ message GamePacket {
     S2C_GhostStateChangeNotification ghostStateChangeNotification = 10;
     C2S_ItemChangeRequest itemChangeRequest = 11;
     S2C_ItemChangeNotification itemChangeNotification = 12;
-    C2S_LoginRequest loginRequest = 16;
-    S2C_LoginResponse loginResponse = 17;
     C2S_CreateRoomRequest createRoomRequest = 18;
     S2C_CreateRoomResponse createRoomResponse = 19;
     C2S_JoinRoomRequest joinRoomRequest = 20;
@@ -452,5 +450,21 @@ message GamePacket {
     S2C_GhostSpawnNotification ghostSpawnNotification = 53;
     S2C_ItemGetNotification itemGetNotification = 54;
     S2C_RemainingTimeNotification remainingTimeNotification = 55;
+    C2S_ItemPurchaseRequest itemPurchaseRequest = 56;
+    S2C_ItemPurchaseNotification itemPurchaseNotification = 57;
+    S2C_ItemPurchaseResponse itemPurchaseResponse = 58;
+
+    C2S_RegistAccountRequest registAccountRequest = 500;
+    S2C_RegistAccountResponse registAccountResponse = 501;
+    C2S_LoginRequest loginRequest = 502;
+    S2C_LoginResponse loginResponse = 503;
+    C2S_ChangeNicknameRequest changeNicknameRequest = 504;
+    S2C_ChangeNicknameResponse changeNicknameResponse = 505;
+    C2S_EnterLobbyRequest enterLobbyRequest = 506;
+    S2C_EnterLobbyResponse enterLobbyResponse = 507;
+    C2S_RefreshLobbyRequest refreshLobbyRequest = 508;
+    S2C_RefreshLobbyResponse refreshLobbyResponse = 509;
+    C2S_SearchRoomRequest searchRoomRequest = 510;
+    S2C_SearchRoomResponse searchRoomResponse = 511;
   }
 }

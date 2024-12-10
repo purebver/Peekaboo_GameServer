@@ -8,7 +8,7 @@ import { getUserById } from '../../../sessions/user.sessions.js';
 export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
   try {
     const { ghostStateInfo } = payload;
-    const { ghostId, ghostState } = ghostStateInfo;
+    const { ghostId, characterState } = ghostStateInfo;
     // user 검증
     const user = getUserById(socket.userId);
     if (!user) {
@@ -21,8 +21,8 @@ export const ghostStateChangeRequestHandler = ({ socket, payload }) => {
       throw new CustomError(ErrorCodesMaps.GAME_NOT_FOUND);
     }
 
-    console.log('ghostState--------', ghostState);
-    ghostStateChangeNotification(gameSession, ghostId, ghostState);
+    console.log('ghostState--------', characterState);
+    ghostStateChangeNotification(gameSession, ghostId, characterState);
   } catch (e) {
     handleError(e);
   }

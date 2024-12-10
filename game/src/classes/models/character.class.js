@@ -9,8 +9,8 @@ export class Character {
     this.lastPosition = new Position(5.07, 0.68, 0.11);
     this.rotation = new Rotation();
     this.lastRotation = new Rotation();
-    this.maxLife = 1;
-    this.life = 1;
+    this.maxLife = 3;
+    this.life = 3;
     this.state = CHARACTER_STATE.IDLE;
     this.speed = 1;
     this.latency = null;

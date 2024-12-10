@@ -63,7 +63,8 @@ export const onData = (socket) => async (data) => {
         if (
           packetType !== PACKET_TYPE.PlayerMoveRequest &&
           packetType !== PACKET_TYPE.GhostMoveRequest &&
-          packetType !== PACKET_TYPE.PingResponse
+          packetType !== PACKET_TYPE.PingResponse &&
+          packetType !== PACKET_TYPE.PlayerStateChangeRequest
         )
           console.log(
             `#@!RECV!@# PacketType : ${PACKET_MAPS[packetType]} => Payload ${JSON.stringify(payload)}`,
