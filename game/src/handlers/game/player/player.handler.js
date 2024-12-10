@@ -3,7 +3,9 @@ import { PACKET_TYPE } from '../../../constants/header.js';
 import { CHARACTER_STATE } from '../../../constants/state.js';
 import CustomError from '../../../Error/custom.error.js';
 import { ErrorCodesMaps } from '../../../Error/error.codes.js';
+import { itemDiscardNotification } from '../../../notifications/item/item.notification.js';
 import { playerStateChangeNotification } from '../../../notifications/player/player.notification.js';
+import { itemDiscardResponse } from '../../../response/item/item.response.js';
 import { getGameSessionById } from '../../../sessions/game.session.js';
 import { getUserById } from '../../../sessions/user.sessions.js';
 import { serializer } from '../../../utils/packet/create.packet.js';
@@ -83,8 +85,20 @@ export const playerAttackedRequestHandler = async ({ socket, payload }) => {
 
   playerStateChangeNotification(gameSession, playerStateInfo);
 
-  // 만약 player가 죽었다면 스테이지 종료를 검사한다.
+  // 만약 player가 죽었다면
+  // 아이템을 바닥에 뿌린다.
+  // 스테이지 종료를 검사한다.
   if (user.character.state === CHARACTER_STATE.DIED) {
+    const length = user.character.inventory.slot.length;
+
+    for (let i = 0; i < length; i++) {
+      const itemId = user.character.inventory.removeInventorySlot(i);
+      if (!itemId) {
+        itemDiscardResponse(socket, i + 1);
+        itemDiscardNotification(gameSession, socket.userId, itemId);
+      }
+    }
+
     await gameSession.stageEnd();
     // if (gameSession.checkStageEnd()) {
     //   // 스테이지 종료 조건이 만족했다면, 스테이지를 종료시킨다.
