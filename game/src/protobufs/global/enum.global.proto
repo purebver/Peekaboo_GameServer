@@ -32,3 +32,9 @@ enum CharacterState {
     SHOUT = 9;
     EXIT = 10;
 }
+
+enum DoorState {
+    DOOR_LEFT = 1;
+    DOOR_MIDDLE = 2;
+    DOOR_RIGHT = 3;
+}

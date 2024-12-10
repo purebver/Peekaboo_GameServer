@@ -56,5 +56,21 @@ message GamePacket {
     S2C_GhostSpawnNotification ghostSpawnNotification = 53;
     S2C_ItemGetNotification itemGetNotification = 54;
     S2C_RemainingTimeNotification remainingTimeNotification = 55;
+    C2S_ItemPurchaseRequest itemPurchaseRequest = 56;
+    S2C_ItemPurchaseNotification itemPurchaseNotification = 57;
+    S2C_ItemPurchaseResponse itemPurchaseResponse = 58;
+
+    C2S_RegistAccountRequest registAccountRequest = 500;
+    S2C_RegistAccountResponse registAccountResponse = 501;
+    C2S_LoginRequest loginRequest = 502;
+    S2C_LoginResponse loginResponse = 503;
+    C2S_ChangeNicknameRequest changeNicknameRequest = 504;
+    S2C_ChangeNicknameResponse changeNicknameResponse = 505;
+    C2S_EnterLobbyRequest enterLobbyRequest = 506;
+    S2C_EnterLobbyResponse enterLobbyResponse = 507;
+    C2S_RefreshLobbyRequest refreshLobbyRequest = 508;
+    S2C_RefreshLobbyResponse refreshLobbyResponse = 509;
+    C2S_SearchRoomRequest searchRoomRequest = 510;
+    S2C_SearchRoomResponse searchRoomResponse = 511;
   }
 }
