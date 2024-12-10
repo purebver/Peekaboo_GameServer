@@ -47,7 +47,7 @@ export const ghostSpawnHandler = ({ socket, payload }) => {
       gameSession.ghostIdCount++,
       ghostTypeId,
       position,
-      rotation,
+      //rotation
     );
     gameSession.addGhost(ghost);
 

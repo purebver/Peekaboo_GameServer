@@ -4,6 +4,8 @@ import { getUserById, removeUser } from '../sessions/user.sessions.js';
 
 export const onEnd = (socket) => async (data) => {
   const user = getUserById(socket.userId);
+  //console.log('onEnd socket Log---------------------');
+  //console.log(socket);
   const gameSession = getGameSessionById(user.gameId);
   console.log(`${socket.remoteAddress}:${socket.remotePort} User Disconnected`);
 
