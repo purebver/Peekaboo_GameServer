@@ -2,8 +2,8 @@ import net from 'net';
 import { config } from '../game/src/config/config.js';
 import parserPacket from '../game/src/utils/packet/parser.packet.js';
 import { PACKET_TYPE } from '../game/src/constants/header.js';
-import { getInviteCode } from './utils/room/inviteCode.room.js';
 import { fork } from 'child_process';
+import { getInviteCode } from '../game/src/utils/room/inviteCode.room.js';
 
 const servers = {};
 
@@ -23,7 +23,10 @@ function createDedicatedServer(userId, inviteCode) {
 
   serverProcess.on('exit', (code) => {
     console.log(`Game ${gameId} ended with exit code ${code}`);
+    delete servers[inviteCode];
   });
+
+  //serverProcess.kill() <= 자식 서버 죽이는 메서드
 }
 
 const tcpServer = net.createServer((socket) => {
@@ -92,7 +95,12 @@ const tcpServer = net.createServer((socket) => {
               const inviteCode = getInviteCode();
               createDedicatedServer(userId, inviteCode);
 
-              //서버 연결 로직 추가
+              //생성된 서버에 연결 로직 추가
+              //socket.write로 connectRoomRequest를 송신
+
+              //연결 후 소켓 종료
+              //종료 시키는게 맞나??????
+              socket.end();
               break;
             }
             case PACKET_TYPE.JoinRoomRequest: {
@@ -102,7 +110,11 @@ const tcpServer = net.createServer((socket) => {
                 return;
               }
 
-              //서버 연결 로직 추가
+              //address서버에 연결 로직 추가
+              //socket.write로 connectPortRequest를 송신
+
+              //연결 후 소켓 종료
+              socket.end();
               break;
             }
           }
@@ -116,7 +128,7 @@ const tcpServer = net.createServer((socket) => {
 
 try {
   tcpServer.listen(6666, config.server.tcpHost, () => {
-    console.log(`새로운 게임이 포트 ${tcpServer.address().port}에 생성`);
+    console.log(`roomServer가 ${tcpServer.address().port}에 대기`);
     console.log(tcpServer.address());
   });
 } catch (e) {
