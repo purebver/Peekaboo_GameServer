@@ -14,7 +14,7 @@ const delay = (ms) => {
 client.gameServerConnect();
 
 // 방 생성 요청
-let data = 'create:1';
+let data = 'create:3';
 
 // 로그인 처리 후 send
 client.sendPacket(JSON.stringify(data), CLIENTTYPE.GAMECLIENT);

@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "start": "node game/src/server.js",
-    "dev": "nodemon game/src/server.js"
+    "dev": "nodemon game/src/server.js",
+    "docker:build": "docker build -t test/gameserver:1.0.0 -f Dockerfile .",
+    "docker:push": "docker push test/gameserver:1.0.0"
   },
   "license": "MIT",
   "dependencies": {

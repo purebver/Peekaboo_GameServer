@@ -65,9 +65,7 @@ class Client {
     this.gameToClient.on('error', (error) => this.onError(error));
   }
 
-  sendPacket(packetType, data, clientType) {
-    const packet = serializer(packetType, data, this.sequence++);
-
+  sendPacket(data, clientType) {
     switch (clientType) {
       case CLIENTTYPE.GATECLIENT:
         {
@@ -76,7 +74,7 @@ class Client {
         break;
       case CLIENTTYPE.GAMECLIENT:
         {
-          this.gameToClient.write(packet);
+          this.gameToClient.write(data);
         }
         break;
     }

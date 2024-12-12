@@ -76,13 +76,15 @@ export const usersLocationNotification = (gameSession) => {
   });
 };
 
-export const playerStateChangeNotification = (gameSession, payload) => {
+export const playerStateChangeNotification = (gameSession, payload, userId) => {
   gameSession.users.forEach((user) => {
-    const packet = serializer(
-      PACKET_TYPE.PlayerStateChangeNotification,
-      payload,
-      user.socket.sequence++,
-    );
-    user.socket.write(packet);
+    if (user.id !== userId) {
+      const packet = serializer(
+        PACKET_TYPE.PlayerStateChangeNotification,
+        payload,
+        user.socket.sequence++,
+      );
+      user.socket.write(packet);
+    }
   });
 };

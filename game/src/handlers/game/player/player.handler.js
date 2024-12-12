@@ -22,7 +22,7 @@ export const playerStateChangeRequestHandler = async ({ socket, payload }) => {
 
   user.character.state = playerStateInfo.characterState;
 
-  playerStateChangeNotification(gameSession, payload);
+  playerStateChangeNotification(gameSession, payload, socket.userId);
 
   // 만약 player가 탈출했다면 스테이지 종료를 검사한다.
   if (user.character.state === CHARACTER_STATE.EXIT) {
@@ -77,7 +77,7 @@ export const playerAttackedRequestHandler = async ({ socket, payload }) => {
     userId: userId,
     characterState: user.character.state,
   };
-  playerStateChangeNotification(gameSession, playerStateInfo);
+  playerStateChangeNotification(gameSession, playerStateInfo, socket.userId);
 
   // 만약 player가 죽었다면 스테이지 종료를 검사한다.
   if (user.character.state === CHARACTER_STATE.DIED) {

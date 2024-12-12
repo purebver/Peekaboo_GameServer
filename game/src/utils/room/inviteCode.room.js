@@ -1,5 +1,5 @@
-import { config } from '../../../game/src/config/config.js';
 import crypto from 'crypto';
+import { config } from '../../config/config.js';
 
 export const getInviteCode = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
