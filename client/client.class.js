@@ -21,7 +21,7 @@ class Client {
     };
 
     this.gameServerOption = {
-      host: '0.0.0.0',
+      host: '3.34.187.17',
       port: 6666,
     };
 

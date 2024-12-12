@@ -14,15 +14,12 @@ initServer()
       console.log(`새로운 게임이 포트 ${tcpServer.address().port}에 생성`);
       console.log(tcpServer.address());
 
-      const roomServer = net.connect(
-        { host: 'host.docker.internal', port: 6666 },
-        () => {
-          console.log('발송');
-          roomServer.write(
-            JSON.stringify(`${inviteCode}:${tcpServer.address().port}`),
-          );
-        },
-      );
+      const roomServer = net.connect({ host: 'localhost', port: 6666 }, () => {
+        console.log('발송');
+        roomServer.write(
+          JSON.stringify(`${inviteCode}:${tcpServer.address().port}`),
+        );
+      });
     });
   })
   .catch((err) => {
