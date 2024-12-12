@@ -18,7 +18,6 @@ async function createDedicatedServer(userId, inviteCode) {
       '--rm',
       '--name',
       containerName,
-      '--network=host',
       '-e',
       `INVITE_CODE=${inviteCode}`,
       'dedicated-server',
